@@ -1,0 +1,199 @@
+/* =========================================
+   VRTICE | LINKPAGE CORE CSS
+   ========================================= */
+
+:root {
+    --gold-base: #C8A970;
+    --black-abs: #050505;
+    --white-off: #F1ECE2;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--black-abs);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--white-off);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; /* No-scroll absoluto */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- BACKGROUND ANIMADO (ORBITAL) --- */
+.orbital-bg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 140vw;
+    height: 140vh;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle at center, #141D33 0%, transparent 40%),
+                radial-gradient(circle at 20% 30%, #3F2B1E 0%, transparent 30%);
+    filter: blur(80px);
+    opacity: 0.4;
+    z-index: -1;
+    animation: orbitalMove 20s infinite alternate ease-in-out;
+}
+
+@keyframes orbitalMove {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-45%, -55%) rotate(10deg); }
+}
+
+/* --- WRAPPER PRINCIPAL --- */
+.linkpage-wrapper {
+    width: 100%;
+    max-width: 450px; /* Largura ideal para Mobile */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 90vh; /* Respiro superior e inferior */
+}
+
+/* --- HEADER --- */
+.links-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.links-logo {
+    height: 35px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
+}
+
+.links-tagline {
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    color: var(--gold-base);
+    font-weight: 700;
+    opacity: 0.8;
+}
+
+/* --- CONTAINER DE LINKS --- */
+.links-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.link-card {
+    position: relative;
+    width: 100%;
+    padding: 18px 25px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--white-off);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 2;
+    position: relative;
+}
+
+.card-content i:first-child {
+    font-size: 1.4rem;
+    color: var(--gold-base);
+}
+
+.card-content span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    flex: 1;
+}
+
+.arrow-diag {
+    font-size: 1rem;
+    opacity: 0.3;
+    transition: transform 0.3s;
+}
+
+/* --- EFEITO HOVER/ACTIVE --- */
+.link-card:hover, .link-card:active {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--gold-base);
+    transform: translateY(-2px);
+}
+
+.link-card:hover .arrow-diag {
+    transform: translate(3px, -3px);
+    opacity: 1;
+}
+
+/* Botão em destaque (Consultoria) */
+.link-card.highlight {
+    border-color: rgba(200, 169, 112, 0.4);
+    background: rgba(200, 169, 112, 0.05);
+}
+
+.link-card.highlight .card-glow {
+    position: absolute;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(200, 169, 112, 0.1), transparent);
+    animation: sweep 3s infinite;
+}
+
+@keyframes sweep {
+    0% { left: -100%; }
+    50% { left: 150%; }
+    100% { left: 150%; }
+}
+
+/* --- FOOTER --- */
+.links-footer {
+    margin-top: 40px;
+}
+
+.system-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 15px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 30px;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background: #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ff88;
+    animation: blink 2s infinite;
+}
+
+.status-text {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #666;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
