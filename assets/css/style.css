@@ -1,0 +1,1422 @@
+/* =========================================
+   1. SETUP & VARIÁVEIS DE ELITE
+   ========================================= */
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url('../fonts/AbhayaLibre-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
+
+:root {
+    /* Paleta Oficial VRTICE */
+    --black-abs: #050505;
+    --black-light: #0a0a0a;
+    --blue-navy: #141d33;
+    --brown-earth: #3f2b1e;
+    --white-off: #f1ece2;
+    --gold-base: #c8a970;
+    
+    /* Variações de Design */
+    --gold-metallic: linear-gradient(135deg, #c8a970 0%, #e8d0a9 50%, #c8a970 100%);
+    --glass-panel: rgba(20, 29, 51, 0.4);
+    --border-subtle: rgba(200, 169, 112, 0.15);
+    
+    /* Espaçamento e Transição */
+    --container-width: 1200px;
+    --transition-fast: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Reset & Base */
+* { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+    background-color: var(--black-abs);
+    color: var(--white-off);
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-image: radial-gradient(circle at 50% 0%, #101524 0%, var(--black-abs) 70%);
+    background-attachment: fixed;
+}
+
+/* Utilitários */
+.container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; position: relative; }
+.centered { text-align: center; display: flex; flex-direction: column; align-items: center; }
+.center { text-align: center; }
+.narrow { max-width: 800px; }
+
+/* =========================================
+   2. PRE-LOADER (THE BLUEPRINT ENGINE)
+   ========================================= */
+#preloader {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #050505; /* Preto absoluto, sem gradientes distrativos */
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.loader-content {
+    width: 250px; 
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-anim-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /* Começa invisível para a entrada suave */
+    opacity: 0; 
+}
+
+#vrtice-loader-svg {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 0px rgba(200, 169, 112, 0)); /* Começa sem brilho */
+}
+
+/* O Segredo do Efeito de Desenho */
+.vrtice-vector {
+    fill: transparent; /* Remove a cor sólida inicial */
+    stroke: var(--gold-base); /* Adiciona a linha de engenharia */
+    stroke-width: 3;
+    /* Tamanhos calculados para esconder a linha inicialmente */
+    stroke-dasharray: 4000; 
+    stroke-dashoffset: 4000;
+}
+/* =========================================
+   3. HEADER & NAVBAR
+   ========================================= */
+.v-header {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100vh;
+    z-index: 0; overflow: hidden;
+}
+
+.v-navbar {
+    position: absolute; top: 0; left: 0; width: 100%;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 30px 5%; z-index: 10;
+}
+
+.nav-logo { width: 140px; display: block; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.5)); }
+
+.menu-trigger {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border-subtle);
+    color: var(--white-off);
+    padding: 10px 20px;
+    display: flex; align-items: center; gap: 10px;
+    cursor: pointer; transition: 0.3s;
+    font-family: 'Montserrat', sans-serif; font-size: 0.75rem; letter-spacing: 2px;
+    backdrop-filter: blur(5px);
+}
+
+.menu-trigger:hover { border-color: var(--gold-base); color: var(--gold-base); }
+
+/* Fundo Imersivo */
+.hero-bg-img {
+    position: absolute; top: 0; left: 0;
+    width: 100vw; height: 100%;
+    object-fit: cover; object-position: center 20%;
+    opacity: 0.35; z-index: -1;
+    mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
+    animation: slowZoom 30s infinite alternate;
+}
+
+@keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.1); } }
+
+/* =========================================
+   SEÇÃO 03.5: IMPACTO OPERACIONAL (DASHBOARD)
+   ========================================= */
+.section-impact {
+    padding: 100px 0;
+    background-color: #080808; /* Um tom levemente diferente para separar visualmente */
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+}
+
+.impact-header { margin-bottom: 80px; }
+
+/* O Grid Principal: Divide Tela em 2 (Números e Feed) */
+.impact-dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: stretch;
+}
+
+/* --- COLUNA 1: MÉTRICAS (BIG NUMBERS) --- */
+.impact-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2x2 Grid */
+    gap: 30px;
+}
+
+.metric-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(200, 169, 112, 0.1);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.metric-item:hover {
+    border-color: var(--gold-base);
+    background: rgba(200, 169, 112, 0.05);
+}
+
+/* O Valor Numérico Gigante */
+.metric-value {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--white-off);
+    font-weight: 700;
+}
+
+.metric-suffix {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 2rem;
+    color: var(--gold-base);
+    margin-left: 5px;
+}
+
+/* O Rótulo Técnico */
+.metric-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #888;
+    margin-top: 15px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 15px;
+}
+
+/* --- COLUNA 2: FEED VERTICAL (LOG DE TRANSMISSÃO) --- */
+.impact-feed-wrapper {
+    height: 100%;
+    min-height: 400px;
+    max-height: 500px; /* Altura fixa para permitir o scroll interno */
+    position: relative;
+    overflow: hidden; /* Esconde o que sai da área */
+    background: radial-gradient(circle at center, rgba(20,29,51,0.2), transparent);
+    border-left: 1px solid rgba(255,255,255,0.05);
+    padding-left: 40px; /* Separação visual */
+}
+
+/* A trilha que vai se mover */
+.impact-feed-track {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* A animação será controlada pelo JS ou CSS animation */
+    animation: verticalScroll 30s linear infinite;
+}
+
+/* O Card de Relato (Estilo Chat/Log) */
+.feed-card {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 25px;
+    border-radius: 4px;
+    backdrop-filter: blur(5px);
+}
+
+.feed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding-bottom: 10px;
+}
+
+.feed-author {
+    font-family: 'Abhaya Libre', serif;
+    font-weight: 700;
+    color: var(--gold-base);
+}
+
+.feed-role {
+    font-size: 0.7rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.feed-text {
+    font-size: 0.95rem;
+    color: #ccc;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.feed-status {
+    margin-top: 15px;
+    font-size: 0.65rem;
+    color: #4caf50; /* Verde Tech */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-dot {
+    width: 6px; height: 6px;
+    background-color: #4caf50;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #4caf50;
+    animation: pulseDot 2s infinite;
+}
+
+/* Máscaras de Gradiente para suavizar o Scroll */
+.feed-overlay-top, .feed-overlay-bottom {
+    position: absolute;
+    left: 0; width: 100%; height: 100px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.feed-overlay-top {
+    top: 0;
+    background: linear-gradient(to bottom, #080808 10%, transparent);
+}
+
+.feed-overlay-bottom {
+    bottom: 0;
+    background: linear-gradient(to top, #080808 10%, transparent);
+}
+
+/* Animações */
+@keyframes verticalScroll {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); } /* Move metade da altura (assumindo conteúdo duplicado) */
+}
+
+@keyframes pulseDot {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+/* Responsividade */
+@media (max-width: 968px) {
+    .impact-dashboard {
+        grid-template-columns: 1fr; /* Empilha no mobile */
+        gap: 40px;
+    }
+    
+    .impact-feed-wrapper {
+        padding-left: 0;
+        border-left: none;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        padding-top: 40px;
+    }
+    
+    .metric-value { font-size: 2.8rem; }
+}
+
+/* =========================================
+   4. HERO SECTION (DIAGNÓSTICO)
+   ========================================= */
+.section-hero {
+    position: relative; z-index: 2;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding-top: 80px;
+}
+
+.vrtice-badge-hero {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--gold-base);
+    color: var(--gold-base);
+    font-size: 0.75rem; letter-spacing: 3px; font-weight: 600;
+    margin-bottom: 30px;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(5px);
+}
+
+.hero-title {
+    font-family: 'Abhaya Libre', serif;
+    font-size: clamp(2.2rem, 5vw, 4.5rem);
+    line-height: 1.1; text-transform: uppercase;
+    letter-spacing: -1px; margin-bottom: 2rem;
+    text-shadow: 0 10px 40px rgba(0,0,0,0.8);
+}
+
+.highlight-gold {
+    display: block; margin-top: 15px;
+    font-size: 0.65em; line-height: 1.3;
+    background: var(--gold-metallic);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: var(--gold-base);
+}
+
+.hero-separator {
+    width: 1px; height: 80px;
+    background: linear-gradient(to bottom, var(--gold-base), transparent);
+    margin: 30px auto;
+}
+
+.hero-desc-text {
+    max-width: 700px;
+    font-size: 1.1rem; color: #ccc;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.hero-subtitle {
+    font-size: 0.9rem; letter-spacing: 3px;
+    color: var(--white-off); font-weight: 700;
+    margin-top: 20px;
+}
+
+/* =========================================
+   5. A TESE (MATEMÁTICA DO COLAPSO)
+   ========================================= */
+.section-thesis {
+    padding: 120px 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(20,29,51,0.1) 100%);
+}
+
+.thesis-header { margin-bottom: 80px; }
+
+.section-title {
+    font-family: 'Abhaya Libre', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--white-off); margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.section-desc { color: #666; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; }
+
+.thesis-grid {
+    display: grid; grid-template-columns: 1.2fr 0.8fr;
+    gap: 80px; align-items: center;
+}
+
+/* Estilo Relatório Financeiro */
+.stat-row {
+    display: flex; gap: 30px; margin-bottom: 50px;
+    border-left: 2px solid var(--brown-earth);
+    padding-left: 30px;
+    transition: 0.3s;
+}
+
+.stat-row:hover { border-left-color: var(--gold-base); }
+
+.stat-big {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 4rem; line-height: 1;
+    color: var(--gold-base);
+    min-width: 140px;
+}
+
+.stat-info h3 {
+    font-size: 1rem; letter-spacing: 2px;
+    margin-bottom: 10px; color: var(--white-off);
+}
+
+.stat-info p { font-size: 1rem; color: #999; }
+.stat-info strong { color: var(--white-off); border-bottom: 1px solid var(--gold-base); }
+
+/* Card de Alerta Visual */
+.thesis-card-alert {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border-subtle);
+    padding: 50px; text-align: center;
+}
+
+.thesis-card-alert i { font-size: 3rem; color: var(--gold-base); margin-bottom: 20px; }
+.thesis-card-alert h3 { font-family: 'Abhaya Libre'; font-size: 1.8rem; margin-bottom: 20px; }
+.thesis-card-alert p { font-size: 1rem; color: #aaa; }
+
+/* =========================================
+   6. A PROVA (THE LIVING SYSTEM)
+   ========================================= */
+.section-proof {
+    padding: 120px 0;
+    background-color: var(--black-light);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    overflow: hidden; /* Importante para o Marquee não quebrar o layout */
+}
+
+/* --- AUTHORITY STREAM (MARQUEE INFINITO) --- */
+.authority-stream-wrapper {
+    width: 100%;
+    margin: 60px 0 80px 0;
+    border-top: 1px solid rgba(200, 169, 112, 0.1);
+    border-bottom: 1px solid rgba(200, 169, 112, 0.1);
+    background: rgba(20, 29, 51, 0.2);
+    padding: 15px 0;
+    position: relative;
+    /* Máscara para suavizar as bordas laterais */
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.authority-track {
+    display: flex;
+    white-space: nowrap;
+    animation: marqueeScroll 40s linear infinite;
+    width: max-content;
+}
+
+.stream-item {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 1.2rem;
+    color: var(--white-off);
+    opacity: 0.6;
+    letter-spacing: 2px;
+}
+
+.stream-divider {
+    color: var(--gold-base);
+    margin: 0 40px;
+    font-weight: 700;
+    opacity: 0.8;
+}
+
+@keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* --- THE NEURAL GRID (SPOTLIGHT EFFECT) --- */
+.proof-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+.neural-card {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 4px; /* Leve arredondamento para o efeito funcionar melhor */
+    position: relative;
+    cursor: default;
+    transition: transform 0.3s ease;
+    /* Prepara o card para receber o brilho */
+    overflow: hidden;
+}
+
+/* O brilho que segue o mouse */
+.neural-card::before {
+    content: "";
+    position: absolute;
+    height: 100%; width: 100%;
+    top: 0; left: 0;
+    border-radius: inherit;
+    /* O gradiente radial é posicionado pelo JS usando variáveis CSS */
+    background: radial-gradient(
+        600px circle at var(--mouse-x) var(--mouse-y),
+        rgba(200, 169, 112, 0.15),
+        transparent 40%
+    );
+    opacity: 0; /* Começa invisível */
+    transition: opacity 0.5s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Borda iluminada */
+.neural-card::after {
+    content: "";
+    position: absolute;
+    height: 100%; width: 100%;
+    top: 0; left: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        400px circle at var(--mouse-x) var(--mouse-y),
+        rgba(200, 169, 112, 0.4),
+        transparent 40%
+    );
+    opacity: 0;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Quando o mouse está no GRID, os cards acendem */
+.neural-grid:hover .neural-card::before,
+.neural-grid:hover .neural-card::after {
+    opacity: 1;
+}
+
+.card-content {
+    background-color: var(--black-abs); /* Fundo preto para cobrir o brilho interno, deixando só a borda e o glow */
+    border-radius: inherit;
+    padding: 40px 30px;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+    margin: 1px; /* Deixa 1px de espaço para a borda brilhante aparecer */
+}
+
+/* Ícones e Textos */
+.proof-icon {
+    font-size: 2.2rem; color: var(--gold-base);
+    margin-bottom: 20px; opacity: 0.9;
+}
+
+.neural-card h3 {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 1.3rem; margin-bottom: 15px;
+    color: var(--white-off); letter-spacing: 0.5px;
+}
+
+.neural-card p {
+    font-size: 0.95rem; color: #888;
+    line-height: 1.6;
+}
+
+/* =========================================
+   7. PRODUTOS (INTERFACE DE GOVERNANÇA)
+   ========================================= */
+.section-products { padding: 120px 0; position: relative; }
+
+.product-interface-wrapper {
+    display: flex; margin-top: 70px;
+    border: 1px solid var(--border-subtle);
+    background: rgba(5, 5, 5, 0.8);
+    min-height: 600px;
+}
+
+.product-sidebar {
+    width: 35%; display: flex; flex-direction: column;
+    border-right: 1px solid var(--border-subtle);
+}
+
+.product-tab {
+    background: transparent; border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 40px 30px; text-align: left;
+    color: #666; cursor: pointer; transition: 0.4s;
+    display: flex; align-items: center; gap: 20px;
+    font-family: 'Abhaya Libre', serif; font-size: 1.1rem;
+}
+
+.product-tab:hover { background: rgba(255,255,255,0.02); color: var(--white-off); }
+
+.product-tab.active {
+    background: rgba(20, 29, 51, 0.4);
+    color: var(--gold-base);
+    border-right: 3px solid var(--gold-base);
+}
+
+.tab-number { font-family: 'Montserrat'; font-size: 0.8rem; opacity: 0.5; }
+
+.product-display {
+    width: 65%; padding: 60px;
+    background: radial-gradient(circle at top right, rgba(30,40,70,0.2), transparent);
+    backdrop-filter: blur(10px);
+}
+
+.btn-vrtice {
+    display: inline-block; margin-top: 40px;
+    padding: 18px 40px;
+    background: transparent;
+    border: 1px solid var(--gold-base);
+    color: var(--gold-base);
+    text-decoration: none; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    font-size: 0.8rem; transition: 0.3s;
+}
+
+.btn-vrtice:hover {
+    background: var(--gold-base);
+    color: var(--black-abs);
+    box-shadow: 0 0 25px rgba(200, 169, 112, 0.2);
+}
+
+/* =========================================
+   8. FAQ (DUE DILIGENCE)
+   ========================================= */
+.section-faq { padding: 120px 0; background-color: #080808; }
+
+.faq-item { border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+.faq-trigger {
+    width: 100%; background: none; border: none;
+    color: #ddd; padding: 30px 0;
+    text-align: left; font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem; font-weight: 500;
+    cursor: pointer; display: flex; justify-content: space-between;
+    transition: 0.3s;
+}
+
+.faq-trigger:hover { color: var(--gold-base); }
+
+.faq-icon {
+    font-size: 1.5rem; color: var(--gold-base);
+    transition: transform 0.3s ease;
+}
+
+.faq-trigger[aria-expanded="true"] .faq-icon { transform: rotate(45deg); }
+
+.faq-content {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0,1,0,1);
+    padding-right: 20px;
+}
+
+.faq-content p {
+    padding-bottom: 30px; color: #888;
+    line-height: 1.7; font-size: 0.95rem;
+}
+
+/* =========================================
+   9. FOOTER (ULTIMATO)
+   ========================================= */
+.section-footer {
+    padding: 120px 0 40px;
+    text-align: center;
+    border-top: 1px solid var(--border-subtle);
+    background: radial-gradient(circle at top, #101524 0%, #000 70%);
+}
+
+.footer-title {
+    font-family: 'Abhaya Libre', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    margin-bottom: 15px; color: var(--white-off);
+}
+
+.footer-sub { color: #888; max-width: 600px; margin: 0 auto; }
+
+.footer-divider {
+    width: 2px; height: 60px;
+    background: var(--gold-base);
+    margin: 40px auto;
+}
+
+.motto {
+    font-size: 1.2rem; letter-spacing: 4px;
+    font-weight: 700; margin-bottom: 60px;
+    color: var(--white-off); text-transform: uppercase;
+}
+
+.action-btn.whatsapp {
+    background: var(--white-off);
+    color: var(--black-abs);
+    font-weight: 800;
+    padding: 20px 50px;
+    border-radius: 2px;
+}
+
+.action-btn.whatsapp:hover {
+    background: var(--gold-base);
+    transform: scale(1.02);
+}
+
+.legal-footer { margin-top: 80px; color: #444; font-size: 0.8rem; }
+
+/* =========================================
+   11. O ECOSSISTEMA (DASHBOARD & FEED)
+   ========================================= */
+.section-ecosystem {
+    padding: 120px 0;
+    background-color: var(--black-abs);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.ecosystem-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+}
+
+/* --- COLUNA ESQUERDA: CONTEXTO E MÉTRICAS --- */
+.ecosystem-context {
+    display: flex;
+    flex-direction: column;
+}
+
+.max-narrow {
+    max-width: 90%;
+    color: #999;
+    font-size: 1.05rem;
+    margin-bottom: 40px;
+}
+
+/* Imagem Institucional */
+.ecosystem-image-wrapper {
+    width: 100%;
+    height: 250px;
+    margin-bottom: 40px;
+    border: 1px solid var(--border-subtle);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.ecosystem-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(80%) contrast(1.2);
+    transition: filter 0.5s ease;
+}
+
+.ecosystem-image-wrapper:hover .ecosystem-img {
+    filter: grayscale(0%) contrast(1);
+}
+
+/* Grid de Métricas (Hard Facts) */
+.ecosystem-metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.metric-box {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.m-val-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.metric-val {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--white-off);
+}
+
+.metric-sym {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 1.5rem;
+    color: var(--gold-base);
+}
+
+.metric-box .metric-label {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: #777;
+    text-transform: uppercase;
+}
+
+/* --- COLUNA DIREITA: FEED & INTERAÇÃO --- */
+.ecosystem-feed-terminal {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    border-radius: 2px;
+    /* Altura fixa para permitir o scroll apenas do feed interno */
+    height: 750px; 
+}
+
+/* Área de Submissão */
+.feed-submission {
+    padding: 30px;
+    border-bottom: 1px solid var(--border-subtle);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.submission-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: var(--gold-base);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.sub-input, .sub-textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--white-off);
+    padding: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    border-radius: 2px;
+    transition: border-color 0.3s ease;
+}
+
+.sub-input:focus, .sub-textarea:focus {
+    border-color: var(--gold-base);
+}
+
+.sub-textarea {
+    resize: none;
+    height: 80px;
+}
+
+.submission-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-submit-relato {
+    background: var(--gold-base);
+    color: var(--black-abs);
+    border: none;
+    padding: 12px 25px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn-submit-relato:hover {
+    background: var(--white-off);
+}
+
+/* Filtros do Feed */
+.feed-filters {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.filter-btn {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 15px 0;
+    color: #666;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+    border-bottom: 2px solid transparent;
+}
+
+.filter-btn:hover { color: var(--white-off); }
+
+.filter-btn.active {
+    color: var(--gold-base);
+    border-bottom-color: var(--gold-base);
+}
+
+/* Área de Scroll Interno (A Linha do Tempo) */
+.feed-scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+    /* Estilização da barra de rolagem (Chrome/Safari) */
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-base) rgba(0,0,0,0.2);
+}
+
+.feed-scroll-area::-webkit-scrollbar { width: 6px; }
+.feed-scroll-area::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+.feed-scroll-area::-webkit-scrollbar-thumb { background: var(--gold-base); border-radius: 3px; }
+
+/* Estilização dos Cards que serão injetados pelo JS */
+.terminal-card {
+    padding: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.3s;
+}
+
+.terminal-card:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.t-card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.t-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 2px;
+    background: var(--blue-navy);
+    color: var(--gold-base);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Abhaya Libre', serif;
+    font-size: 1.2rem;
+    border: 1px solid rgba(200, 169, 112, 0.3);
+}
+
+.t-meta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.t-name {
+    font-weight: 700;
+    color: var(--white-off);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.verified-icon { color: var(--gold-base); font-size: 0.9rem; }
+
+.t-role {
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.t-time {
+    font-size: 0.75rem;
+    color: #555;
+}
+
+.t-card-body p {
+    font-size: 0.95rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.t-card-footer {
+    display: flex;
+    gap: 20px;
+}
+
+.t-action {
+    background: transparent;
+    border: none;
+    color: #777;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    transition: color 0.2s ease;
+}
+
+.t-action:hover { color: var(--gold-base); }
+.t-action i { font-size: 1.1rem; }
+
+/* --- SISTEMA DE NOTIFICAÇÕES (TOAST) --- */
+#vrtice-toast-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* Para não bloquear cliques na página */
+}
+
+.vrtice-toast {
+    background: rgba(10, 10, 10, 0.95);
+    border-left: 3px solid var(--gold-base);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-right: 1px solid rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    color: var(--white-off);
+    padding: 15px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    backdrop-filter: blur(10px);
+    /* Animação inicial */
+    transform: translateX(120%);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.vrtice-toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.vrtice-toast i {
+    color: var(--gold-base);
+    font-size: 1.2rem;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 968px) {
+    .ecosystem-container { grid-template-columns: 1fr; gap: 50px; }
+    .ecosystem-feed-terminal { height: 600px; }
+    .ecosystem-metrics-grid { gap: 20px; }
+}
+
+/* =========================================
+   10. RESPONSIVIDADE (MOBILE)
+   ========================================= */
+@media (max-width: 968px) {
+    .thesis-grid { grid-template-columns: 1fr; gap: 50px; }
+    .stat-row { flex-direction: column; gap: 10px; padding-left: 20px; }
+    .product-interface-wrapper { flex-direction: column; }
+    .product-sidebar { width: 100%; flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--border-subtle); }
+    .product-display { width: 100%; padding: 30px 20px; }
+    .product-tab { padding: 20px; font-size: 0.9rem; min-width: 200px; }
+    .tab-name { display: inline-block; font-size: 0.8rem; }
+    .hero-title { font-size: 2.5rem; }
+    .nav-logo { width: 100px; }
+    .v-navbar { padding: 20px; }
+}
+
+/* =========================================
+   ESTRUTURA DOS BOTÕES DE PRODUTO (GERAL)
+   ========================================= */
+.mobile-menu-label {
+    display: none; /* Escondido no Desktop */
+}
+
+.product-tab {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow: hidden;
+}
+
+.tab-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #666;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 5px 10px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Quando ativo no Desktop, o número fica dourado */
+.product-tab.active .tab-num {
+    color: var(--black-abs);
+    background: var(--gold-base);
+}
+
+.tab-name {
+    white-space: nowrap; /* Impede que o texto quebre para a linha de baixo */
+}
+
+/* =========================================
+   UX MENU DE PRODUTOS (TRAVA DE ROLAGEM MOBILE)
+   ========================================= */
+@media (max-width: 968px) {
+    
+    .mobile-menu-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 0.75rem;
+        color: var(--gold-base);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        width: 100%;
+        opacity: 0.9;
+    }
+
+    .product-sidebar {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        gap: 8px; /* Espaçamento levemente reduzido para garantir o encaixe */
+        margin-bottom: 30px;
+        box-sizing: border-box;
+        overflow-x: hidden; /* TRAVA ABSOLUTA: Proíbe qualquer rolagem horizontal */
+    }
+
+    /* Estado INATIVO dos botões */
+    .product-tab {
+        flex: 0 0 auto; /* Mantém estático e estreito */
+        padding: 12px;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        cursor: pointer;
+        min-width: 45px; /* Tamanho mínimo para garantir o clique no número */
+    }
+
+    .product-tab:not(.active) .tab-name {
+        display: none;
+    }
+
+    .product-tab:not(.active) .tab-number {
+        color: #666;
+    }
+
+    /* Estado ATIVO do botão */
+    .product-tab.active {
+        flex: 1 1 0%; /* O '0%' é o segredo matemático para evitar que ele estoure a tela */
+        min-width: 0; /* Permite que o texto seja esmagado se necessário */
+        background: rgba(200, 169, 112, 0.08);
+        border-color: var(--gold-base);
+        overflow: hidden; /* Bloqueia o vazamento do texto interno */
+    }
+
+    .product-tab.active .tab-number {
+        color: var(--gold-base);
+        font-weight: 700;
+        flex-shrink: 0; /* O número nunca é esmagado */
+    }
+
+    .product-tab.active .tab-name {
+        display: inline-block;
+        font-size: 0.85rem;
+        color: var(--white-off);
+        font-weight: 600;
+        /* Tratamento de corte de texto (Ellipsis) para evitar rolagem */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; 
+        max-width: 100%;
+        vertical-align: middle;
+        animation: fadeInTab 0.4s ease forwards;
+    }
+}
+
+/* Animação suave para o texto aparecendo */
+@keyframes fadeInTab {
+    from { opacity: 0; transform: translateX(-5px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* =========================================
+   UX/UI: ESPAÇAMENTO DO HERO NO MOBILE
+   ========================================= */
+@media (max-width: 968px) {
+    
+    /* 1. O container principal do Hero precisa de mais respiro no topo 
+       para descolar do menu/logo fixo. (Ajuste o valor 140px se precisar de mais espaço) */
+    .section-hero,
+    .hero-container {
+        padding-top: 150px; 
+    }
+
+    /* 2. O Badge "Relatório Estratégico" desce mais um pouco e reduz a margem inferior */
+    .vrtice-badge-hero {
+        margin-top: 20px;
+        margin-bottom: 15px; /* Traz o H1 mais para perto dele */
+        display: inline-block;
+    }
+
+    /* 3. O H1 se aproxima do texto descritivo (reduzindo o margin-bottom) */
+    .hero-title {
+        margin-bottom: 15px; /* Ancara o título na descrição */
+        font-size: 2.5rem;   /* Garanta que o tamanho esteja equilibrado */
+        line-height: 1.1;
+    }
+
+    /* 4. O texto descritivo e o botão ficam agrupados */
+    .hero-desc-text {
+        margin-top: 0;
+        margin-bottom: 30px;
+    }
+}
+
+/* =========================================
+   12. MOBILE FLUID-TOUCH PROTOCOL (PERFORMANCE & UX)
+   ========================================= */
+
+/* 1. HARDWARE ACCELERATION (60 FPS)
+   Dizemos ao navegador para preparar a GPU para transformar esses elementos,
+   garantindo que o scroll do mobile seja liso como manteiga. */
+.thesis-content, 
+.thesis-visual, 
+.proof-card, 
+.metric-box, 
+.terminal-card,
+.product-tab {
+    will-change: transform, opacity;
+    transform: translateZ(0); /* Força a renderização em 3D/GPU */
+}
+
+/* 2. HAPTIC FEEDBACK SIMULADO (Apenas para Mobile) 
+   Cria o efeito de "afundamento" físico ao tocar na tela. */
+@media (max-width: 968px) {
+    /* Retira o delay padrão do toque no mobile em botões e links */
+    a, button, input, textarea {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent; /* Remove aquele quadrado azul nativo feio */
+    }
+
+    /* O Efeito de Contração Tátil */
+    .btn-vrtice:active,
+    .product-tab:active,
+    .filter-btn:active,
+    .btn-submit-relato:active,
+    .like-btn:active,
+    .save-btn:active,
+    .faq-trigger:active {
+        transform: scale(0.96) !important;
+        transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+}
+
+/* =========================================
+   13. FULL-SCREEN OVERLAY MENU
+   ========================================= */
+
+/* --- OVERLAY MENU (A CORTINA) --- */
+.v-menu-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(5, 5, 5, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 8000; /* Fica abaixo do header principal, mas acima de tudo */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10%;
+    
+    /* Animação de Entrada/Saída */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.v-menu-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.menu-main-list {
+    list-style: none;
+    padding: 0; margin: 0;
+    width: 100%;
+    max-width: 800px;
+}
+
+.menu-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+}
+
+.menu-item-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Abhaya Libre', serif;
+    font-size: 3.5rem;
+    color: var(--white-off);
+    text-decoration: none;
+    padding: 20px 0;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.menu-item-title:hover { color: var(--gold-base); }
+.menu-item-title i { font-size: 2rem; color: var(--gold-base); transition: transform 0.4s; }
+
+/* Submenu Acordeão */
+.submenu-list {
+    list-style: none;
+    padding: 0; margin: 0;
+    max-height: 0; /* Escondido por padrão */
+    transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.has-submenu.open .submenu-list {
+    max-height: 300px;
+}
+
+.has-submenu.open .menu-item-title i {
+    transform: rotate(180deg);
+}
+
+.submenu-list li a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    color: #888;
+    text-decoration: none;
+    padding: 15px 0;
+    transition: all 0.3s;
+}
+
+.submenu-list li a:hover {
+    color: var(--white-off);
+    padding-left: 15px;
+}
+
+.sub-num { color: var(--gold-base); font-weight: 700; font-size: 0.8rem; }
+
+/* CTA do Menu */
+.menu-footer-cta { margin-top: 60px; }
+
+.cta-microcopy {
+    font-family: 'Montserrat', sans-serif;
+    color: #888;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.btn-menu-cta {
+    background: var(--gold-base);
+    color: var(--black-abs);
+    padding: 15px 30px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.btn-menu-cta:hover { background: var(--white-off); }
+
+@media (max-width: 968px) {
+    .menu-item-title { font-size: 2.2rem; }
+    .v-menu-overlay { padding: 0 5%; }
+    .submenu-list li a { font-size: 0.9rem; }
+}
+
+/* =========================================
+   ISOLAMENTO TEMPORÁRIO (DEBUGGING)
+   ========================================= */
+.menu-trigger,
+.v-menu-overlay {
+    display: none !important;
+}
