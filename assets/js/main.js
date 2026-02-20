@@ -94,7 +94,7 @@ async function initEcosystemTerminal() {
     // --- B. LEITURA DO JSON EXTERNO DE RELATOS ---
     let dbRelatos = [];
     try {
-        const response = await fetch('./assets/relatos.json');
+        const response = await fetch('./assets/data/relatos.json');
         if (!response.ok) throw new Error("Ficheiro JSON não encontrado.");
         dbRelatos = await response.json();
     } catch (error) {
