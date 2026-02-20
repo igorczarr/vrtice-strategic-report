@@ -268,17 +268,20 @@
                         <div class="submission-header">
                             <i class="ph-fill ph-chat-circle-text"></i> <span>AVALIE NOSSA OPERAÇÃO</span>
                         </div>
-                        <div class="submission-body">
+                        <form class="submission-body" id="relato-form" action="https://formspree.io/f/xzdaawqv" method="POST">
+                            <input type="hidden" name="_captcha" value="false">
                             <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                                <input type="text" placeholder="Nome Completo" class="sub-input" id="relato-nome" style="margin-bottom: 0; flex: 1;">
-                                <input type="text" placeholder="Cargo e Empresa" class="sub-input" id="relato-cargo" style="margin-bottom: 0; flex: 1;">
+                                <input type="text" name="nome" placeholder="Nome Completo" class="sub-input" required style="margin-bottom: 0; flex: 1;">
+                                <input type="text" name="cargo" placeholder="Cargo e Empresa" class="sub-input" required style="margin-bottom: 0; flex: 1;">
                             </div>
-                            <textarea placeholder="Audite nossa operação. Descreva seu resultado..." class="sub-textarea" id="relato-texto"></textarea>
+                            <textarea name="relato" placeholder="Audite nossa operação. Descreva seu resultado..." class="sub-textarea" required></textarea>
                             <div class="submission-footer">
-                                <button class="btn-submit-relato" id="btn-submit-relato">ENVIAR PARA MODERAÇÃO</button>
+                                <button type="submit" class="btn-submit-relato" id="btn-submit-relato">ENVIAR PARA MODERAÇÃO</button>
                             </div>
-                        </div>
+                        </form>
                     </div>
+
+                </div>
 
                 </div>
 

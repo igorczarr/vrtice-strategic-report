@@ -69,7 +69,7 @@ window.addEventListener('load', () => {
 });
 
 // ==========================================
-// 3. MÓDULO: ECOSSISTEMA & MOTOR DETERMINÍSTICO
+// 3. MÓDULO: ECOSSISTEMA & MOTOR DE RELATOS
 // ==========================================
 function initEcosystemTerminal() {
     
@@ -84,94 +84,28 @@ function initEcosystemTerminal() {
             val: targetValue,
             duration: 2.5,
             ease: "power2.out",
-            scrollTrigger: {
-                trigger: counter, 
-                start: "top 90%",
-                toggleActions: "play none none none"
-            },
+            scrollTrigger: { trigger: counter, start: "top 90%", toggleActions: "play none none none" },
             onUpdate: function() {
                 counter.innerText = isDecimal ? proxy.val.toFixed(1) : Math.round(proxy.val);
             }
         });
     });
 
-    // --- B. MOTOR DE TEMPO (O SEGREDO DA SINCRONIA GLOBAL) ---
-    const LAUNCH_DATE = new Date("2026-02-15T00:00:00").getTime();
-    const NOW = Date.now();
-    const DAY_MS = 86400000;
-    const HR_MS = 3600000;
-    
-    const daysPassed = Math.max(0, Math.floor((NOW - LAUNCH_DATE) / DAY_MS));
-    const recentesTodayCount = (daysPassed % 3) + 1; 
-
-    // --- C. BANCO DE DADOS MESTRE (LINHA DE MONTAGEM) ---
+    // --- B. BANCO DE DADOS DE RELATOS REAIS (SEM NÚMEROS FALSOS) ---
+    // Adicionamos 'timestamp' apenas para o código saber ordenar a aba "Recentes". A exibição é o texto 'dataStr'.
     const dbRelatos = [
-        { id: "b1", iniciais: "CM", nome: "Carlos M.", verificado: true, cargo: "CEO | Fintech", texto: "A VRTICE reestruturou nossa aquisição de clientes. Saímos de uma dependência amadora de anúncios para uma máquina de vendas previsível e escalável.", baseLikes: 1205, baseSaves: 310 },
-        { id: "b2", iniciais: "JV", nome: "Dra. Juliana V.", verificado: true, cargo: "Sócia | Clínica Premium", texto: "Ter a VRTICE assumindo nossa produção e tráfego me devolveu horas valiosas. O fluxo de agendamentos dobrou em três meses.", baseLikes: 891, baseSaves: 115 },
-        { id: "b3", iniciais: "RS", nome: "Ricardo S.", verificado: true, cargo: "Fundador | E-commerce B2B", texto: "O desenvolvimento da infraestrutura própria em Hard-Code reduziu nosso custo por aquisição em 40%.", baseLikes: 642, baseSaves: 88 },
-        { id: "b4", iniciais: "AL", nome: "Ana Lúcia", verificado: true, cargo: "Diretora | Tech", texto: "Governança pura. O impacto no balanço da empresa após os primeiros 6 meses de partnership é inegável.", baseLikes: 450, baseSaves: 62 },
-        { id: "b5", iniciais: "FB", nome: "Felipe B.", verificado: true, cargo: "Fundador | SaaS", texto: "A inteligência de dados aplicada à compra de mídia deles é cirúrgica. Foco em LTV e lucro real.", baseLikes: 310, baseSaves: 45 },
-        { id: "b6", iniciais: "MT", nome: "Marcos T.", verificado: true, cargo: "Diretor Comercial", texto: "O nível técnico da operação militar é absurdo, a conversão de leads já subiu 30%.", baseLikes: 215, baseSaves: 22 },
-        { id: "b7", iniciais: "CL", nome: "Carla L.", verificado: false, cargo: "CEO | Varejo", texto: "A estratégia Omnichannel finalmente nos tirou da dependência exclusiva do Instagram.", baseLikes: 189, baseSaves: 18 },
-        { id: "b8", iniciais: "DP", nome: "Daniel P.", verificado: true, cargo: "E-commerce", texto: "Primeiro mês de gestão e já recuperamos a margem de lucro perdida. Tracking impecável.", baseLikes: 154, baseSaves: 14 },
-        { id: "b9", iniciais: "VG", nome: "Victor G.", verificado: true, cargo: "Startup", texto: "O Hard-code deles carrega em milissegundos, nossa taxa de abandono despencou.", baseLikes: 132, baseSaves: 11 },
-        { id: "b10", iniciais: "MB", nome: "Mariana B.", verificado: true, cargo: "Clínica Estética", texto: "Acabou a dor de cabeça com freelancers amadores. Operação de conteúdo em nível de cinema.", baseLikes: 98, baseSaves: 8 },
-        { id: "b11", iniciais: "TR", nome: "Tiago R.", verificado: true, cargo: "Sócio | Indústria", texto: "A auditoria de eficiência estancou os vazamentos de lucro que tínhamos nas campanhas.", baseLikes: 88, baseSaves: 5 },
-        { id: "b12", iniciais: "PF", nome: "Paula F.", verificado: true, cargo: "Assessoria Jurídica", texto: "O PR nos posicionou nos veículos certos. Hoje os clientes já chegam convertidos.", baseLikes: 76, baseSaves: 3 }
+        { id: "b1", iniciais: "CM", nome: "Carlos M.", verificado: true, cargo: "CEO | Fintech", dataStr: "12 Fev 2026", timestamp: 1739318400000, texto: "A VRTICE reestruturou nossa aquisição de clientes. Saímos de uma dependência amadora de anúncios para uma máquina de vendas previsível e escalável." },
+        { id: "b2", iniciais: "JV", nome: "Dra. Juliana V.", verificado: true, cargo: "Sócia | Clínica Premium", dataStr: "08 Fev 2026", timestamp: 1738972800000, texto: "Ter a VRTICE assumindo nossa produção e tráfego me devolveu horas valiosas. O fluxo de agendamentos dobrou em três meses." },
+        { id: "b3", iniciais: "RS", nome: "Ricardo S.", verificado: true, cargo: "Fundador | E-commerce B2B", dataStr: "29 Jan 2026", timestamp: 1738108800000, texto: "O desenvolvimento da infraestrutura própria em Hard-Code reduziu nosso custo por aquisição em 40%." },
+        { id: "b4", iniciais: "AL", nome: "Ana Lúcia", verificado: true, cargo: "Diretora | Tech", dataStr: "15 Jan 2026", timestamp: 1736899200000, texto: "Governança pura. O impacto no balanço da empresa após os primeiros 6 meses de partnership é inegável." },
+        { id: "b5", iniciais: "FB", nome: "Felipe B.", verificado: true, cargo: "Fundador | SaaS", dataStr: "10 Jan 2026", timestamp: 1736467200000, texto: "A inteligência de dados aplicada à compra de mídia deles é cirúrgica. Foco em LTV e lucro real." },
+        { id: "b6", iniciais: "CL", nome: "Carla L.", verificado: false, cargo: "CEO | Varejo", dataStr: "02 Jan 2026", timestamp: 1735776000000, texto: "A estratégia Omnichannel finalmente nos tirou da dependência exclusiva do Instagram." }
     ];
 
     let userLikes = JSON.parse(localStorage.getItem('vrtice_likes')) || [];
     let userSaves = JSON.parse(localStorage.getItem('vrtice_saves')) || [];
-    let userPosts = JSON.parse(localStorage.getItem('vrtice_posts')) || []; 
-    let pendingPosts = JSON.parse(localStorage.getItem('vrtice_pending')) || [];
 
-    let updatedPending = [];
-    let stateChanged = false;
-    pendingPosts.forEach(post => {
-        if (NOW >= post.publishAt) {
-            post.timestamp = post.publishAt; 
-            userPosts.unshift(post);
-            stateChanged = true;
-        } else {
-            updatedPending.push(post);
-        }
-    });
-
-    if (stateChanged) {
-        pendingPosts = updatedPending;
-        localStorage.setItem('vrtice_posts', JSON.stringify(userPosts));
-        localStorage.setItem('vrtice_pending', JSON.stringify(pendingPosts));
-    }
-
-    // --- D. PROCESSAMENTO DETERMINÍSTICO DOS ARRAYS ---
-    let arrayRelevantes = [];
-    let arrayRecentes = [];
-
-    const limitPromoted = Math.min(daysPassed, dbRelatos.length - 5);
-    const totalRelevantes = 5 + limitPromoted;
-
-    for (let i = 0; i < totalRelevantes; i++) {
-        let item = { ...dbRelatos[i] };
-        item.timestamp = LAUNCH_DATE - ((totalRelevantes - i) * DAY_MS * 2);
-        item.likes = item.baseLikes + (userLikes.includes(item.id) ? 1 : 0);
-        item.saves = item.baseSaves + (userSaves.includes(item.id) ? 1 : 0);
-        arrayRelevantes.push(item);
-    }
-
-    const recentStartIndex = totalRelevantes;
-    const maxRecentes = Math.min(recentesTodayCount, dbRelatos.length - recentStartIndex);
-    
-    for (let i = 0; i < maxRecentes; i++) {
-        let item = { ...dbRelatos[recentStartIndex + i] };
-        item.timestamp = NOW - ((i + 1) * HR_MS * 3);
-        item.likes = Math.floor(item.baseLikes / 10) + (userLikes.includes(item.id) ? 1 : 0);
-        item.saves = Math.floor(item.baseSaves / 10) + (userSaves.includes(item.id) ? 1 : 0);
-        arrayRecentes.push(item);
-    }
-
-    let masterRelatos = [...arrayRelevantes, ...arrayRecentes, ...userPosts];
-
-    // --- E. CONTROLE DE INTERFACE (ABAS) ---
+    // --- C. CONTROLE DE INTERFACE (ABAS/FILTROS) ---
     const feedTimeline = document.getElementById('feed-timeline');
     let currentFilter = 'relevantes';
 
@@ -191,15 +125,13 @@ function initEcosystemTerminal() {
         let finalRenderArray = [];
 
         if (currentFilter === 'relevantes') {
-            finalRenderArray = [...arrayRelevantes];
-            finalRenderArray.sort((a, b) => b.likes - a.likes);
+            finalRenderArray = [...dbRelatos]; // Ordem padrão inserida no Array
         } 
         else if (currentFilter === 'recentes') {
-            finalRenderArray = [...arrayRecentes, ...userPosts];
-            finalRenderArray.sort((a, b) => b.timestamp - a.timestamp);
+            finalRenderArray = [...dbRelatos].sort((a, b) => b.timestamp - a.timestamp); // Ordem por data
         } 
         else if (currentFilter === 'salvos') {
-            finalRenderArray = masterRelatos.filter(r => userSaves.includes(String(r.id)));
+            finalRenderArray = dbRelatos.filter(r => userSaves.includes(String(r.id))); // Apenas guardados
         }
 
         renderFeed(finalRenderArray);
@@ -208,7 +140,7 @@ function initEcosystemTerminal() {
     function renderFeed(relatosArray) {
         feedTimeline.innerHTML = '';
         if(relatosArray.length === 0) {
-            feedTimeline.innerHTML = '<p style="color:#666; padding: 30px; text-align:center; font-family: Montserrat;">Nenhum relato no seu registro.</p>';
+            feedTimeline.innerHTML = '<p style="color:#666; padding: 30px; text-align:center; font-family: Montserrat;">Nenhum relato encontrado nesta secção.</p>';
             return;
         }
 
@@ -237,78 +169,46 @@ function initEcosystemTerminal() {
                         <span class="t-name" style="color: #fff; font-weight: bold; display: flex; gap: 5px; align-items: center;">${relato.nome} ${verifiedTag}</span>
                         <span class="t-role" style="color: #888; font-size: 0.75rem;">${relato.cargo}</span>
                     </div>
-                    <span class="t-time" style="color: #555; font-size: 0.75rem;">${timeAgo(relato.timestamp)}</span>
+                    <span class="t-time" style="color: #555; font-size: 0.75rem;">${relato.dataStr}</span>
                 </div>
                 <div class="t-card-body">
                     <p style="color: #ccc; font-size: 0.95rem; line-height: 1.6;">${relato.texto}</p>
                 </div>
                 <div class="t-card-footer" style="display: flex; gap: 20px; margin-top: 15px;">
-                    <button class="t-action like-btn" data-id="${relato.id}" style="background: none; border: none; cursor: pointer; display: flex; gap: 5px; align-items: center; ${likeColor} transition: 0.3s;"><i class="${likeIcon} ph-heart" style="font-size: 1.1rem;"></i> <span class="action-count">${relato.likes}</span></button>
-                    <button class="t-action save-btn" data-id="${relato.id}" style="background: none; border: none; cursor: pointer; display: flex; gap: 5px; align-items: center; ${saveColor} transition: 0.3s;"><i class="${saveIcon} ph-bookmark-simple" style="font-size: 1.1rem;"></i> <span class="action-count">${relato.saves}</span></button>
+                    <button class="t-action like-btn" data-id="${relato.id}" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; ${likeColor} transition: 0.3s;"><i class="${likeIcon} ph-heart" style="font-size: 1.2rem;"></i></button>
+                    <button class="t-action save-btn" data-id="${relato.id}" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; ${saveColor} transition: 0.3s;"><i class="${saveIcon} ph-bookmark-simple" style="font-size: 1.2rem;"></i></button>
                 </div>
             </div>
         `;
     }
 
-    function timeAgo(pastTimestamp) {
-        if (!pastTimestamp || isNaN(pastTimestamp) || pastTimestamp === 0) return "Agora";
-        
-        const diffMs = Date.now() - pastTimestamp;
-        if (diffMs < 0) return "Agora"; 
-        
-        const diffHrs = Math.floor(diffMs / HR_MS);
-        const diffDays = Math.floor(diffMs / DAY_MS);
-
-        if (diffHrs < 1) return "Agora mesmo";
-        if (diffHrs < 24) return `Há ${diffHrs}h`;
-        if (diffDays === 1) return `Ontem`;
-        
-        const dateObj = new Date(pastTimestamp);
-        const dia = String(dateObj.getDate()).padStart(2, '0');
-        const mes = String(dateObj.getMonth() + 1).padStart(2, '0');
-        const ano = dateObj.getFullYear();
-        return `${dia}/${mes}/${ano}`;
-    }
-
-    // --- F. SISTEMA BLINDADO DE CURTIDAS E SALVAMENTOS ---
+    // --- D. SISTEMA DE CURTIDAS E SALVAMENTOS (SEM NÚMEROS) ---
     function attachInteractionEvents() {
         document.querySelectorAll('.like-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const id = String(this.getAttribute('data-id'));
-                const countSpan = this.querySelector('.action-count');
                 const icon = this.querySelector('i');
-                let count = parseInt(countSpan.innerText.replace(/\D/g,'')) || 0;
 
                 if (userLikes.includes(id)) {
                     userLikes = userLikes.filter(lId => lId !== id);
-                    count--;
                     this.style.color = "#777";
                     icon.className = "ph ph-heart";
                 } else {
                     userLikes.push(id);
-                    count++;
                     this.style.color = "var(--gold-base)";
                     icon.className = "ph-fill ph-heart";
                 }
-                
-                countSpan.innerText = count;
                 localStorage.setItem('vrtice_likes', JSON.stringify(userLikes));
-                
-                const mIndex = masterRelatos.findIndex(r => String(r.id) === id);
-                if(mIndex > -1) masterRelatos[mIndex].likes = count;
             });
         });
 
         document.querySelectorAll('.save-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const id = String(this.getAttribute('data-id'));
-                const countSpan = this.querySelector('.action-count');
                 const icon = this.querySelector('i');
-                let count = parseInt(countSpan.innerText.replace(/\D/g,'')) || 0;
 
                 if (userSaves.includes(id)) {
                     userSaves = userSaves.filter(sId => sId !== id);
-                    count--;
                     this.style.color = "#777";
                     icon.className = "ph ph-bookmark-simple";
                     
@@ -318,58 +218,54 @@ function initEcosystemTerminal() {
                     }
                 } else {
                     userSaves.push(id);
-                    count++;
                     this.style.color = "var(--gold-base)";
                     icon.className = "ph-fill ph-bookmark-simple";
                 }
-                
-                countSpan.innerText = count;
                 localStorage.setItem('vrtice_saves', JSON.stringify(userSaves));
-
-                const mIndex = masterRelatos.findIndex(r => String(r.id) === id);
-                if(mIndex > -1) masterRelatos[mIndex].saves = count;
             });
         });
     }
 
-    // --- G. SISTEMA DE SUBMISSÃO E AUDITORIA (Cofre) ---
-    const btnSubmit = document.getElementById('btn-submit-relato');
-    if(btnSubmit) {
-        btnSubmit.addEventListener('click', () => {
-            const inputNome = document.getElementById('relato-nome');
-            const inputCargo = document.getElementById('relato-cargo');
-            const inputTexto = document.getElementById('relato-texto');
+    // --- E. ENVIO DE FORMULÁRIO ASSÍNCRONO (AJAX PARA FORMSPREE) ---
+    const relatoForm = document.getElementById('relato-form');
+    if(relatoForm) {
+        relatoForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Impede o recarregamento da página
+            const btnSubmit = document.getElementById('btn-submit-relato');
+            const originalText = btnSubmit.innerText;
             
-            if(!inputNome.value || !inputTexto.value) {
-                showToast("Erro: A identificação e o relato são obrigatórios.", "ph-warning", "#ff5252");
-                return;
+            // Feedback visual imediato
+            btnSubmit.innerText = "ENVIANDO...";
+            btnSubmit.style.opacity = "0.7";
+            btnSubmit.style.pointerEvents = "none";
+
+            try {
+                const response = await fetch(relatoForm.action, {
+                    method: 'POST',
+                    body: new FormData(relatoForm),
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    relatoForm.reset();
+                    if (typeof showToast === "function") {
+                        showToast("Relato enviado com sucesso. Agendado para moderação.", "ph-shield-check", "var(--gold-base)");
+                    }
+                } else {
+                    if (typeof showToast === "function") {
+                        showToast("Ocorreu um erro no envio. Tente novamente.", "ph-warning-circle", "#ff5252");
+                    }
+                }
+            } catch (error) {
+                if (typeof showToast === "function") {
+                    showToast("Erro de conexão.", "ph-warning-circle", "#ff5252");
+                }
+            } finally {
+                // Restaura o botão
+                btnSubmit.innerText = originalText;
+                btnSubmit.style.opacity = "1";
+                btnSubmit.style.pointerEvents = "auto";
             }
-
-            const delayHours = Math.random() * (8 - 5) + 5;
-            const delayMs = delayHours * HR_MS;
-            
-            const novoRelatoPendente = {
-                id: 'u_' + Date.now(),
-                isUserPost: true,
-                iniciais: inputNome.value.substring(0, 2).toUpperCase(),
-                nome: inputNome.value,
-                verificado: false,
-                cargo: inputCargo.value || "Auditoria Externa",
-                timestamp: 0, 
-                texto: inputTexto.value,
-                likes: 0,
-                saves: 0,
-                publishAt: Date.now() + delayMs 
-            };
-
-            pendingPosts.push(novoRelatoPendente);
-            localStorage.setItem('vrtice_pending', JSON.stringify(pendingPosts));
-
-            inputNome.value = '';
-            inputCargo.value = '';
-            inputTexto.value = '';
-
-            showToast("Relato submetido com sucesso. Agendado para auditoria e publicação.", "ph-shield-check", "var(--gold-base)");
         });
     }
 }
