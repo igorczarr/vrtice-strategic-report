@@ -1,6 +1,6 @@
 /**
  * VRTICE | CONSULTORIA TÁTICA (JS)
- * Motor de Animação e ScrollTrigger High-Ticket
+ * Motor de Animação e ScrollTrigger High-Ticket (Motor Corrigido)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,7 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
     gsap.registerPlugin(ScrollTrigger);
 
     // 2. TIMELINE DO PRELOADER (A Assinatura da Marca)
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({
+        onComplete: () => {
+            // A Tática de Sênior: Recalcular todas as posições da página 
+            // no exato milissegundo em que o preloader desaparece. 
+            // Isso previne que seções fiquem invisíveis por erro matemático do navegador.
+            ScrollTrigger.refresh();
+        }
+    });
 
     tl.to(".logo-anim-wrapper", {
         opacity: 1, 
@@ -48,30 +55,31 @@ document.addEventListener('DOMContentLoaded', () => {
     .from(".hero-title", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.7")
     .from(".hero-subtitle", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.7")
     .from(".hero-desc", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.7")
-    .from(".hero-btn", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.7");
+    .from(".hero-btn", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.7") // CTA Seguro
+    .from(".btn-disclaimer", { opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.5");
 
 
     // =========================================
     // 4. SCROLL ANIMATIONS (A REAÇÃO DA PÁGINA)
     // =========================================
 
-    // A Tese: Entrada dos Sintomas em Cascata
+    // A Tese: Entrada dos Sintomas em Cascata (Gatilho de 90% para segurança em mobile)
     gsap.from(".symptom-card", {
         scrollTrigger: {
             trigger: ".symptoms-grid",
-            start: "top 80%", // Dispara quando o topo da grid atinge 80% da tela
+            start: "top 90%", 
         },
         y: 40,
         opacity: 0,
         duration: 0.8,
-        stagger: 0.15, // Efeito dominó
+        stagger: 0.15,
         ease: "power3.out"
     });
 
     gsap.from(".the-fact-box", {
         scrollTrigger: {
             trigger: ".the-fact-box",
-            start: "top 85%",
+            start: "top 95%",
         },
         scale: 0.95,
         opacity: 0,
@@ -80,48 +88,50 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // A Auditoria: O Laser da Linha do Tempo
-    // A altura do laser preenche conforme o usuário rola o mouse (scrub)
     gsap.to(".timeline-laser-fill", {
         scrollTrigger: {
             trigger: ".process-timeline",
             start: "top center",
             end: "bottom center",
-            scrub: 0.5 // Suavidade matemática ao acompanhar o scroll
+            scrub: 0.5 
         },
         height: "100%",
         ease: "none"
     });
 
-    // A Auditoria: Acendendo os Nós (Nodes)
+    // A Auditoria: Acendendo os Nós (Usando fromTo para controle absoluto da opacidade)
     const processNodes = document.querySelectorAll(".process-node");
     processNodes.forEach((node) => {
-        gsap.to(node, {
-            scrollTrigger: {
-                trigger: node,
-                start: "top 65%", // Dispara quando a bolinha cruza 65% da tela
-                toggleClass: "active" // Adiciona a classe CSS que acende a borda em dourado
-            },
-            x: 0, // Desliza da esquerda para a posição original
-            opacity: 1,
-            duration: 0.6,
-            ease: "power3.out"
-        });
+        gsap.fromTo(node, 
+            { opacity: 0, x: -20 },
+            {
+                scrollTrigger: {
+                    trigger: node,
+                    start: "top 85%", 
+                    toggleClass: "active" 
+                },
+                x: 0,
+                opacity: 1,
+                duration: 0.6,
+                ease: "power3.out"
+            }
+        );
     });
 
     // O Mapa de Batalha & Filtro
     gsap.from(".battlemap-content", {
-        scrollTrigger: { trigger: ".split-layout", start: "top 75%" },
+        scrollTrigger: { trigger: ".split-layout", start: "top 85%" },
         x: -30, opacity: 0, duration: 1, ease: "power3.out"
     });
     
     gsap.from(".filter-box", {
-        scrollTrigger: { trigger: ".split-layout", start: "top 75%" },
+        scrollTrigger: { trigger: ".split-layout", start: "top 85%" },
         x: 30, opacity: 0, duration: 1, ease: "power3.out"
     });
 
     // O Formulário de Aplicação (Ultimato)
     gsap.from(".application-box", {
-        scrollTrigger: { trigger: ".consult-application", start: "top 80%" },
+        scrollTrigger: { trigger: ".consult-application", start: "top 90%" },
         y: 50, opacity: 0, duration: 1, ease: "power3.out"
     });
 });

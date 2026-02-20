@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VRTICE | Auditoria e Consultoria Tática</title>
     
-    <link rel="icon" type="image/png" href="assets/img/favicon.png">
+    <link rel="icon" type="image/png" href="assets/img/Favicon.png">
 
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -51,7 +51,6 @@
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
                 <img src="./assets/img/Branco-20.png" alt="VRTICE" class="logo-img">
-                <link rel="icon" href="./assets/img/Favicon.png" type="image/x-icon">
             </a>
             <a href="links.html" class="btn-return">
                 <i class="ph ph-arrow-left"></i> RETORNAR
@@ -188,25 +187,31 @@
                     <h2 class="section-title text-center">O ALGORITMO CONTINUA DRENANDO O SEU VALOR.</h2>
                     <p class="text-center app-intro">Você pode fechar esta página e continuar perdendo horas semanais, ou permitir que nossa engenharia identifique os gargalos da sua operação hoje. A ineficiência é uma escolha. A governança é uma decisão.</p>
                     
-                    <form class="vrtice-form" action="sua-url-de-processamento-aqui" method="POST">
+                    <form class="vrtice-form" action="https://formspree.io/f/xzdaawqv" method="POST">
                         <div class="input-row">
                             <div class="input-group">
-                                <input type="text" id="nome" required placeholder=" ">
+                                <input type="text" id="nome" name="nome" required placeholder=" ">
                                 <label for="nome">Nome Completo</label>
                             </div>
                             <div class="input-group">
-                                <input type="email" id="email" required placeholder=" ">
+                                <input type="email" id="email" name="email" required placeholder=" ">
                                 <label for="email">E-mail Profissional</label>
                             </div>
                         </div>
                         
-                        <div class="input-group">
-                            <input type="text" id="empresa" required placeholder=" ">
-                            <label for="empresa">Nome da Empresa / Projeto</label>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <input type="text" id="empresa" name="empresa" required placeholder=" ">
+                                <label for="empresa">Nome da Empresa / Projeto</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="instagram" name="instagram" required placeholder=" ">
+                                <label for="instagram">Instagram (@username)</label>
+                            </div>
                         </div>
                         
                         <div class="input-group">
-                            <input type="text" id="faturamento" required placeholder=" ">
+                            <input type="text" id="faturamento" name="faturamento" required placeholder=" ">
                             <label for="faturamento">Qual o momento atual do seu negócio? (Descreva brevemente)</label>
                         </div>
 
