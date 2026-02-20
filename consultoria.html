@@ -71,9 +71,9 @@
                 <h2 class="hero-subtitle">REQUISITE UMA AUDITORIA ESTRATÉGICA E DESCUBRA ONDE SEU LUCRO ESTÁ VAZANDO.</h2>
                 <p class="hero-desc">Uma análise forense da sua presença digital. Nós vamos auditar suas redes, seu engajamento e a arquitetura do seu produto para entregar um diagnóstico claro: por que a sua autoridade no mundo real não está se convertendo em contratos de alto valor na internet?</p>
                 
-                <a href="#aplicacao" class="btn-gold-solid hero-btn">
-                    SOLICITAR AUDITORIA DO MEU NEGÓCIO <i class="ph-bold ph-arrow-down"></i>
-                </a>
+                <button id="open-modal-btn" class="btn-gold-solid hero-btn">
+                    SOLICITAR AUDITORIA DO MEU NEGÓCIO <i class="ph-bold ph-arrow-up-right"></i>
+                </button>
                 <span class="btn-disclaimer">* Aprovação sujeita à análise de perfil corporativo.</span>
             </div>
         </section>
@@ -235,6 +235,32 @@
         </section>
 
     </main>
+
+    <div class="vrtice-modal-overlay" id="form-modal">
+        <div class="vrtice-modal-content">
+            <button class="modal-close" id="close-modal-btn"><i class="ph ph-x"></i></button>
+            <h3 class="section-title" style="font-size: 1.8rem; margin-bottom: 10px;">REQUISITAR AUDITORIA</h3>
+            <p style="font-size: 0.85rem; color: #888; margin-bottom: 30px;">Nossa diretoria avaliará o perfil da sua operação em até 24 horas.</p>
+            
+            <form class="vrtice-form" action="https://formspree.io/f/xzdaawqv" method="POST">
+                <input type="hidden" name="_next" value="https://www.vrtice.com.br/obrigado_consultoria.html">
+                <input type="hidden" name="_captcha" value="false">
+
+                <div class="input-row">
+                    <div class="input-group"><input type="text" id="nome-modal" name="nome" required placeholder=" "><label for="nome-modal">Nome Completo</label></div>
+                    <div class="input-group"><input type="email" id="email-modal" name="email" required placeholder=" "><label for="email-modal">E-mail de contato</label></div>
+                </div>
+                <div class="input-row">
+                    <div class="input-group"><input type="text" id="empresa-modal" name="empresa" required placeholder=" "><label for="empresa-modal">Nome da Empresa</label></div>
+                    <div class="input-group"><input type="tel" id="whatsapp-modal" name="whatsapp" required placeholder=" "><label for="whatsapp-modal">WhatsApp (com DDD)</label></div>
+                </div>
+                <div class="input-group"><input type="text" id="instagram-modal" name="instagram" required placeholder=" "><label for="instagram-modal">Instagram (@username)</label></div>
+                <div class="input-group"><input type="text" id="desafio-modal" name="desafio" required placeholder=" "><label for="desafio-modal">Qual o principal desafio hoje?</label></div>
+                
+                <button type="submit" class="btn-gold-solid form-submit-btn">ENVIAR APLICAÇÃO <i class="ph-bold ph-arrow-right"></i></button>
+            </form>
+        </div>
+    </div>
 
     <footer class="v-footer">
         <div class="footer-container">

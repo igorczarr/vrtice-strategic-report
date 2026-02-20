@@ -1,6 +1,6 @@
 /* =========================================
    VRTICE | CONSULTORIA TÁTICA (CSS)
-   Engenharia de Conversão High-Ticket (Correções de Motor)
+   Engenharia de Conversão High-Ticket & Correção GSAP
    ========================================= */
 
 @font-face {
@@ -59,6 +59,7 @@ body {
 #motto-loader-svg { width: 90vw; max-width: 500px; height: 60px; }
 .vrtice-vector { fill: transparent; stroke: var(--gold-base); stroke-width: 8px; stroke-dasharray: 8000; stroke-dashoffset: 8000; }
 .vrtice-motto-vector { font-family: 'Abhaya Libre', serif; font-size: 85px; font-weight: 700; fill: transparent; stroke: var(--gold-base); stroke-width: 2px; stroke-dasharray: 2000; stroke-dashoffset: 2000; }
+
 @media (max-width: 768px) { .vrtice-motto-vector { font-size: 50px; } }
 
 /* =========================================
@@ -107,15 +108,14 @@ body {
 }
 .text-center { text-align: center; }
 
-/* Botão principal oculto nativamente para o GSAP revelar */
-.hero-btn { opacity: 0; }
-
+/* IMPORTANTE: Transições isoladas apenas para Background e Sombra. Nada de "all"! */
 .btn-gold-solid {
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
     background: var(--gold-base); color: var(--black-abs);
     font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 1.5px;
     padding: 20px 40px; border: none; cursor: pointer; text-decoration: none;
-    transition: background 0.3s ease, box-shadow 0.3s ease; width: 100%; border-radius: 2px;
+    transition: background 0.3s ease, box-shadow 0.3s ease; 
+    width: 100%; border-radius: 2px;
 }
 .btn-gold-solid:hover { background: var(--white-off); box-shadow: 0 0 25px var(--gold-glow); }
 .btn-disclaimer { display: block; font-size: 0.65rem; color: #555; margin-top: 15px; }
@@ -130,14 +130,13 @@ body {
 .hero-btn { max-width: 400px; margin: 0 auto; }
 
 /* =========================================
-   A TESE (SINTOMAS) - CONFLITO RESOLVIDO
+   A TESE (SINTOMAS) - CONFLITO DE ANIMAÇÃO RESOLVIDO
    ========================================= */
 .consult-thesis { padding: 80px 0; background: rgba(255,255,255,0.01); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
 .thesis-intro { font-size: 1.1rem; color: #aaa; margin-bottom: 50px; }
-
 .symptoms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 50px; }
 
-/* Apenas borda e fundo recebem transição de CSS. Transformação é isolada! */
+/* Sem transição de opacidade/transformação no card para não travar o GSAP */
 .symptom-card { 
     background: var(--glass-bg); padding: 30px; 
     border: 1px solid var(--glass-border); 
@@ -150,7 +149,6 @@ body {
 .symptom-card h3 { font-size: 1rem; font-weight: 700; color: var(--white-off); margin-bottom: 10px; }
 .symptom-card p { font-size: 0.8rem; color: var(--text-muted); }
 
-/* Hover Efeito Premium (Move o ícone e acende a borda) */
 .symptom-card:hover { border-color: var(--gold-base); background: rgba(200, 169, 112, 0.03); }
 .symptom-card:hover i { transform: translateY(-5px) scale(1.1); }
 
@@ -162,7 +160,6 @@ body {
    ========================================= */
 .consult-process { padding: 100px 0; }
 .timeline-header { font-size: 0.75rem; font-weight: 700; letter-spacing: 3px; color: var(--gold-base); margin: 60px 0 30px; }
-
 .process-timeline { position: relative; padding-left: 50px; }
 .timeline-laser { position: absolute; left: 14px; top: 0; width: 2px; height: 100%; background: rgba(255,255,255,0.05); }
 .timeline-laser-fill { position: absolute; left: 14px; top: 0; width: 2px; height: 0%; background: var(--gold-base); box-shadow: 0 0 15px var(--gold-base); }
@@ -196,7 +193,7 @@ body {
 .filter-warning span { font-size: 0.8rem; font-weight: 600; color: #a12b2b; }
 
 /* =========================================
-   FORMULÁRIO HIGH-TICKET (4 CAMPOS ALINHADOS)
+   FORMULÁRIO HIGH-TICKET (APLICAÇÃO)
    ========================================= */
 .consult-application { padding: 80px 0 120px; }
 .app-intro { margin-bottom: 50px; font-size: 1.1rem; color: #aaa; }
@@ -214,12 +211,49 @@ body {
     position: absolute; left: 0; top: 10px; color: #555; font-size: 0.9rem;
     pointer-events: none; transition: top 0.3s ease, font-size 0.3s ease, color 0.3s ease;
 }
-/* Efeito de Rótulo Flutuante */
 .input-group input:focus ~ label,
 .input-group input:not(:placeholder-shown) ~ label {
     top: -15px; font-size: 0.7rem; font-weight: 700; color: var(--gold-base); letter-spacing: 1px;
 }
 .form-submit-btn { margin-top: 20px; }
+
+/* =========================================
+   MODAL DE POP-UP (NOVO)
+   ========================================= */
+.vrtice-modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(5, 5, 5, 0.92); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    z-index: 20000;
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.vrtice-modal-overlay.active { opacity: 1; visibility: visible; }
+
+.vrtice-modal-content {
+    background: var(--black-abs);
+    border: 1px solid rgba(200, 169, 112, 0.3);
+    padding: 50px 40px;
+    width: 90%; max-width: 550px;
+    position: relative;
+    transform: translateY(30px) scale(0.95);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+.vrtice-modal-overlay.active .vrtice-modal-content { transform: translateY(0) scale(1); }
+
+/* Scrollbar do Modal */
+.vrtice-modal-content::-webkit-scrollbar { width: 5px; }
+.vrtice-modal-content::-webkit-scrollbar-thumb { background: var(--gold-base); }
+
+.modal-close {
+    position: absolute; top: 20px; right: 20px;
+    background: transparent; border: none;
+    color: #666; font-size: 1.5rem; cursor: pointer;
+    transition: color 0.3s ease;
+}
+.modal-close:hover { color: var(--gold-base); }
 
 /* =========================================
    RODAPÉ E RESPONSIVIDADE
@@ -237,4 +271,5 @@ body {
     .input-row { grid-template-columns: 1fr; }
     .application-box { padding: 30px 20px; }
     .consult-hero { padding: 140px 0 60px; }
+    .vrtice-modal-content { padding: 40px 20px; }
 }

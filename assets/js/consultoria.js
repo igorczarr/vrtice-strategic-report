@@ -1,13 +1,15 @@
 /**
  * VRTICE | CONSULTORIA TÁTICA (JS)
- * Motor de Animação e ScrollTrigger High-Ticket (Estabilidade Máxima)
+ * Motor de Animação, ScrollTrigger e Lógica de Conversão (Modal)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Registar o Plugin de Scroll do GSAP
     gsap.registerPlugin(ScrollTrigger);
 
+    // =========================================
     // 2. TIMELINE DO PRELOADER
+    // =========================================
     const tl = gsap.timeline({
         onComplete: () => {
             // Recalcula todas as posições da página no momento em que a cortina desaparece.
@@ -54,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
     .from(".hero-title", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.7")
     .from(".hero-subtitle", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.7")
     .from(".hero-desc", { opacity: 0, y: 20, duration: 0.8, ease: "power2.out" }, "-=0.7")
-    // O botão só aparece agora, não há risco de ser visto antes do tempo.
-    .fromTo(".hero-btn", 
+    // O botão CTA principal (que abre o modal)
+    .fromTo("#open-modal-btn", 
         { opacity: 0, y: 20 }, 
         { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 
         "-=0.7"
@@ -71,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. SCROLL ANIMATIONS (A REAÇÃO DA PÁGINA)
     // =========================================
 
-    // A Tese: Entrada dos Sintomas em Cascata (fromTo garante o destravamento)
+    // A Tese: Entrada dos Sintomas em Cascata
     gsap.fromTo(".symptom-card", 
         { opacity: 0, y: 40 },
         {
@@ -101,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     );
 
-    // A Auditoria: O Laser da Linha do Tempo (Controlado pelo scroll do utilizador)
+    // A Auditoria: O Laser da Linha do Tempo
     gsap.to(".timeline-laser-fill", {
         scrollTrigger: {
             trigger: ".process-timeline",
@@ -122,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 scrollTrigger: {
                     trigger: node,
                     start: "top 85%", 
-                    toggleClass: "active" // Aplica a classe que acende o nó a dourado no CSS
+                    toggleClass: "active" 
                 },
                 x: 0,
                 opacity: 1,
@@ -149,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     );
 
-    // O Formulário de Aplicação (Ultimato)
+    // O Formulário de Aplicação (Ultimato - Rodapé)
     gsap.fromTo(".application-box", 
         { opacity: 0, y: 50 },
         {
@@ -157,4 +159,46 @@ document.addEventListener('DOMContentLoaded', () => {
             y: 0, opacity: 1, duration: 1, ease: "power3.out"
         }
     );
+
+
+    // =========================================
+    // 5. ENGENHARIA DO MODAL (POP-UP)
+    // =========================================
+    const modalOverlay = document.getElementById('form-modal');
+    const openModalBtn = document.getElementById('open-modal-btn');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+
+    // Validação de segurança para garantir que os elementos existem na página
+    if (modalOverlay && openModalBtn && closeModalBtn) {
+        
+        // Função universal para fechar o modal
+        const fecharModal = () => {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // Liberta o scroll da página
+        };
+
+        // Evento: Abrir Modal
+        openModalBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Trava a página por trás
+        });
+
+        // Evento: Fechar no botão [X]
+        closeModalBtn.addEventListener('click', fecharModal);
+
+        // Evento: Fechar clicando fora da caixa (fundo escuro)
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                fecharModal();
+            }
+        });
+
+        // UX Sênior: Fechar ao pressionar a tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                fecharModal();
+            }
+        });
+    }
 });
