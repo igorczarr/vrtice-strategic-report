@@ -103,6 +103,34 @@ body {
     stroke-dasharray: 4000; 
     stroke-dashoffset: 4000;
 }
+
+/* =========================================
+   PRELOADER (LOGO & FILOSOFIA)
+   ========================================= */
+.vrtice-vector,
+.vrtice-motto-vector {
+    fill: transparent;
+    stroke: var(--gold-base);
+}
+
+.vrtice-vector {
+    stroke-width: 3px;
+    stroke-dasharray: 3000;
+    stroke-dashoffset: 3000;
+}
+
+.vrtice-motto-vector {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 65px;
+    font-weight: 700;
+    stroke-width: 1.5px;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+}
+
+@media (max-width: 768px) {
+    .vrtice-motto-vector { font-size: 40px; }
+}
 /* =========================================
    3. HEADER & NAVBAR
    ========================================= */

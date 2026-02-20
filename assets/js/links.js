@@ -1,86 +1,103 @@
 /**
- * VRTICE | THE EXECUTIVE MONOLITH (LINKPAGE)
- * Motor de Sincronia: Preloader Filosófico e GSAP Reveal
+ * VRTICE | THE EXECUTIVE MONOLITH (LINKPAGE JS)
+ * Motor de Animação GSAP e Fluid-Touch Protocol
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Registra a Timeline mestre
+    // Registra a Timeline Mestre
     const tl = gsap.timeline();
 
     // =========================================
-    // FASE 1: O PRELOADER ("Ordem gera progresso")
+    // FASE 1: O PRELOADER (BRASÃO & FILOSOFIA)
     // =========================================
     
-    // Aparece o Canvas
+    // 1. O Canvas se revela
     tl.to(".logo-anim-wrapper", {
         opacity: 1, 
         duration: 0.5, 
         ease: "power2.out"
     })
     
-    // O Laser desenha o contorno dourado da fonte
-    .to(".vrtice-motto-vector", {
-        strokeDashoffset: 0,
+    // 2. O Laser desenha a geometria do Brasão e as letras do Lema simultaneamente
+    .to([".vrtice-vector", ".vrtice-motto-vector"], {
+        strokeDashoffset: 0, 
         duration: 2.5, 
-        ease: "power3.inOut" // Acelera e desacelera suavemente
+        ease: "power3.inOut" // Acelera no meio e pousa suavemente
     })
     
-    // A letra ganha peso (Preenchimento)
-    .to(".vrtice-motto-vector", {
-        fill: "var(--white-off)",
-        stroke: "transparent",
+    // 3. Preenchimento de Cor (A "tinta" entra antes do traço terminar)
+    .to([".vrtice-vector", ".vrtice-motto-vector"], {
+        fill: "var(--white-off)", 
+        stroke: "transparent", 
         duration: 0.8,
         ease: "power2.out"
-    }, "-=0.5") // Começa antes de terminar o contorno
+    }, "-=0.6") 
     
-    // Segura 1 segundo para leitura e absorção da mensagem
-    .to(".logo-anim-wrapper", { duration: 1 })
+    // 4. Efeito de energia (Brilho dourado sutil no SVG)
+    .to(["#vrtice-loader-svg", "#motto-loader-svg"], {
+        filter: "drop-shadow(0 0 15px rgba(200, 169, 112, 0.4))",
+        duration: 0.5
+    }, "<")
     
-    // A cortina preta sobe (Saída do Preloader)
-    .to("#preloader", {
+    // Pausa dramática para leitura e fixação da marca
+    .to(".logo-anim-wrapper", { duration: 0.8 }) 
+    
+    // 5. Saída Cinematográfica (A logo afunda e some)
+    .to(".logo-anim-wrapper", { 
+        scale: 0.9, 
+        opacity: 0, 
+        duration: 0.6, 
+        ease: "power2.in" 
+    })
+    
+    // 6. A cortina de aço (Preloader) sobe e revela o Monolito
+    .to("#preloader", { 
         y: "-100%", 
         duration: 1.2, 
-        ease: "expo.inOut"
-    })
+        ease: "expo.inOut" 
+    }, "-=0.2")
 
     // =========================================
     // FASE 2: A REVELAÇÃO DO MONOLITO
     // =========================================
     
-    // Desce a Logo
+    // 1. O Cabeçalho (Logo e Textos) desce para a posição final
     .to(".monolith-header", {
-        opacity: 1,
-        y: 0,
-        duration: 1,
+        opacity: 1, 
+        y: 0, 
+        duration: 1, 
         ease: "power3.out"
-    }, "-=0.6") // Executa ainda com a cortina subindo
+    }, "-=0.6") // Começa enquanto a cortina ainda está subindo
     
-    // As Lajes (Slabs) sobem em Cascata (0.15s de delay entre elas)
-    .to(".access-slab", {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.15,
+    // 2. Os Módulos de Elite entram em Cascata (Efeito Dominó)
+    .to(".elite-module", {
+        opacity: 1, 
+        y: 0, 
+        duration: 0.8, 
+        stagger: 0.15, // Cada botão espera 0.15s para entrar
         ease: "power2.out"
-    }, "-=0.8")
+    }, "-=0.7")
     
-    // Rodapé surge sutilmente no final
+    // 3. O Rodapé sela a base da página
     .to(".monolith-footer", {
-        opacity: 1,
-        duration: 1,
+        opacity: 1, 
+        duration: 1, 
         ease: "power2.out"
     }, "-=0.4");
 
     // =========================================
-    // FASE 3: HAPTIC FEEDBACK (Fluid-Touch)
+    // FASE 3: FLUID-TOUCH PROTOCOL (MOBILE)
     // =========================================
-    const slabs = document.querySelectorAll('.access-slab');
-    slabs.forEach(slab => {
-        slab.addEventListener('touchstart', () => {
-            gsap.to(slab, { scale: 0.96, duration: 0.1 });
-        });
-        slab.addEventListener('touchend', () => {
-            gsap.to(slab, { scale: 1, duration: 0.2, ease: "power2.out" });
-        });
+    // Garante que o usuário sinta o peso do clique no celular
+    const modules = document.querySelectorAll('.elite-module');
+    
+    modules.forEach(mod => {
+        mod.addEventListener('touchstart', () => {
+            gsap.to(mod, { scale: 0.96, duration: 0.1, ease: "power1.out" });
+        }, { passive: true });
+        
+        mod.addEventListener('touchend', () => {
+            gsap.to(mod, { scale: 1, duration: 0.3, ease: "back.out(1.5)" }); // Efeito mola no retorno
+        }, { passive: true });
     });
 });

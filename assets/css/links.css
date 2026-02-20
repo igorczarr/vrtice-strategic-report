@@ -1,6 +1,9 @@
 /* =========================================
-   1. SETUP & VARIÁVEIS DE ELITE (CONSERVADAS)
+   VRTICE | THE EXECUTIVE MONOLITH (LINKPAGE CSS)
+   Engenharia Visual: 10x Design & High-Ticket
    ========================================= */
+
+/* --- 1. SETUP & TIPOGRAFIA DE ELITE --- */
 @font-face {
     font-family: 'Abhaya Libre';
     src: url('../fonts/AbhayaLibre-Bold.ttf') format('truetype');
@@ -18,239 +21,325 @@
 :root {
     /* Paleta Oficial VRTICE */
     --black-abs: #050505;
-    --black-light: #0a0a0a;
+    --black-light: #0d0d0d;
     --blue-navy: #141d33;
-    --brown-earth: #3f2b1e;
     --white-off: #f1ece2;
     --gold-base: #c8a970;
+    --gold-glow: rgba(200, 169, 112, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.06);
     
-    /* Variações de Design */
-    --gold-metallic: linear-gradient(135deg, #c8a970 0%, #e8d0a9 50%, #c8a970 100%);
-    --glass-panel: rgba(20, 29, 51, 0.4);
-    --border-subtle: rgba(200, 169, 112, 0.15);
-    
-    /* Espaçamento e Transição */
-    --container-width: 1200px;
-    --transition-fast: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Transições Arquitetônicas */
+    --transition-snappy: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-smooth: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Reset & Base */
 * { 
     margin: 0; 
     padding: 0; 
     box-sizing: border-box; 
-    outline: none; 
     -webkit-tap-highlight-color: transparent; 
 }
 
-html { scroll-behavior: smooth; font-size: 16px; }
-
 body {
-    /* Base Oficial */
     background-color: var(--black-abs);
     color: var(--white-off);
     font-family: 'Montserrat', sans-serif;
-    line-height: 1.6;
-    background-image: radial-gradient(circle at 50% 0%, #101524 0%, var(--black-abs) 70%);
-    background-attachment: fixed;
-    
-    /* Engenharia Linkpage (No-Scroll) */
-    height: 100vh;
+    height: 100vh; /* No-Scroll Absoluto */
     width: 100vw;
-    overflow: hidden; 
+    overflow: hidden;
     position: relative;
     display: flex;
     justify-content: center;
+    /* Profundidade Radial Sutil */
+    background-image: radial-gradient(circle at 50% -20%, var(--blue-navy) 0%, var(--black-abs) 65%);
 }
 
 /* =========================================
-   2. O PRELOADER (A FILOSOFIA ESCRITA)
+   2. O PRELOADER (BRASÃO E FILOSOFIA)
    ========================================= */
 #preloader {
-    position: fixed;
+    position: fixed; 
     inset: 0;
-    width: 100vw;
-    height: 100vh;
     background: var(--black-abs);
     z-index: 10000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.loader-content {
-    width: 90vw;
-    max-width: 800px;
-    display: flex;
-    justify-content: center;
+    display: flex; 
+    justify-content: center; 
     align-items: center;
 }
 
 .logo-anim-wrapper {
-    width: 100%;
-    opacity: 0; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    opacity: 0; /* JS assume o controle */
+}
+
+#vrtice-loader-svg { 
+    width: 130px; 
+    height: 130px; 
+    margin-bottom: 25px; 
+}
+
+#motto-loader-svg { 
+    width: 90vw; 
+    max-width: 500px; 
+    height: 60px; 
+}
+
+.vrtice-vector {
+    fill: transparent;
+    stroke: var(--gold-base);
+    stroke-width: 8px; /* Proporcional a viewBox 1080 */
+    stroke-dasharray: 8000;
+    stroke-dashoffset: 8000;
 }
 
 .vrtice-motto-vector {
     font-family: 'Abhaya Libre', serif;
-    font-size: 80px;
+    font-size: 85px;
     font-weight: 700;
-    fill: transparent; 
-    stroke: var(--gold-base); 
-    stroke-width: 1.5px;
-    stroke-dasharray: 1000;
-    stroke-dashoffset: 1000;
+    fill: transparent;
+    stroke: var(--gold-base);
+    stroke-width: 2px; /* Linha fina e elegante */
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
 }
 
 @media (max-width: 768px) {
-    .vrtice-motto-vector { font-size: 45px; }
+    #vrtice-loader-svg { width: 110px; height: 110px; margin-bottom: 20px; }
+    .vrtice-motto-vector { font-size: 60px; }
 }
 
 /* =========================================
    3. MARCA D'ÁGUA MASSIVA
    ========================================= */
 .massive-watermark {
-    position: absolute;
-    top: 50%;
+    position: absolute; 
+    top: 50%; 
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: 'Abhaya Libre', serif;
-    font-size: clamp(150px, 25vw, 400px);
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.02); 
-    white-space: nowrap;
-    z-index: 0;
+    font-size: clamp(100px, 22vw, 350px);
+    color: rgba(255, 255, 255, 0.015); /* Presença subliminar */
+    z-index: 0; 
     pointer-events: none; 
     user-select: none;
+    white-space: nowrap;
 }
 
 /* =========================================
-   4. THE MONOLITH (INTERFACE CENTRAL)
+   4. O MONOLITO CENTRAL (INTERFACE)
    ========================================= */
 .monolith-wrapper {
-    position: relative;
+    position: relative; 
     z-index: 1;
-    width: 100%;
-    max-width: 500px;
+    width: 100%; 
+    max-width: 540px;
     height: 100%;
-    padding: 5vh 20px;
-    display: flex;
-    flex-direction: column;
+    padding: 8vh 25px 5vh 25px;
+    display: flex; 
+    flex-direction: column; 
     justify-content: space-between;
-    align-items: center;
 }
 
-.monolith-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    opacity: 0; /* Preparado p/ GSAP */
+/* --- CABEÇALHO --- */
+.monolith-header { 
+    text-align: center; 
+    opacity: 0; 
     transform: translateY(-20px);
 }
 
 .monolith-logo {
-    height: 22px;
+    height: 40px; /* Logo dominante */
     width: auto;
+    margin-bottom: 35px;
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.05));
 }
 
-.monolith-divider {
-    width: 1px;
-    height: 40px;
-    background: var(--border-subtle);
-    margin-top: 20px;
-}
-
-/* --- AS LAJES (SLABS) --- */
-.monolith-nav {
-    width: 100%;
+.monolith-titles { 
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
 }
 
-.access-slab {
-    display: flex;
+.monolith-h1 {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 2.2rem;
+    color: var(--gold-base);
+    line-height: 1.1;
+    letter-spacing: 1px;
+}
+
+.monolith-subhead {
+    font-size: 0.85rem;
+    color: #888;
+    line-height: 1.5;
+    font-weight: 400;
+    padding: 0 10px;
+}
+
+/* =========================================
+   5. MÓDULOS DE ELITE (NAVEGAÇÃO)
+   ========================================= */
+.monolith-nav { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 14px; 
+    width: 100%;
+}
+
+.elite-module {
+    position: relative;
+    display: flex; 
     align-items: center;
     width: 100%;
     padding: 22px 25px;
-    background: var(--glass-panel);
-    border: 1px solid var(--border-subtle);
+    background: linear-gradient(90deg, var(--black-light) 0%, var(--black-abs) 100%);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px;
     text-decoration: none;
-    transition: var(--transition-fast);
-    opacity: 0; /* Preparado p/ GSAP */
-    transform: translateY(30px);
+    overflow: hidden;
+    transition: var(--transition-smooth);
+    opacity: 0; 
+    transform: translateY(20px);
 }
 
-.slab-num {
+/* Barra de Sotaque Oculta */
+.module-accent {
+    position: absolute; 
+    left: 0; 
+    top: 0;
+    height: 100%; 
+    width: 3px;
+    background: var(--gold-base);
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: var(--transition-snappy);
+}
+
+.module-num {
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.75rem;
+    font-size: 0.8rem; 
     font-weight: 700;
-    color: #666;
-    margin-right: 20px;
-    transition: color 0.3s;
+    color: #444;
+    margin-right: 22px;
+    transition: color var(--transition-snappy);
 }
 
-.slab-title {
+.module-text {
     flex: 1;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    color: #aaa;
-    transition: color 0.3s;
+    display: flex; 
+    flex-direction: column; 
+    gap: 4px;
 }
 
-.slab-icon {
-    font-size: 1.2rem;
+.m-title {
+    font-size: 0.85rem; 
+    font-weight: 700; 
+    letter-spacing: 1.5px;
+    color: #ccc;
+    transition: color var(--transition-snappy);
+}
+
+.m-desc {
+    font-size: 0.65rem; 
+    font-weight: 400; 
     color: #666;
-    transition: all 0.3s;
+    transition: color var(--transition-snappy);
 }
 
-.access-slab:hover {
-    border-color: var(--gold-base);
-    background: rgba(200, 169, 112, 0.05);
-}
-
-.access-slab:hover .slab-num,
-.access-slab:hover .slab-icon { color: var(--gold-base); }
-.access-slab:hover .slab-title { color: var(--white-off); }
-.access-slab:hover .slab-icon { transform: translate(3px, -3px); }
-
-/* Laje de Destaque */
-.highlight-slab {
-    background: var(--gold-metallic);
-    border: none;
-}
-
-.highlight-slab .slab-num,
-.highlight-slab .slab-title,
-.highlight-slab .slab-icon {
-    color: var(--black-abs);
-    font-weight: 700;
-}
-
-.highlight-slab:hover {
-    background: var(--white-off);
-}
-
-/* --- RODAPÉ --- */
-.monolith-footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    opacity: 0; /* Preparado p/ GSAP */
-}
-
-.footer-socials { display: flex; gap: 20px; }
-.footer-socials a { color: #666; font-size: 1.5rem; transition: color 0.3s; }
-.footer-socials a:hover { color: var(--gold-base); }
-
-.footer-tech-stamp {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.6rem;
-    letter-spacing: 3px;
+.module-icon {
+    font-size: 1.4rem; 
     color: #555;
-    text-transform: uppercase;
+    transition: var(--transition-snappy);
+}
+
+/* --- HOVER ESTADO PADRÃO --- */
+.elite-module:hover {
+    border-color: rgba(200, 169, 112, 0.2);
+    background: linear-gradient(90deg, #121212 0%, #080808 100%);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.elite-module:hover .module-accent { 
+    opacity: 1; 
+    transform: scaleY(1); 
+}
+.elite-module:hover .module-num { color: var(--gold-base); }
+.elite-module:hover .m-title { color: var(--white-off); }
+.elite-module:hover .m-desc { color: #aaa; }
+.elite-module:hover .module-icon { 
+    color: var(--gold-base); 
+    transform: translateX(4px); 
+}
+
+/* --- MÓDULO OURO (ALTO CONTRASTE) --- */
+.module-gold {
+    background: var(--gold-base);
+    border: 1px solid var(--gold-base);
+}
+
+.module-gold .module-num,
+.module-gold .m-title,
+.module-gold .m-desc,
+.module-gold .module-icon { 
+    color: var(--black-abs); 
+}
+
+.module-gold .m-title { font-weight: 800; }
+.module-gold .m-desc { font-weight: 600; opacity: 0.75; }
+
+/* Inversão Implacável no Hover */
+.module-gold:hover {
+    background: var(--black-abs);
+    border-color: var(--gold-base);
+    box-shadow: 0 0 25px var(--gold-glow);
+}
+
+.module-gold:hover .module-num,
+.module-gold:hover .m-title,
+.module-gold:hover .module-icon { color: var(--gold-base); }
+.module-gold:hover .m-desc { color: var(--white-off); }
+
+/* --- FLUID TOUCH PROTOCOL (MOBILE) --- */
+@media (max-width: 968px) {
+    .elite-module:active { 
+        transform: scale(0.97) !important; 
+        transition: transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    }
+}
+
+/* =========================================
+   6. RODAPÉ DE SISTEMA
+   ========================================= */
+.monolith-footer {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 15px; 
+    opacity: 0; 
+}
+
+.footer-socials { 
+    display: flex; 
+    gap: 25px; 
+}
+
+.footer-socials a { 
+    color: #444; 
+    font-size: 1.6rem; 
+    transition: color var(--transition-snappy); 
+}
+
+.footer-socials a:hover { 
+    color: var(--gold-base); 
+    transform: translateY(-2px);
+}
+
+.footer-tech-stamp { 
+    font-size: 0.6rem; 
+    font-weight: 600;
+    letter-spacing: 3px; 
+    color: #333; 
 }
