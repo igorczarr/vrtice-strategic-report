@@ -1,199 +1,256 @@
 /* =========================================
-   VRTICE | LINKPAGE CORE CSS
+   1. SETUP & VARIÁVEIS DE ELITE (CONSERVADAS)
    ========================================= */
+@font-face {
+    font-family: 'Abhaya Libre';
+    src: url('../fonts/AbhayaLibre-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../fonts/Montserrat-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+}
 
 :root {
-    --gold-base: #C8A970;
+    /* Paleta Oficial VRTICE */
     --black-abs: #050505;
-    --white-off: #F1ECE2;
-    --glass-bg: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.08);
+    --black-light: #0a0a0a;
+    --blue-navy: #141d33;
+    --brown-earth: #3f2b1e;
+    --white-off: #f1ece2;
+    --gold-base: #c8a970;
+    
+    /* Variações de Design */
+    --gold-metallic: linear-gradient(135deg, #c8a970 0%, #e8d0a9 50%, #c8a970 100%);
+    --glass-panel: rgba(20, 29, 51, 0.4);
+    --border-subtle: rgba(200, 169, 112, 0.15);
+    
+    /* Espaçamento e Transição */
+    --container-width: 1200px;
+    --transition-fast: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+/* Reset & Base */
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    outline: none; 
+    -webkit-tap-highlight-color: transparent; 
 }
+
+html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
+    /* Base Oficial */
     background-color: var(--black-abs);
-    font-family: 'Montserrat', sans-serif;
     color: var(--white-off);
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    background-image: radial-gradient(circle at 50% 0%, #101524 0%, var(--black-abs) 70%);
+    background-attachment: fixed;
+    
+    /* Engenharia Linkpage (No-Scroll) */
     height: 100vh;
     width: 100vw;
-    overflow: hidden; /* No-scroll absoluto */
+    overflow: hidden; 
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+/* =========================================
+   2. O PRELOADER (A FILOSOFIA ESCRITA)
+   ========================================= */
+#preloader {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--black-abs);
+    z-index: 10000;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* --- BACKGROUND ANIMADO (ORBITAL) --- */
-.orbital-bg {
-    position: fixed;
+.loader-content {
+    width: 90vw;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-anim-wrapper {
+    width: 100%;
+    opacity: 0; 
+}
+
+.vrtice-motto-vector {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 80px;
+    font-weight: 700;
+    fill: transparent; 
+    stroke: var(--gold-base); 
+    stroke-width: 1.5px;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+}
+
+@media (max-width: 768px) {
+    .vrtice-motto-vector { font-size: 45px; }
+}
+
+/* =========================================
+   3. MARCA D'ÁGUA MASSIVA
+   ========================================= */
+.massive-watermark {
+    position: absolute;
     top: 50%;
     left: 50%;
-    width: 140vw;
-    height: 140vh;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle at center, #141D33 0%, transparent 40%),
-                radial-gradient(circle at 20% 30%, #3F2B1E 0%, transparent 30%);
-    filter: blur(80px);
-    opacity: 0.4;
-    z-index: -1;
-    animation: orbitalMove 20s infinite alternate ease-in-out;
-}
-
-@keyframes orbitalMove {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-45%, -55%) rotate(10deg); }
-}
-
-/* --- WRAPPER PRINCIPAL --- */
-.linkpage-wrapper {
-    width: 100%;
-    max-width: 450px; /* Largura ideal para Mobile */
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 90vh; /* Respiro superior e inferior */
-}
-
-/* --- HEADER --- */
-.links-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.links-logo {
-    height: 35px;
-    margin-bottom: 15px;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
-}
-
-.links-tagline {
-    font-size: 0.65rem;
-    letter-spacing: 4px;
-    color: var(--gold-base);
+    font-family: 'Abhaya Libre', serif;
+    font-size: clamp(150px, 25vw, 400px);
     font-weight: 700;
-    opacity: 0.8;
+    color: rgba(255, 255, 255, 0.02); 
+    white-space: nowrap;
+    z-index: 0;
+    pointer-events: none; 
+    user-select: none;
 }
 
-/* --- CONTAINER DE LINKS --- */
-.links-container {
+/* =========================================
+   4. THE MONOLITH (INTERFACE CENTRAL)
+   ========================================= */
+.monolith-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    padding: 5vh 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.monolith-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    opacity: 0; /* Preparado p/ GSAP */
+    transform: translateY(-20px);
+}
+
+.monolith-logo {
+    height: 22px;
+    width: auto;
+}
+
+.monolith-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border-subtle);
+    margin-top: 20px;
+}
+
+/* --- AS LAJES (SLABS) --- */
+.monolith-nav {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
 }
 
-.link-card {
-    position: relative;
-    width: 100%;
-    padding: 18px 25px;
-    background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 4px;
-    text-decoration: none;
-    color: var(--white-off);
-    overflow: hidden;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
-.card-content {
+.access-slab {
     display: flex;
     align-items: center;
-    gap: 20px;
-    z-index: 2;
-    position: relative;
+    width: 100%;
+    padding: 22px 25px;
+    background: var(--glass-panel);
+    border: 1px solid var(--border-subtle);
+    text-decoration: none;
+    transition: var(--transition-fast);
+    opacity: 0; /* Preparado p/ GSAP */
+    transform: translateY(30px);
 }
 
-.card-content i:first-child {
-    font-size: 1.4rem;
-    color: var(--gold-base);
+.slab-num {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #666;
+    margin-right: 20px;
+    transition: color 0.3s;
 }
 
-.card-content span {
-    font-size: 0.85rem;
+.slab-title {
+    flex: 1;
+    font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 2px;
-    flex: 1;
+    color: #aaa;
+    transition: color 0.3s;
 }
 
-.arrow-diag {
-    font-size: 1rem;
-    opacity: 0.3;
-    transition: transform 0.3s;
+.slab-icon {
+    font-size: 1.2rem;
+    color: #666;
+    transition: all 0.3s;
 }
 
-/* --- EFEITO HOVER/ACTIVE --- */
-.link-card:hover, .link-card:active {
-    background: rgba(255, 255, 255, 0.06);
+.access-slab:hover {
     border-color: var(--gold-base);
-    transform: translateY(-2px);
-}
-
-.link-card:hover .arrow-diag {
-    transform: translate(3px, -3px);
-    opacity: 1;
-}
-
-/* Botão em destaque (Consultoria) */
-.link-card.highlight {
-    border-color: rgba(200, 169, 112, 0.4);
     background: rgba(200, 169, 112, 0.05);
 }
 
-.link-card.highlight .card-glow {
-    position: absolute;
-    top: 0; left: -100%;
-    width: 50%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(200, 169, 112, 0.1), transparent);
-    animation: sweep 3s infinite;
+.access-slab:hover .slab-num,
+.access-slab:hover .slab-icon { color: var(--gold-base); }
+.access-slab:hover .slab-title { color: var(--white-off); }
+.access-slab:hover .slab-icon { transform: translate(3px, -3px); }
+
+/* Laje de Destaque */
+.highlight-slab {
+    background: var(--gold-metallic);
+    border: none;
 }
 
-@keyframes sweep {
-    0% { left: -100%; }
-    50% { left: 150%; }
-    100% { left: 150%; }
-}
-
-/* --- FOOTER --- */
-.links-footer {
-    margin-top: 40px;
-}
-
-.system-status {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 15px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 30px;
-}
-
-.status-dot {
-    width: 6px;
-    height: 6px;
-    background: #00ff88;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #00ff88;
-    animation: blink 2s infinite;
-}
-
-.status-text {
-    font-size: 0.6rem;
+.highlight-slab .slab-num,
+.highlight-slab .slab-title,
+.highlight-slab .slab-icon {
+    color: var(--black-abs);
     font-weight: 700;
-    letter-spacing: 1px;
-    color: #666;
 }
 
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
+.highlight-slab:hover {
+    background: var(--white-off);
+}
+
+/* --- RODAPÉ --- */
+.monolith-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    opacity: 0; /* Preparado p/ GSAP */
+}
+
+.footer-socials { display: flex; gap: 20px; }
+.footer-socials a { color: #666; font-size: 1.5rem; transition: color 0.3s; }
+.footer-socials a:hover { color: var(--gold-base); }
+
+.footer-tech-stamp {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    color: #555;
+    text-transform: uppercase;
 }

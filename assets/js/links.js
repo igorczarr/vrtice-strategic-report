@@ -1,67 +1,86 @@
 /**
- * VRTICE | LINKPAGE SYSTEM
- * Motor de Animação de Entrada e Micro-interações
+ * VRTICE | THE EXECUTIVE MONOLITH (LINKPAGE)
+ * Motor de Sincronia: Preloader Filosófico e GSAP Reveal
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Configuração inicial do GSAP
+    // Registra a Timeline mestre
     const tl = gsap.timeline();
 
-    // 2. Sequência de Orquestração
-    tl.to("body", { 
+    // =========================================
+    // FASE 1: O PRELOADER ("Ordem gera progresso")
+    // =========================================
+    
+    // Aparece o Canvas
+    tl.to(".logo-anim-wrapper", {
         opacity: 1, 
-        duration: 0.5 
+        duration: 0.5, 
+        ease: "power2.out"
     })
     
-    // Entrada do Header (Logo e Tagline)
-    .from(".links-header", {
-        y: -20,
-        opacity: 0,
-        duration: 1,
-        ease: "power4.out"
+    // O Laser desenha o contorno dourado da fonte
+    .to(".vrtice-motto-vector", {
+        strokeDashoffset: 0,
+        duration: 2.5, 
+        ease: "power3.inOut" // Acelera e desacelera suavemente
+    })
+    
+    // A letra ganha peso (Preenchimento)
+    .to(".vrtice-motto-vector", {
+        fill: "var(--white-off)",
+        stroke: "transparent",
+        duration: 0.8,
+        ease: "power2.out"
+    }, "-=0.5") // Começa antes de terminar o contorno
+    
+    // Segura 1 segundo para leitura e absorção da mensagem
+    .to(".logo-anim-wrapper", { duration: 1 })
+    
+    // A cortina preta sobe (Saída do Preloader)
+    .to("#preloader", {
+        y: "-100%", 
+        duration: 1.2, 
+        ease: "expo.inOut"
     })
 
-    // Efeito de Varredura nos Botões (Stagger)
-    .from(".link-card", {
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15, // Cada botão entra 0.15s depois do anterior
-        ease: "power3.out"
-    }, "-=0.6") // Começa um pouco antes do header terminar
-
-    // Surgimento do Status Bar no Rodapé
-    .from(".system-status", {
-        scale: 0.9,
-        opacity: 0,
+    // =========================================
+    // FASE 2: A REVELAÇÃO DO MONOLITO
+    // =========================================
+    
+    // Desce a Logo
+    .to(".monolith-header", {
+        opacity: 1,
+        y: 0,
         duration: 1,
-        ease: "elastic.out(1, 0.7)"
+        ease: "power3.out"
+    }, "-=0.6") // Executa ainda com a cortina subindo
+    
+    // As Lajes (Slabs) sobem em Cascata (0.15s de delay entre elas)
+    .to(".access-slab", {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power2.out"
+    }, "-=0.8")
+    
+    // Rodapé surge sutilmente no final
+    .to(".monolith-footer", {
+        opacity: 1,
+        duration: 1,
+        ease: "power2.out"
     }, "-=0.4");
 
-    // 3. Efeito de Flicker Ocasional (Estética High-Tech)
-    // Simula uma interface de terminal de elite
-    const glitchElements = document.querySelectorAll('.links-tagline, .status-text');
-    
-    setInterval(() => {
-        const target = glitchElements[Math.floor(Math.random() * glitchElements.length)];
-        gsap.to(target, {
-            opacity: 0.5,
-            duration: 0.05,
-            repeat: 1,
-            yoyo: true,
-            onComplete: () => gsap.to(target, { opacity: 1, duration: 0.5 })
+    // =========================================
+    // FASE 3: HAPTIC FEEDBACK (Fluid-Touch)
+    // =========================================
+    const slabs = document.querySelectorAll('.access-slab');
+    slabs.forEach(slab => {
+        slab.addEventListener('touchstart', () => {
+            gsap.to(slab, { scale: 0.96, duration: 0.1 });
         });
-    }, 4000);
-
-    // 4. Feedback Tátil para Mobile
-    // Como definimos no Fluid-Touch Protocol
-    const cards = document.querySelectorAll('.link-card');
-    cards.forEach(card => {
-        card.addEventListener('touchstart', () => {
-            gsap.to(card, { scale: 0.97, duration: 0.1 });
-        });
-        card.addEventListener('touchend', () => {
-            gsap.to(card, { scale: 1, duration: 0.2, ease: "power2.out" });
+        slab.addEventListener('touchend', () => {
+            gsap.to(slab, { scale: 1, duration: 0.2, ease: "power2.out" });
         });
     });
 });
