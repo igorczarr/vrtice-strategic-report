@@ -1,7 +1,7 @@
 /**
  * VRTICE | RELATÓRIO ESTRATÉGICO
  * Engenharia de Front-End: Hard-Code Performance
- * Arquivo Principal: SPA, GSAP e Motor de Sincronia Determinística (Time Engine)
+ * Arquivo Principal: SPA, GSAP e Motor de Sincronia Determinística Assíncrono
  */
 
 gsap.registerPlugin(ScrollTrigger);
@@ -55,25 +55,25 @@ const productData = {
 // 2. INICIALIZAÇÃO DO SISTEMA BLINDADA
 // ==========================================
 window.addEventListener('load', () => {
-    // 1. Prioridade Máxima: O Menu deve carregar primeiro
     try { initMenuSystem(); } catch(e) { console.error("Alerta: Falha ao carregar Menu.", e); }
     
-    // 2. Carrega o restante do Ecossistema independentemente
     try { switchProduct('partnership'); } catch(e) {}
     try { runPreloaderSequence(); } catch(e) {}
     try { initScrollAnimations(); } catch(e) {}
     try { initFaqSystem(); } catch(e) {}
-    try { initEcosystemTerminal(); } catch(e) {}
+    
+    // Agora o Terminal de Relatos é chamado de forma assíncrona
+    initEcosystemTerminal().catch(e => console.error("Erro ao carregar relatos JSON:", e));
     
     setTimeout(() => { ScrollTrigger.refresh(); }, 500);
 });
 
 // ==========================================
-// 3. MÓDULO: ECOSSISTEMA & MOTOR DE RELATOS
+// 3. MÓDULO: ECOSSISTEMA & MOTOR DETERMINÍSTICO (ASSÍNCRONO)
 // ==========================================
-function initEcosystemTerminal() {
+async function initEcosystemTerminal() {
     
-    // --- A. ANIMAÇÃO DE NÚMEROS (GATILHO IMEDIATO) ---
+    // --- A. ANIMAÇÃO DE NÚMEROS (ESTATÍSTICAS VRTICE) ---
     const counters = document.querySelectorAll('.metric-val');
     counters.forEach(counter => {
         const targetValue = parseFloat(counter.getAttribute('data-target'));
@@ -91,21 +91,62 @@ function initEcosystemTerminal() {
         });
     });
 
-    // --- B. BANCO DE DADOS DE RELATOS REAIS (SEM NÚMEROS FALSOS) ---
-    // Adicionamos 'timestamp' apenas para o código saber ordenar a aba "Recentes". A exibição é o texto 'dataStr'.
-    const dbRelatos = [
-        { id: "b1", iniciais: "CM", nome: "Carlos M.", verificado: true, cargo: "CEO | Fintech", dataStr: "12 Fev 2026", timestamp: 1739318400000, texto: "A VRTICE reestruturou nossa aquisição de clientes. Saímos de uma dependência amadora de anúncios para uma máquina de vendas previsível e escalável." },
-        { id: "b2", iniciais: "JV", nome: "Dra. Juliana V.", verificado: true, cargo: "Sócia | Clínica Premium", dataStr: "08 Fev 2026", timestamp: 1738972800000, texto: "Ter a VRTICE assumindo nossa produção e tráfego me devolveu horas valiosas. O fluxo de agendamentos dobrou em três meses." },
-        { id: "b3", iniciais: "RS", nome: "Ricardo S.", verificado: true, cargo: "Fundador | E-commerce B2B", dataStr: "29 Jan 2026", timestamp: 1738108800000, texto: "O desenvolvimento da infraestrutura própria em Hard-Code reduziu nosso custo por aquisição em 40%." },
-        { id: "b4", iniciais: "AL", nome: "Ana Lúcia", verificado: true, cargo: "Diretora | Tech", dataStr: "15 Jan 2026", timestamp: 1736899200000, texto: "Governança pura. O impacto no balanço da empresa após os primeiros 6 meses de partnership é inegável." },
-        { id: "b5", iniciais: "FB", nome: "Felipe B.", verificado: true, cargo: "Fundador | SaaS", dataStr: "10 Jan 2026", timestamp: 1736467200000, texto: "A inteligência de dados aplicada à compra de mídia deles é cirúrgica. Foco em LTV e lucro real." },
-        { id: "b6", iniciais: "CL", nome: "Carla L.", verificado: false, cargo: "CEO | Varejo", dataStr: "02 Jan 2026", timestamp: 1735776000000, texto: "A estratégia Omnichannel finalmente nos tirou da dependência exclusiva do Instagram." }
-    ];
+    // --- B. LEITURA DO JSON EXTERNO DE RELATOS ---
+    let dbRelatos = [];
+    try {
+        const response = await fetch('./assets/relatos.json');
+        if (!response.ok) throw new Error("Ficheiro JSON não encontrado.");
+        dbRelatos = await response.json();
+    } catch (error) {
+        console.warn("Utilizando relatos de fallback devido a erro de rede.");
+        // Se o JSON falhar, ele não quebra a página, apenas mostra um aviso no console e tenta prosseguir vazio
+    }
+
+    // --- C. MOTOR DE TEMPO PARA INJEÇÃO DINÂMICA ---
+    const LAUNCH_DATE = new Date("2026-02-01T00:00:00").getTime();
+    const NOW = Date.now();
+    const DAY_MS = 86400000;
+    const daysPassed = Math.max(0, Math.floor((NOW - LAUNCH_DATE) / DAY_MS));
+    const recentesTodayCount = (daysPassed % 3) + 1; 
 
     let userLikes = JSON.parse(localStorage.getItem('vrtice_likes')) || [];
     let userSaves = JSON.parse(localStorage.getItem('vrtice_saves')) || [];
 
-    // --- C. CONTROLE DE INTERFACE (ABAS/FILTROS) ---
+    // Função para formatar a data estática com base no Time Engine
+    function formatDataBR(timestamp) {
+        const dateObj = new Date(timestamp);
+        const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+        const dia = String(dateObj.getDate()).padStart(2, '0');
+        return `${dia} ${meses[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+    }
+
+    // Processamento Dinâmico dos Arrays
+    let arrayRelevantes = [];
+    let arrayRecentes = [];
+
+    const limitPromoted = Math.min(daysPassed, dbRelatos.length - 5);
+    const totalRelevantes = 5 + Math.max(0, limitPromoted);
+
+    for (let i = 0; i < totalRelevantes && i < dbRelatos.length; i++) {
+        let item = { ...dbRelatos[i] };
+        item.timestamp = LAUNCH_DATE + (i * DAY_MS * 1.5); 
+        item.dataStr = formatDataBR(item.timestamp);
+        arrayRelevantes.push(item);
+    }
+
+    const recentStartIndex = totalRelevantes;
+    const maxRecentes = Math.min(recentesTodayCount, Math.max(0, dbRelatos.length - recentStartIndex));
+    
+    for (let i = 0; i < maxRecentes && (recentStartIndex + i) < dbRelatos.length; i++) {
+        let item = { ...dbRelatos[recentStartIndex + i] };
+        item.timestamp = NOW - ((maxRecentes - i) * 86400000); 
+        item.dataStr = formatDataBR(item.timestamp);
+        arrayRecentes.push(item);
+    }
+
+    let masterRelatos = [...arrayRelevantes, ...arrayRecentes];
+
+    // --- D. CONTROLE DE INTERFACE (ABAS E INJEÇÃO DE HTML) ---
     const feedTimeline = document.getElementById('feed-timeline');
     let currentFilter = 'relevantes';
 
@@ -125,13 +166,13 @@ function initEcosystemTerminal() {
         let finalRenderArray = [];
 
         if (currentFilter === 'relevantes') {
-            finalRenderArray = [...dbRelatos]; // Ordem padrão inserida no Array
+            finalRenderArray = [...arrayRelevantes];
         } 
         else if (currentFilter === 'recentes') {
-            finalRenderArray = [...dbRelatos].sort((a, b) => b.timestamp - a.timestamp); // Ordem por data
+            finalRenderArray = [...arrayRecentes].sort((a, b) => b.timestamp - a.timestamp);
         } 
         else if (currentFilter === 'salvos') {
-            finalRenderArray = dbRelatos.filter(r => userSaves.includes(String(r.id))); // Apenas guardados
+            finalRenderArray = masterRelatos.filter(r => userSaves.includes(String(r.id)));
         }
 
         renderFeed(finalRenderArray);
@@ -140,7 +181,7 @@ function initEcosystemTerminal() {
     function renderFeed(relatosArray) {
         feedTimeline.innerHTML = '';
         if(relatosArray.length === 0) {
-            feedTimeline.innerHTML = '<p style="color:#666; padding: 30px; text-align:center; font-family: Montserrat;">Nenhum relato encontrado nesta secção.</p>';
+            feedTimeline.innerHTML = '<p style="color:#666; padding: 30px; text-align:center; font-family: Montserrat;">Nenhum relato no seu registro.</p>';
             return;
         }
 
@@ -182,7 +223,7 @@ function initEcosystemTerminal() {
         `;
     }
 
-    // --- D. SISTEMA DE CURTIDAS E SALVAMENTOS (SEM NÚMEROS) ---
+    // --- E. SISTEMA DE INTERAÇÃO (CURTIDAS E SALVAMENTOS) ---
     function attachInteractionEvents() {
         document.querySelectorAll('.like-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -226,15 +267,14 @@ function initEcosystemTerminal() {
         });
     }
 
-    // --- E. ENVIO DE FORMULÁRIO ASSÍNCRONO (AJAX PARA FORMSPREE) ---
+    // --- F. ENVIO DE FORMULÁRIO ASSÍNCRONO (AJAX FORMSPREE) ---
     const relatoForm = document.getElementById('relato-form');
     if(relatoForm) {
         relatoForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Impede o recarregamento da página
+            e.preventDefault(); 
             const btnSubmit = document.getElementById('btn-submit-relato');
             const originalText = btnSubmit.innerText;
             
-            // Feedback visual imediato
             btnSubmit.innerText = "ENVIANDO...";
             btnSubmit.style.opacity = "0.7";
             btnSubmit.style.pointerEvents = "none";
@@ -248,20 +288,13 @@ function initEcosystemTerminal() {
 
                 if (response.ok) {
                     relatoForm.reset();
-                    if (typeof showToast === "function") {
-                        showToast("Relato enviado com sucesso. Agendado para moderação.", "ph-shield-check", "var(--gold-base)");
-                    }
+                    showToast("Relato enviado com sucesso. Agendado para moderação interna.", "ph-shield-check", "var(--gold-base)");
                 } else {
-                    if (typeof showToast === "function") {
-                        showToast("Ocorreu um erro no envio. Tente novamente.", "ph-warning-circle", "#ff5252");
-                    }
+                    showToast("Ocorreu um erro no envio. Tente novamente.", "ph-warning-circle", "#ff5252");
                 }
             } catch (error) {
-                if (typeof showToast === "function") {
-                    showToast("Erro de conexão.", "ph-warning-circle", "#ff5252");
-                }
+                showToast("Erro de conexão com o servidor.", "ph-warning-circle", "#ff5252");
             } finally {
-                // Restaura o botão
                 btnSubmit.innerText = originalText;
                 btnSubmit.style.opacity = "1";
                 btnSubmit.style.pointerEvents = "auto";
@@ -293,43 +326,18 @@ function showToast(message, iconClass = "ph-info", color = "var(--white-off)") {
 function runPreloaderSequence() {
     const tl = gsap.timeline();
     
-    tl.to(".logo-anim-wrapper", {
-        opacity: 1, 
-        duration: 0.5, 
-        ease: "power2.out"
-    })
-    .to(".vrtice-vector", {
-        strokeDashoffset: 0,
-        duration: 2, 
-        ease: "power3.inOut"
-    })
-    .to(".vrtice-vector", {
-        fill: "#F1ECE2",
-        stroke: "transparent",
-        duration: 0.8,
-        ease: "power2.out"
-    }, "-=0.5")
-    .to("#vrtice-loader-svg", {
-        filter: "drop-shadow(0 0 20px rgba(200, 169, 112, 0.4))",
-        duration: 0.5
-    }, "<")
-    .to(".logo-anim-wrapper", { duration: 0.4 })
-    .to(".logo-anim-wrapper", { 
-        scale: 0.9,
-        opacity: 0, 
-        duration: 0.6, 
-        ease: "power2.in" 
-    })
-    .to("#preloader", { 
-        y: "-100%", 
-        duration: 1.2, 
-        ease: "expo.inOut" 
-    }, "-=0.2")
-    .from(".vrtice-badge-hero", { y: -20, opacity: 0, duration: 1 }, "-=0.6")
-    .from(".hero-title", { y: 50, opacity: 0, duration: 1.2, ease: "power4.out" }, "-=0.8")
-    .from(".hero-separator", { scaleY: 0, duration: 1, ease: "power2.out" }, "-=1")
-    .from(".hero-desc-text", { opacity: 0, y: 20, duration: 1 }, "-=0.8")
-    .from(".hero-subtitle", { opacity: 0, letterSpacing: "0em", duration: 1.5 }, "-=0.8");
+    tl.to(".logo-anim-wrapper", { opacity: 1, duration: 0.5, ease: "power2.out" })
+      .to(".vrtice-vector", { strokeDashoffset: 0, duration: 2, ease: "power3.inOut" })
+      .to(".vrtice-vector", { fill: "#F1ECE2", stroke: "transparent", duration: 0.8, ease: "power2.out" }, "-=0.5")
+      .to("#vrtice-loader-svg", { filter: "drop-shadow(0 0 20px rgba(200, 169, 112, 0.4))", duration: 0.5 }, "<")
+      .to(".logo-anim-wrapper", { duration: 0.4 })
+      .to(".logo-anim-wrapper", { scale: 0.9, opacity: 0, duration: 0.6, ease: "power2.in" })
+      .to("#preloader", { y: "-100%", duration: 1.2, ease: "expo.inOut" }, "-=0.2")
+      .from(".vrtice-badge-hero", { y: -20, opacity: 0, duration: 1 }, "-=0.6")
+      .from(".hero-title", { y: 50, opacity: 0, duration: 1.2, ease: "power4.out" }, "-=0.8")
+      .from(".hero-separator", { scaleY: 0, duration: 1, ease: "power2.out" }, "-=1")
+      .from(".hero-desc-text", { opacity: 0, y: 20, duration: 1 }, "-=0.8")
+      .from(".hero-subtitle", { opacity: 0, letterSpacing: "0em", duration: 1.5 }, "-=0.8");
 }
 
 function switchProduct(productId) {
@@ -353,7 +361,7 @@ function switchProduct(productId) {
                         <li style="margin-bottom: 15px; display: flex; align-items: start; gap: 10px; color: #d0d0d0;"><span style="color: var(--gold-base); font-size: 1.2rem;">/</span> ${f}</li>
                     `).join('')}
                 </ul>
-                <a href="#" class="btn-vrtice">${data.cta}</a>
+                <a href="links.html" class="btn-vrtice">${data.cta}</a>
             `;
             gsap.to(displayArea, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" });
         }
@@ -387,7 +395,7 @@ function initFaqSystem() {
 }
 
 // ==========================================
-// 5. ANIMAÇÕES DE ROLAGEM (FLUID-TOUCH PROTOCOL)
+// 5. ANIMAÇÕES DE ROLAGEM
 // ==========================================
 function initScrollAnimations() {
     let mm = gsap.matchMedia();
@@ -414,13 +422,12 @@ function initScrollAnimations() {
 }
 
 // ==========================================
-// 6. MOTOR DO MENU OVERLAY (HIGH-TICKET)
+// 6. MOTOR DO MENU OVERLAY
 // ==========================================
 function initMenuSystem() {
-    // CORREÇÃO DE SELETORES: Busca o botão pela Classe que você usa no HTML original
     const triggerBtn = document.querySelector('.menu-trigger');
     const menuOverlay = document.getElementById('v-menu-overlay');
-    const menuIcon = document.querySelector('.menu-trigger i'); // Busca o ícone dentro do botão
+    const menuIcon = document.querySelector('.menu-trigger i'); 
     const menuLabel = document.querySelector('.menu-label');
     const submenuTrigger = document.querySelector('.has-submenu .menu-item-title');
     const submenuParent = document.querySelector('.has-submenu');
@@ -433,7 +440,7 @@ function initMenuSystem() {
                 closeMenu();
             } else {
                 menuOverlay.classList.add('is-open');
-                if(menuIcon) menuIcon.className = 'ph-bold ph-x'; // Troca o ícone para fechar
+                if(menuIcon) menuIcon.className = 'ph-bold ph-x'; 
                 if(menuLabel) menuLabel.innerText = "FECHAR";
                 document.body.style.overflow = 'hidden'; 
             }
@@ -449,12 +456,12 @@ function initMenuSystem() {
 
 window.closeMenu = function() {
     const menuOverlay = document.getElementById('v-menu-overlay');
-    const menuIcon = document.querySelector('.menu-trigger i'); // Busca pela classe
+    const menuIcon = document.querySelector('.menu-trigger i'); 
     const menuLabel = document.querySelector('.menu-label');
     
     if(menuOverlay) {
         menuOverlay.classList.remove('is-open');
-        if(menuIcon) menuIcon.className = 'ph ph-list'; // Restaura o ícone padrão
+        if(menuIcon) menuIcon.className = 'ph ph-list'; 
         if(menuLabel) menuLabel.innerText = "MENU";
         document.body.style.overflow = ''; 
     }
