@@ -70,38 +70,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // =========================================
-    // 4. SCROLL ANIMATIONS (A REAÇÃO DA PÁGINA)
+    // 4. SCROLL ANIMATIONS & INTERAÇÃO DE DIAGNÓSTICO
     // =========================================
 
-    // A Tese: Entrada dos Sintomas em Cascata
-    gsap.fromTo(".symptom-card", 
+    // A Tese: Painel de Diagnóstico (Entrada Suave)
+    gsap.fromTo(".diagnostic-panel", 
         { opacity: 0, y: 40 },
         {
             scrollTrigger: {
-                trigger: ".symptoms-grid",
-                start: "top 90%", // Dispara quando tocar nos 10% finais do ecrã
+                trigger: ".consult-thesis",
+                start: "top 80%", 
             },
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power3.out"
+            y: 0, opacity: 1, duration: 1, ease: "power3.out"
         }
     );
 
-    gsap.fromTo(".the-fact-box", 
-        { opacity: 0, scale: 0.95 },
-        {
-            scrollTrigger: {
-                trigger: ".the-fact-box",
-                start: "top 95%",
-            },
-            scale: 1,
-            opacity: 1,
-            duration: 0.8,
-            ease: "power2.out"
-        }
+    // Lógica do Painel Interativo (Mudar as Abas e as Animações)
+    const dpTabs = document.querySelectorAll('.dp-tab');
+    const dpContents = document.querySelectorAll('.dp-content');
+
+    dpTabs.forEach(tab => {
+        // Suporta clique (Desktop/Mobile) ou Hover (Para fluidez no Desktop)
+        tab.addEventListener('click', () => switchDiagnosticTab(tab));
+        tab.addEventListener('mouseenter', () => {
+            if(window.innerWidth > 768) switchDiagnosticTab(tab);
+        });
+    });
+
+    function switchDiagnosticTab(selectedTab) {
+        // Remove a classe ativa de todos
+        dpTabs.forEach(t => t.classList.remove('active'));
+        dpContents.forEach(c => c.classList.remove('active'));
+
+        // Adiciona a classe ativa ao selecionado
+        selectedTab.classList.add('active');
+        const targetId = selectedTab.getAttribute('data-target');
+        const targetContent = document.getElementById(targetId);
+        if (targetContent) targetContent.classList.add('active');
+    }
+
+    // O Veredito Fiduciário (O Laser acende ao fazer scroll)
+    gsap.fromTo(".verdict-box", 
+        { opacity: 0, y: 30 },
+        { scrollTrigger: { trigger: ".verdict-box", start: "top 85%" }, y: 0, opacity: 1, duration: 1, ease: "power2.out" }
     );
+    gsap.to(".verdict-laser", {
+        scrollTrigger: { trigger: ".verdict-box", start: "top 85%" },
+        width: "100%", duration: 1.5, ease: "power3.out", delay: 0.5
+    });
 
     // A Auditoria: O Laser da Linha do Tempo
     gsap.to(".timeline-laser-fill", {

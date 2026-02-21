@@ -130,30 +130,83 @@ body {
 .hero-btn { max-width: 400px; margin: 0 auto; }
 
 /* =========================================
-   A TESE (SINTOMAS) - CONFLITO DE ANIMAÇÃO RESOLVIDO
+   A TESE (PAINEL DE DIAGNÓSTICO)
    ========================================= */
-.consult-thesis { padding: 80px 0; background: rgba(255,255,255,0.01); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
-.thesis-intro { font-size: 1.1rem; color: #aaa; margin-bottom: 50px; }
-.symptoms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 50px; }
+.consult-thesis { padding: 100px 0; background: rgba(255,255,255,0.01); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
+.thesis-intro { font-size: 1.1rem; color: #aaa; margin-bottom: 60px; line-height: 1.8; }
 
-/* Sem transição de opacidade/transformação no card para não travar o GSAP */
-.symptom-card { 
-    background: var(--glass-bg); padding: 30px; 
-    border: 1px solid var(--glass-border); 
-    transition: border-color 0.4s ease, background 0.4s ease; 
+.diagnostic-panel {
+    display: grid; grid-template-columns: 1fr 2fr; gap: 40px; margin-bottom: 80px;
 }
-.symptom-card i { 
-    font-size: 2rem; color: var(--gold-base); margin-bottom: 15px; 
-    display: inline-block; transition: transform 0.4s ease; /* Anima só o ícone */
+
+/* Lado Esquerdo: Abas */
+.dp-tabs { display: flex; flex-direction: column; gap: 10px; }
+.dp-tab {
+    display: flex; align-items: center; gap: 15px; padding: 20px;
+    background: transparent; border: none; border-left: 2px solid rgba(255,255,255,0.05);
+    cursor: pointer; text-align: left; transition: var(--transition-smooth);
 }
-.symptom-card h3 { font-size: 1rem; font-weight: 700; color: var(--white-off); margin-bottom: 10px; }
-.symptom-card p { font-size: 0.8rem; color: var(--text-muted); }
+.dp-num { font-family: 'Abhaya Libre', serif; font-size: 1.8rem; font-weight: 700; color: #444; transition: var(--transition-smooth); }
+.dp-name { font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 1px; transition: var(--transition-smooth); }
 
-.symptom-card:hover { border-color: var(--gold-base); background: rgba(200, 169, 112, 0.03); }
-.symptom-card:hover i { transform: translateY(-5px) scale(1.1); }
+.dp-tab:hover .dp-name { color: #ccc; }
+.dp-tab.active { border-left-color: var(--gold-base); background: rgba(200, 169, 112, 0.03); }
+.dp-tab.active .dp-num { color: var(--gold-base); }
+.dp-tab.active .dp-name { color: var(--white-off); }
 
-.the-fact-box { padding: 30px; border-left: 3px solid var(--gold-base); background: rgba(200, 169, 112, 0.05); font-size: 1rem; color: var(--white-off); }
-.the-fact-box strong { color: var(--gold-base); }
+/* Lado Direito: Visor */
+.dp-visor {
+    background: #080808; border: 1px solid #1a1a1a; padding: 50px;
+    position: relative; overflow: hidden; display: flex; align-items: center;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.8); min-height: 350px;
+}
+.dp-content {
+    position: absolute; inset: 50px; display: flex; flex-direction: column; justify-content: center;
+    opacity: 0; pointer-events: none; transform: translateY(10px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.dp-content.active { opacity: 1; pointer-events: auto; transform: translateY(0); position: relative; inset: auto; width: 100%; }
+
+.dp-animation { height: 120px; width: 100%; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; }
+.svg-abstract { width: 100%; max-width: 250px; height: 100%; overflow: visible; }
+
+.dp-text h3 { font-size: 1.2rem; font-weight: 700; color: var(--white-off); margin-bottom: 15px; }
+.dp-text p { font-size: 0.95rem; color: #aaa; line-height: 1.7; }
+
+/* Micro-Animações em SVG (Engenharia CSS Abstrata) */
+.anim-stagnant-base { fill: var(--gold-base); }
+.anim-vanity-line { fill: none; stroke: #fff; stroke-width: 2; stroke-dasharray: 300; stroke-dashoffset: 300; animation: drawLine 3s infinite ease-out; }
+@keyframes drawLine { 0% { stroke-dashoffset: 300; } 50%, 100% { stroke-dashoffset: 0; } }
+
+.anim-brand-core { fill: none; stroke: var(--gold-base); stroke-width: 3; }
+.anim-chaos { fill: none; stroke: rgba(255,255,255,0.2); stroke-width: 1; stroke-dasharray: 10 15; transform-origin: 100px 50px; }
+.orbit-1 { animation: spin 4s infinite linear; }
+.orbit-2 { animation: spin 6s infinite linear reverse; stroke-dasharray: 5 20; }
+.orbit-3 { animation: spin 3s infinite linear; stroke-dasharray: 15 10; stroke: rgba(200, 169, 112, 0.3); }
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+.anim-blur-pillar { fill: none; stroke: var(--gold-base); stroke-width: 2; filter: blur(3px); animation: focusBlur 4s infinite alternate ease-in-out; }
+.pillar-2 { animation-delay: 1s; stroke-width: 1.5; }
+.pillar-3 { animation-delay: 2s; stroke-width: 1; }
+@keyframes focusBlur { 0% { filter: blur(4px); opacity: 0.3; } 100% { filter: blur(1px); opacity: 0.8; } }
+
+/* O Veredito Final (Isolado e com Peso) */
+.verdict-box { margin-top: 80px; text-align: center; position: relative; padding: 40px 20px; }
+.verdict-label { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 4px; color: #555; margin-bottom: 20px; }
+.verdict-text { font-family: 'Abhaya Libre', serif; font-size: 1.8rem; color: var(--white-off); line-height: 1.4; max-width: 600px; margin: 0 auto; }
+.verdict-text strong { color: var(--gold-base); }
+.verdict-laser { width: 0%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-base), transparent); margin: 30px auto 0; transition: width 1s ease-out; }
+
+/* Mobile */
+@media (max-width: 768px) {
+    .diagnostic-panel { grid-template-columns: 1fr; gap: 20px; }
+    .dp-tabs { flex-direction: row; overflow-x: auto; padding-bottom: 10px; }
+    .dp-tab { border-left: none; border-bottom: 2px solid rgba(255,255,255,0.05); padding: 10px; flex: 0 0 auto; flex-direction: column; align-items: flex-start; gap: 5px; }
+    .dp-tab.active { border-left: none; border-bottom-color: var(--gold-base); }
+    .dp-name { font-size: 0.75rem; }
+    .dp-visor { padding: 30px 20px; min-height: 380px; }
+    .verdict-text { font-size: 1.4rem; }
+}
 
 /* =========================================
    A AUDITORIA (TIMELINE)
