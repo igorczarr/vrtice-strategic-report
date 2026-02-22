@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapeamento Estratégico | VRTICE</title>
+    <link rel="icon" href="assets/img/Favicon.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-vrtice-dark form-page-body">
+
+    <div class="v-progress-bar"><div class="v-progress-fill" id="form-progress"></div></div>
+
+    <div class="ambient-glow"></div>
+
+    <main class="form-master-container">
+        
+        <header class="form-header anim-form-item">
+            <div class="form-logo-area">
+                <a href="index.html" class="back-link"><i class="ph ph-arrow-left"></i> VOLTAR</a>
+            </div>
+            <h1 class="form-title">MAPEAMENTO ESTRATÉGICO VRTICE</h1>
+            <div class="form-divider"></div>
+            <p class="form-intro">
+                Você construiu uma carreira sólida e um negócio sério. Nosso papel é garantir que a sua presença digital reflita exatamente isso.<br><br>
+                Para que a nossa equipe possa desenhar o melhor plano para o seu momento, precisamos entender como a sua operação funciona hoje. Leva apenas 2 minutos.
+            </p>
+        </header>
+
+        <form action="https://formspree.io/f/SEU_ENDPOINT_AQUI" method="POST" class="vrtice-form" id="mapeamento-form">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_subject" value="Novo Mapeamento Estratégico VRTICE!">
+
+            <section class="form-section anim-form-item">
+                <div class="section-label-small">DADOS CADASTRAIS</div>
+                <div class="input-grid">
+                    <input type="text" name="Nome" placeholder="Nome Completo *" required class="v-input check-progress">
+                    <input type="tel" name="WhatsApp" placeholder="WhatsApp *" required class="v-input check-progress">
+                    <input type="email" name="Email" placeholder="E-mail *" required class="v-input check-progress">
+                    <input type="text" name="Profissao" placeholder="Profissão *" required class="v-input check-progress">
+                    <input type="text" name="Instagram" placeholder="@ do Instagram *" required class="v-input input-full check-progress">
+                </div>
+            </section>
+
+            <section class="form-group anim-form-item" id="q1">
+                <label class="v-label">1. Qual é o seu principal serviço ou produto hoje?<br><span class="v-sublabel">(Conte pra gente o que você vende e qual é o valor médio que o seu cliente paga).</span></label>
+                <textarea name="01_Servico_Principal" rows="3" required class="v-textarea check-progress"></textarea>
+            </section>
+
+            <section class="form-group anim-form-item" id="q2">
+                <label class="v-label">2. Hoje, de onde vêm a maioria dos seus clientes?</label>
+                <div class="radio-group">
+                    <label class="custom-radio"><input type="radio" name="02_Origem_Clientes" value="Indicações e boca a boca." required class="check-progress auto-scroll" data-next="q3"> <span class="radio-mark"></span> Indicações e boca a boca.</label>
+                    <label class="custom-radio"><input type="radio" name="02_Origem_Clientes" value="Das minhas redes sociais (Instagram, etc.)." class="check-progress auto-scroll" data-next="q3"> <span class="radio-mark"></span> Das minhas redes sociais (Instagram, etc.).</label>
+                    <label class="custom-radio"><input type="radio" name="02_Origem_Clientes" value="De anúncios pagos na internet." class="check-progress auto-scroll" data-next="q3"> <span class="radio-mark"></span> De anúncios pagos na internet.</label>
+                    <label class="custom-radio"><input type="radio" name="02_Origem_Clientes" value="Tenho uma equipe comercial que vai atrás dos clientes." class="check-progress auto-scroll" data-next="q3"> <span class="radio-mark"></span> Tenho uma equipe comercial que vai atrás dos clientes.</label>
+                </div>
+            </section>
+
+            <section class="form-group anim-form-item" id="q3">
+                <label class="v-label">3. Como está a estrutura digital da sua empresa atualmente?</label>
+                <div class="radio-group">
+                    <label class="custom-radio"><input type="radio" name="03_Estrutura_Atual" value="Uso apenas o Instagram e um link no perfil (WhatsApp/Linktree)." required class="check-progress auto-scroll" data-next="q4"> <span class="radio-mark"></span> Uso apenas o Instagram e um link no perfil (WhatsApp/Linktree).</label>
+                    <label class="custom-radio"><input type="radio" name="03_Estrutura_Atual" value="Tenho um site, mas sinto que ele não reflete a verdadeira qualidade do meu serviço." class="check-progress auto-scroll" data-next="q4"> <span class="radio-mark"></span> Tenho um site, mas sinto que ele não reflete a verdadeira qualidade do meu serviço.</label>
+                    <label class="custom-radio"><input type="radio" name="03_Estrutura_Atual" value="Tenho um site bom, mas não sei medir os resultados ou quem acessa." class="check-progress auto-scroll" data-next="q4"> <span class="radio-mark"></span> Tenho um site bom, mas não sei medir os resultados ou quem acessa.</label>
+                </div>
+            </section>
+
+            <section class="form-group anim-form-item" id="q4">
+                <label class="v-label">4. Sendo bem transparente: onde você sente que o seu negócio está travando hoje?</label>
+                <div class="radio-group">
+                    <label class="custom-radio"><input type="radio" name="04_Gargalo" value="Imagem: Sou muito bom no que faço, mas meu digital não transmite o meu valor real para as pessoas." required class="check-progress auto-scroll" data-next="q5"> <span class="radio-mark"></span> Imagem: Sou muito bom no que faço, mas meu digital não transmite o meu valor real para as pessoas.</label>
+                    <label class="custom-radio"><input type="radio" name="04_Gargalo" value="Tempo: Estou sobrecarregado. O marketing consome um tempo que eu deveria usar focando na minha profissão." class="check-progress auto-scroll" data-next="q5"> <span class="radio-mark"></span> Tempo: Estou sobrecarregado. O marketing consome um tempo que eu deveria usar focando na minha profissão.</label>
+                    <label class="custom-radio"><input type="radio" name="04_Gargalo" value="Público: Até tenho audiência, mas não consigo atrair aquele cliente que valoriza e paga bem pelo meu serviço." class="check-progress auto-scroll" data-next="q5"> <span class="radio-mark"></span> Público: Até tenho audiência, mas não consigo atrair aquele cliente que valoriza e paga bem pelo meu serviço.</label>
+                </div>
+            </section>
+
+            <section class="form-group anim-form-item" id="q5">
+                <label class="v-label">5. Quanto tempo por semana você (ou seus sócios) gasta tentando cuidar do marketing e das redes sociais?</label>
+                <div class="radio-group">
+                    <label class="custom-radio"><input type="radio" name="05_Tempo_Gasto" value="Mais de 10 horas. Acabo fazendo o operacional que não deveria fazer." required class="check-progress auto-scroll" data-next="q6"> <span class="radio-mark"></span> Mais de 10 horas. Acabo fazendo o operacional que não deveria fazer.</label>
+                    <label class="custom-radio"><input type="radio" name="05_Tempo_Gasto" value="Umas 3 a 5 horas. Faço o básico, mas sem muita constância." class="check-progress auto-scroll" data-next="q6"> <span class="radio-mark"></span> Umas 3 a 5 horas. Faço o básico, mas sem muita constância.</label>
+                    <label class="custom-radio"><input type="radio" name="05_Tempo_Gasto" value="Quase nada. Meu marketing está praticamente parado." class="check-progress auto-scroll" data-next="q6"> <span class="radio-mark"></span> Quase nada. Meu marketing está praticamente parado.</label>
+                </div>
+            </section>
+
+            <section class="form-group anim-form-item" id="q6">
+                <label class="v-label">6. Como a sua comunicação é feita hoje?</label>
+                <div class="radio-group">
+                    <label class="custom-radio"><input type="radio" name="06_Operacao_Atual" value="Faço tudo sozinho (e isso me cansa)." required class="check-progress auto-scroll" data-next="q7"> <span class="radio-mark"></span> Faço tudo sozinho (e isso me cansa).</label>
+                    <label class="custom-radio"><input type="radio" name="06_Operacao_Atual" value="Tenho uma pessoa (ou freelancer) me ajudando com o básico." class="check-progress auto-scroll" data-next="q7"> <span class="radio-mark"></span> Tenho uma pessoa (ou freelancer) me ajudando com o básico.</label>
+                    <label class="custom-radio"><input type="radio" name="06_Operacao_Atual" value="Tenho uma agência, mas sinto falta de uma visão mais estratégica e focada no meu negócio." class="check-progress auto-scroll" data-next="q7"> <span class="radio-mark"></span> Tenho uma agência, mas sinto falta de uma visão mais estratégica e focada no meu negócio.</label>
+                </div>
+            </section>
+
+            <section class="form-group anim-form-item" id="q7">
+                <label class="v-label">7. Se trabalharmos juntos, como você imagina o cenário ideal do seu negócio daqui a 6 meses?<br><span class="v-sublabel">(Ex: Quero parar de depender só do Instagram, quero cobrar mais caro, quero ter mais tempo livre...)</span></label>
+                <textarea name="07_Cenario_Ideal" rows="3" required class="v-textarea check-progress"></textarea>
+            </section>
+
+            <section class="form-group anim-form-item" id="q8">
+                <label class="v-label">8. O VRTICE trabalha lado a lado com os donos do negócio. Na hora de aprovar o projeto, a decisão é só sua ou você tem um sócio que precisa participar da conversa?</label>
+                <div class="radio-group">
+                    <label class="custom-radio"><input type="radio" name="08_Tomada_Decisao" value="A decisão é 100% minha." required class="check-progress auto-scroll" data-next="q9"> <span class="radio-mark"></span> A decisão é 100% minha.</label>
+                    <label class="custom-radio"><input type="radio" name="08_Tomada_Decisao" value="Tenho um sócio(a) e nós tomamos as decisões juntos." class="check-progress auto-scroll" data-next="q9"> <span class="radio-mark"></span> Tenho um sócio(a) e nós tomamos as decisões juntos.</label>
+                </div>
+            </section>
+
+            <section class="form-group anim-form-item" id="q9">
+                <label class="v-label">9. Para entendermos o tamanho da sua operação, qual é o faturamento médio mensal do negócio hoje?<br><span class="v-sublabel">(Fique tranquilo, essa informação é 100% confidencial e serve apenas para sabermos qual estrutura recomendar).</span></label>
+                <div class="radio-group">
+                    <label class="custom-radio"><input type="radio" name="09_Faturamento" value="Até R$ 10.000" required class="check-progress auto-scroll" data-next="q10"> <span class="radio-mark"></span> Até R$ 10.000</label>
+                    <label class="custom-radio"><input type="radio" name="09_Faturamento" value="De R$ 10.000 a R$ 30.000" class="check-progress auto-scroll" data-next="q10"> <span class="radio-mark"></span> De R$ 10.000 a R$ 30.000</label>
+                    <label class="custom-radio"><input type="radio" name="09_Faturamento" value="De R$ 30.000 a R$ 100.000" class="check-progress auto-scroll" data-next="q10"> <span class="radio-mark"></span> De R$ 30.000 a R$ 100.000</label>
+                    <label class="custom-radio"><input type="radio" name="09_Faturamento" value="Acima de R$ 100.000" class="check-progress auto-scroll" data-next="q10"> <span class="radio-mark"></span> Acima de R$ 100.000</label>
+                </div>
+            </section>
+
+            <section class="form-group anim-form-item" id="q10">
+                <label class="v-label">10. Todo projeto bem estruturado exige investimento. Qual a sua disponibilidade atual para investir em um parceiro que vai organizar e acelerar o seu negócio?</label>
+                <div class="radio-group">
+                    <label class="custom-radio"><input type="radio" name="10_Disponibilidade_Investimento" value="Menos de R$ 3.000 (Busco resolver algo mais pontual e básico no momento)." required class="check-progress"> <span class="radio-mark"></span> Menos de R$ 3.000 (Busco resolver algo mais pontual e básico no momento).</label>
+                    <label class="custom-radio"><input type="radio" name="10_Disponibilidade_Investimento" value="De R$ 3.000 a R$ 8.000 (Estou pronto para estruturar a minha casa digital)." class="check-progress"> <span class="radio-mark"></span> De R$ 3.000 a R$ 8.000 (Estou pronto para estruturar a minha casa digital).</label>
+                    <label class="custom-radio"><input type="radio" name="10_Disponibilidade_Investimento" value="Acima de R$ 10.000 (Busco uma operação completa para dominar meu mercado)." class="check-progress"> <span class="radio-mark"></span> Acima de R$ 10.000 (Busco uma operação completa para dominar meu mercado).</label>
+                </div>
+            </section>
+
+            <footer class="form-footer anim-form-item">
+                <button type="submit" class="btn-submit-mapping" id="btn-submit">ENVIAR INFORMAÇÕES ♠️</button>
+                <p class="form-outro">Agradecemos a confiança. Nossa diretoria vai analisar o seu momento e entraremos em contato via WhatsApp muito em breve para o próximo passo.</p>
+            </footer>
+        </form>
+
+        <div class="success-overlay" id="success-overlay">
+            <div class="success-content">
+                <i class="ph-fill ph-check-circle" style="font-size: 4rem; color: var(--gold-base); margin-bottom: 20px;"></i>
+                <h2 style="font-family: 'Abhaya Libre'; font-size: 2.5rem; color: var(--white-off); margin-bottom: 15px;">DOSSIÊ RECEBIDO</h2>
+                <p style="color: #aaa; margin-bottom: 30px; font-size: 1.1rem; line-height: 1.6;">O seu mapeamento foi encriptado e enviado para a nossa diretoria. Faremos uma análise de viabilidade e entraremos em contacto nas próximas horas.</p>
+                <a href="index.html" class="btn-cta-footer" style="margin: 0;">RETORNAR AO ACERVO</a>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="assets/js/form.js"></script>
+</body>
+</html>
