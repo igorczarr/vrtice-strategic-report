@@ -83,10 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                // Sucesso: Mostra a overlay premium
-                successOverlay.classList.add('active');
-                form.reset(); // Limpa o form
-                calculateProgress(); // Zera a barra
+                // SUCESSO: Redireciona o cliente para a página de Protocolo/Obrigado
+                window.location.href = "obrigado.html";
             } else {
                 alert("Ocorreu um erro no servidor. Por favor, tente novamente.");
             }

@@ -11,42 +11,42 @@ gsap.registerPlugin(ScrollTrigger);
 // ==========================================
 const productData = {
     partnership: {
-        badge: "DIRETORIA DE CRESCIMENTO (C-LEVEL AS A SERVICE)",
+        badge: "DIRETORIA ESTRATÉGICA (CMO AS A SERVICE)",
         title: "THE PARTNERSHIP",
-        description: "Substituímos a incerteza pela alta gestão. Atuamos como seus sócios operacionais por 6 meses, liderando uma ofensiva de dominação de mercado sem diluir o seu Equity.",
+        description: "Substituímos a tentativa e erro pela alta gestão. Atuamos ao seu lado como diretores estratégicos por 6 meses, liderando a expansão da sua marca com foco em resultados reais, mantendo o controle 100% nas suas mãos.",
         features: [
-            "Omnichannel Tático: Expansão coordenada para Rádio, TV e Mídia Offline.",
-            "Engenharia de Reputação (PR): Assessoria de imprensa para transformar seu CNPJ em uma Instituição.",
-            "Auditoria de Eficiência: Reestruturação de processos para estancar vazamentos de lucro.",
-            "Gestão de BI: Compra de mídia baseada estritamente em LTV e ROAS."
+            "Omnichannel Inteligente: Presença coordenada em Rádio, TV e Mídia Offline para blindar sua autoridade.",
+            "Validação via Imprensa (PR): Assessoria estratégica para posicionar o seu nome nos maiores veículos do país.",
+            "Auditoria de Processos: Organizamos a casa e refinamos a sua oferta para maximizar a sua margem de lucro.",
+            "Inteligência de Tráfego: Gestão de mídia focada no retorno financeiro (ROI) e na captação de clientes de alto valor."
         ],
-        target: "Organizações robustas que precisam romper seu teto histórico de faturamento com governança.",
-        cta: "REQUISITAR CONSELHO ESTRATÉGICO"
+        target: "Empresas e profissionais consolidados que buscam romper o teto de faturamento com previsibilidade e governança.",
+        cta: "APLICAR PARA PARTNERSHIP"
     },
     outsourcing: {
-        badge: "OPERAÇÃO MILITAR (OUTSOURCING DE ELITE)",
+        badge: "DEPARTAMENTO DE INTELIGÊNCIA (OUTSOURCING)",
         title: "INTELIGÊNCIA & GESTÃO",
-        description: "A eliminação sumária do passivo trabalhista amador. Injetamos uma célula de especialistas em sua operação para garantir constância industrial.",
+        description: "O fim do microgerenciamento. Instalamos um departamento completo de especialistas dentro da sua operação para garantir que a sua comunicação tenha excelência visual e constância estratégica.",
         features: [
-            "Sistema de Scout: Monitoramento de KPIs e metas em tempo real.",
-            "Produção Cinematográfica: Conteúdo High-End que cria um abismo estético entre você e a concorrência.",
-            "Pacote Gráfico: Identidade visual que transmite status imediato.",
-            "Editorial Racional: Roteirização técnica focada na dor e conversão, exterminando métricas de vaidade."
+            "Sistema de Scout: Monitoramento constante de métricas, metas e projeção clara de resultados.",
+            "Produção High-End: Captação e edição com estética de cinema para elevar a percepção de valor do seu serviço.",
+            "Design Institucional: Identidade visual elegante e padronizada que transmite status imediato.",
+            "Linha Editorial Estratégica: Roteiros focados na solução do cliente e na conversão, deixando métricas de vaidade de lado."
         ],
-        target: "Sócios e Diretores que precisam recuperar de 15 a 20 horas semanais de gestão operacional.",
-        cta: "INICIAR OPERAÇÃO DE ELITE"
+        target: "Líderes que precisam recuperar o seu tempo e delegar a execução de marketing para uma equipe de excelência.",
+        cta: "CONTRATAR GESTÃO DE INTELIGÊNCIA"
     },
     sovereignty: {
-        badge: "ENGENHARIA EM HARD-CODE",
+        badge: "INFRAESTRUTURA PROPRIETÁRIA (HARD-CODE)",
         title: "DIGITAL SOVEREIGNTY",
-        description: "A erradicação de plataformas de terceiros. Sua sede digital construída em Código Puro, livre de mensalidades e vulnerabilidades.",
+        description: "A saída definitiva do terreno alugado. Construímos a sua sede digital em Código Puro, garantindo total controle, segurança e uma performance que plataformas prontas não conseguem entregar.",
         features: [
-            "Performance Absoluta: Carregamento instantâneo desenhado para maximizar o ROI.",
-            "Rastreamento Militar: Controle absoluto dos dados e bibliotecas de tracking proprietárias.",
-            "Proteção de Ativo: Código 100% seu. Um ativo imobilizado digital que valoriza o Valuation.",
-            "Design Proprietário: Estética exclusiva impossível de copiar."
+            "Performance Absoluta: Páginas de carregamento instantâneo, desenhadas para reter a atenção e maximizar vendas.",
+            "Inteligência de Dados: Rastreamento avançado para entender exatamente quem acessa a sua página e com qual intenção.",
+            "Soberania Tecnológica: Código 100% proprietário. Um ativo digital valioso que pertence apenas à sua empresa.",
+            "Design Exclusivo: Uma arquitetura visual sob medida, transmitindo luxo e profissionalismo desde o primeiro clique."
         ],
-        target: "Marcas que exigem que o primeiro clique do cliente transborde exclusividade e tecnologia.",
+        target: "Profissionais e marcas que exigem que o primeiro contato do cliente reflita exatamente o alto padrão do seu serviço.",
         cta: "SOLICITAR PROJETO DE ENGENHARIA"
     }
 };
@@ -361,7 +361,7 @@ function switchProduct(productId) {
                         <li style="margin-bottom: 15px; display: flex; align-items: start; gap: 10px; color: #d0d0d0;"><span style="color: var(--gold-base); font-size: 1.2rem;">/</span> ${f}</li>
                     `).join('')}
                 </ul>
-                <a href="links.html" class="btn-vrtice">${data.cta}</a>
+                <a href="mapeamento.html" class="btn-vrtice">${data.cta}</a>
             `;
             gsap.to(displayArea, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" });
         }
