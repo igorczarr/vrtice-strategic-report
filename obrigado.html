@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapeamento Recebido | VRTICE</title>
+    
+    <link rel="icon" href="assets/img/Favicon.png" type="image/x-icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-vrtice-dark form-page-body">
+
+    <div class="ambient-glow"></div>
+
+    <main class="form-master-container" style="text-align: center; padding-top: 120px;">
+        
+        <div class="anim-fade-up">
+            <i class="ph-fill ph-shield-check" style="font-size: 5rem; color: var(--gold-base); margin-bottom: 20px; filter: drop-shadow(0 0 20px rgba(200, 169, 112, 0.3));"></i>
+        </div>
+
+        <h1 class="form-title anim-fade-up" style="margin-bottom: 15px;">MAPEAMENTO RECEBIDO</h1>
+        <div class="tag-minimalista anim-fade-up">[ INFORMAÇÕES ENVIADAS COM SUCESSO ]</div>
+        
+        <p class="form-intro anim-fade-up" style="max-width: 650px; margin: 30px auto 50px;">
+            Agradecemos a confiança. Seus dados já estão sob análise da nossa diretoria. Na VRTICE, não entregamos propostas genéricas; nós desenhamos a arquitetura exata para que o seu digital reflita a verdadeira qualidade do seu serviço.
+        </p>
+
+        <div class="protocol-box anim-fade-up">
+            <h3 class="protocol-title">O PROTOCOLO DOS PRÓXIMOS PASSOS:</h3>
+            
+            <div class="protocol-step">
+                <div class="step-number">01</div>
+                <div class="step-text">
+                    <strong>Análise de Viabilidade</strong>
+                    Nossa equipe vai avaliar o seu momento atual, identificar os gargalos da sua operação e estruturar a solução ideal.
+                </div>
+            </div>
+
+            <div class="protocol-step">
+                <div class="step-number">02</div>
+                <div class="step-text">
+                    <strong>Contato Direto</strong>
+                    Entrarei em contato com você via WhatsApp muito em breve para alinharmos as expectativas e agendarmos nossa reunião.
+                </div>
+            </div>
+
+            <div class="protocol-step">
+                <div class="step-number">03</div>
+                <div class="step-text">
+                    <strong>Matriz de Execução</strong>
+                    Apresentarei o plano de ação prático para transformar a sua presença na internet em uma máquina de conversão de alto valor.
+                </div>
+            </div>
+        </div>
+
+        <div class="anim-fade-up" style="margin-top: 60px;">
+            <a href="index.html" class="btn-cta-footer">VOLTAR AO ACERVO TÉCNICO</a>
+        </div>
+
+    </main>
+
+    <footer class="vrtice-fiduciary-footer" style="margin-top: 50px;">
+        <div class="container-narrow footer-inner">
+            <h2 class="footer-brand">VRTICE</h2>
+            <p class="footer-motto">Ordem gera progresso.</p>
+            <p class="footer-copy">IGOR | VRTICE &copy; 2026. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        // Animação suave de entrada para a página de obrigado
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.fromTo(".anim-fade-up", 
+                { opacity: 0, y: 30 }, 
+                { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: "power2.out", delay: 0.2 }
+            );
+        });
+    </script>
+</body>
+</html>
