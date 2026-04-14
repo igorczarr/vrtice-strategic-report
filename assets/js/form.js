@@ -62,12 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 4. SUBMISSÃO ASSÍNCRONA DE ELITE (AJAX Formspree)
+    // 4. SUBMISSÃO ASSÍNCRONA DE ELITE (API ORION)
     const submitBtn = document.getElementById('btn-submit');
     const successOverlay = document.getElementById('success-overlay');
 
     form.addEventListener('submit', async (e) => {
-        e.preventDefault(); // Impede o redirecionamento feio do Formspree
+        e.preventDefault(); 
 
         // Estado de "Carregamento"
         const originalText = submitBtn.innerHTML;
@@ -75,23 +75,33 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.style.opacity = "0.7";
         submitBtn.style.pointerEvents = "none";
 
+        // 🛡️ Transformação: Converte o FormData em um JSON Sênior
+        const formData = new FormData(form);
+        const jsonPayload = Object.fromEntries(formData.entries());
+
         try {
             const response = await fetch(form.action, {
                 method: 'POST',
-                body: new FormData(form),
-                headers: { 'Accept': 'application/json' }
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(jsonPayload)
             });
 
             if (response.ok) {
-                // SUCESSO: Redireciona o cliente para a página de Protocolo/Obrigado
-                window.location.href = "obrigado.html";
+                // SUCESSO: Mostra o Overlay de Sucesso (mantendo o utilizador na página)
+                // ou redireciona para a página de obrigado se preferirem.
+                successOverlay.classList.add('active');
             } else {
-                alert("Ocorreu um erro no servidor. Por favor, tente novamente.");
+                const errorData = await response.json();
+                alert(`Ocorreu um erro: ${errorData.detail || "Falha no servidor."}`);
             }
         } catch (error) {
-            alert("Erro de conexão. Verifique sua internet.");
+            alert("Erro de conexão. Verifique se a API do Orion está online.");
+            console.error(error);
         } finally {
-            // Restaura o botão caso o usuário feche a aba
+            // Restaura o botão
             submitBtn.innerHTML = originalText;
             submitBtn.style.opacity = "1";
             submitBtn.style.pointerEvents = "auto";
