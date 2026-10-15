@@ -3,77 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapeamento Recebido | VRTICE</title>
-    <link rel="icon" href="assets/img/Favicon.png" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <title>Confirmação & Briefing - Programa Marco Zero | VRTICE</title>
     
-    <link rel="stylesheet" href="assets/css/obrigado.css">
+    <link rel="icon" type="image/png" href="assets/img/Favicon.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vrtice: { navy: '#141D33', dark: '#0A0A0A', gold: '#C8A970', emerald: '#10B981' }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Playfair Display', 'serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .input-checkout {
+            width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white; padding: 1rem; border-radius: 0.5rem; outline: none; transition: border-color 0.3s;
+        }
+        .input-checkout:focus { border-color: #C8A970; background: rgba(200, 169, 112, 0.05); }
+        .glass-panel { background: rgba(20, 29, 51, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(200, 169, 112, 0.2); }
+    </style>
 </head>
-<body class="bg-vrtice-dark">
+<body class="bg-vrtice-dark text-gray-300 antialiased min-h-screen flex flex-col relative overflow-x-hidden">
 
-    <main class="master-container">
+    <!-- Background Orbs -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-vrtice-navy opacity-30 rounded-full mix-blend-screen blur-[120px]"></div>
+        <div class="absolute bottom-[-20%] right-[-10%] w-[400px] h-[400px] bg-vrtice-gold opacity-10 rounded-full mix-blend-screen blur-[100px]"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="py-6 border-b border-gray-900 relative z-10 bg-vrtice-dark/80 backdrop-blur-md mb-8">
+        <div class="max-w-4xl mx-auto px-6 flex justify-between items-center">
+            <img src="assets/img/Favicon.png" alt="VRTICE" class="h-10 opacity-90">
+            <span class="text-[11px] font-mono tracking-widest uppercase text-vrtice-gold">Programa Marco Zero</span>
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col items-center justify-start px-4 relative z-10 pb-20">
         
-        <div class="anim-fade-up icon-wrapper">
-            <i class="ph-fill ph-shield-check"></i>
+        <!-- Mensagem de Sucesso -->
+        <div class="text-center mb-12 max-w-2xl">
+            <div class="w-20 h-20 bg-vrtice-emerald/10 border border-vrtice-emerald text-vrtice-emerald rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_30px_rgba(16,185,129,0.2)]">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-serif text-white mb-3">Bem-vindo ao Programa Marco Zero.</h1>
+            <p class="text-gray-400 text-base md:text-lg leading-relaxed">
+                Seu pagamento foi confirmado com sucesso. Enviamos as credenciais de acesso à Central VRTICE para o seu e-mail e WhatsApp cadastrados.
+            </p>
         </div>
 
-        <h1 class="page-title anim-fade-up">MAPEAMENTO RECEBIDO</h1>
-        <div class="tag-minimalista anim-fade-up">[ INFORMAÇÕES ENVIADAS COM SUCESSO ]</div>
-        
-        <p class="page-intro anim-fade-up">
-            Agradecemos a confiança. Seus dados já estão sob análise da nossa diretoria. Na VRTICE, não entregamos propostas genéricas; nós desenhamos a arquitetura exata para que o seu digital reflita a verdadeira qualidade do seu serviço.
-        </p>
-
-        <div class="protocol-box anim-fade-up">
-            <h3 class="protocol-title">O PROTOCOLO DOS PRÓXIMOS PASSOS:</h3>
-            
-            <div class="protocol-step">
-                <div class="step-number">01</div>
-                <div class="step-text">
-                    <strong>Análise de Viabilidade</strong>
-                    Nossa equipe vai avaliar o seu momento atual, identificar os gargalos da sua operação e estruturar a solução ideal.
-                </div>
+        <!-- Formulário de Briefing -->
+        <div class="max-w-3xl w-full glass-panel p-8 md:p-12 rounded-2xl shadow-2xl relative">
+            <div class="flex items-center gap-3 mb-2">
+                <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-vrtice-gold/20 text-vrtice-gold border border-vrtice-gold/30">Etapa 1 de 3</span>
+                <span class="text-xs text-gray-500 uppercase tracking-widest">Base & Mapa Estratégico</span>
             </div>
+            <h2 class="text-2xl font-serif text-white mb-2">Briefing de Inicialização</h2>
+            <p class="text-sm text-gray-400 mb-8 border-b border-gray-800 pb-6 leading-relaxed">
+                Para que nossa equipe configure sua <strong>Base Digital</strong> (Página Autoral com domínio próprio e rastreamento) e elabore o <strong>Mapa Estratégico em 5 Dimensões</strong>, preencha os dados essenciais da sua operação abaixo.
+            </p>
 
-            <div class="protocol-step">
-                <div class="step-number">02</div>
-                <div class="step-text">
-                    <strong>Contato Direto</strong>
-                    Entraremos em contato com você via WhatsApp muito em breve para alinharmos as expectativas e agendarmos nossa reunião.
+            <form id="briefing-form" class="space-y-6">
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-2">Link do Google Drive / Nuvem com Fotos e Logotipo *</label>
+                    <input type="url" id="brf-drive" required class="input-checkout text-sm" placeholder="https://drive.google.com/drive/folders/...">
+                    <p class="text-[10px] text-gray-500 mt-1">Certifique-se de que o link esteja compartilhado como "Qualquer pessoa com o link pode visualizar".</p>
                 </div>
-            </div>
-
-            <div class="protocol-step">
-                <div class="step-number">03</div>
-                <div class="step-text">
-                    <strong>Matriz de Execução</strong>
-                    Apresentaremos o plano de ação prático para transformar a sua presença na internet em uma máquina de conversão de alto valor.
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-2">Instagram / Perfil Comercial *</label>
+                        <input type="text" id="brf-insta" required class="input-checkout text-sm" placeholder="@seuperfil">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-2">Preferências Visuais / Cores</label>
+                        <input type="text" id="brf-colors" class="input-checkout text-sm" placeholder="Ex: Azul marinho, dourado e preto">
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <div class="anim-fade-up cta-wrapper">
-            <a href="index.html" class="btn-cta-gold">VOLTAR AO ACERVO TÉCNICO</a>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-2">Qual é o principal produto ou serviço que vamos posicionar? *</label>
+                    <textarea id="brf-desc" required class="input-checkout h-28 resize-none text-sm" placeholder="Descreva brevemente o que você oferece, qual dor você resolve e quem é o seu cliente ideal..."></textarea>
+                </div>
+
+                <div id="briefing-success" class="hidden bg-green-900/30 border border-green-800 text-green-400 text-sm p-4 rounded text-center leading-relaxed">
+                    ✓ Briefing registrado com sucesso! Nossa equipe técnica iniciou a estruturação da sua Base. Acesse a Central VRTICE com o login enviado ao seu e-mail.
+                </div>
+
+                <button type="submit" id="btn-briefing" class="btn-pulse w-full bg-vrtice-gold hover:bg-yellow-600 text-vrtice-navy font-bold py-5 px-6 rounded-lg text-xs md:text-sm uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(200,169,112,0.2)] mt-8">
+                    Enviar Briefing e Iniciar Estruturação
+                </button>
+            </form>
         </div>
 
     </main>
 
-    <footer class="vrtice-footer">
-        <h2 class="footer-brand">VRTICE</h2>
-        <p class="footer-motto">Ordem gera progresso.</p>
-        <p class="footer-copy">IGOR | VRTICE &copy; 2026. Todos os direitos reservados.</p>
-    </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            gsap.fromTo(".anim-fade-up", 
-                { opacity: 0, y: 30 }, 
-                { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: "power2.out", delay: 0.2 }
-            );
+        document.getElementById('briefing-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('btn-briefing');
+            const successDiv = document.getElementById('briefing-success');
+            
+            btn.disabled = true;
+            btn.innerHTML = `<svg class="animate-spin h-5 w-5 text-vrtice-navy mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+            
+            // Simulação de envio pro banco de dados
+            setTimeout(() => {
+                successDiv.classList.remove('hidden');
+                btn.style.display = 'none';
+            }, 1500);
         });
     </script>
 </body>

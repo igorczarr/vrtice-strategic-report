@@ -1,0 +1,198 @@
+/* VRTICE - Orion Funnel Styles - High-End Luxury Edition */
+
+body { 
+    background-color: #141D33; /* Deep Navy Background everywhere for elegance */
+    color: #F1ECE2; /* Cream text */
+    font-family: 'Inter', sans-serif; 
+    overflow-x: hidden; 
+}
+
+/* Ocultar Scrollbar mantendo funcionalidade */
+::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+html {
+    -ms-overflow-style: none; /* IE e Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+h1, h2, h3, .font-serif { 
+    font-family: 'Playfair Display', serif; 
+}
+
+/* Preloader Styles */
+#preloader {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh;
+    background-color: #0A0A0A; /* Pure dark for preloader */
+    z-index: 9999;
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+}
+
+.vrtice-logo-svg { 
+    width: 120px; 
+    height: 120px; 
+}
+
+.vrtice-logo-svg path, 
+.vrtice-logo-svg polygon {
+    stroke: #C8A970; 
+    stroke-width: 1.5; 
+    fill: transparent;
+    stroke-dasharray: 2500; 
+    stroke-dashoffset: 2500;
+}
+
+/* Funnel Steps Container */
+.step-container { 
+    display: none; 
+    opacity: 0; 
+    min-height: 100vh; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 3rem 1.5rem; 
+}
+
+.step-container.active { 
+    display: flex; 
+    opacity: 1; 
+}
+
+/* Custom Radio Buttons para o Quiz - Premium Look */
+.quiz-option {
+    border: 1px solid rgba(241, 236, 226, 0.2); 
+    background-color: rgba(20, 29, 51, 0.5);
+    color: #F1ECE2;
+    transition: all 0.4s ease; 
+    cursor: pointer;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+}
+
+.quiz-option:hover {
+    border-color: rgba(200, 169, 112, 0.6);
+    background-color: rgba(200, 169, 112, 0.05);
+    transform: translateY(-2px);
+}
+
+.quiz-option.selected {
+    border-color: #C8A970;
+    background-color: rgba(200, 169, 112, 0.1);
+    color: #C8A970;
+}
+
+/* Input Fields - Sleek minimal */
+.input-elegant {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(241, 236, 226, 0.3);
+    color: #F1ECE2;
+    padding: 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 300;
+    transition: border-color 0.3s ease;
+}
+.input-elegant:focus {
+    outline: none;
+    border-bottom-color: #C8A970;
+}
+.input-elegant::placeholder {
+    color: rgba(241, 236, 226, 0.4);
+}
+
+/* Processing Transition Screen */
+#processing-screen {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background-color: #0A0A0A;
+    z-index: 5000;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+}
+.processing-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #C8A970;
+    font-style: italic;
+    opacity: 0;
+    position: absolute;
+}
+
+/* Minimalist Gauge / Velocímetro */
+.gauge-container {
+    width: 250px; 
+    height: 125px; 
+    overflow: hidden; 
+    position: relative; 
+    margin: 0 auto;
+}
+
+.gauge-background {
+    width: 250px; 
+    height: 250px; 
+    border-radius: 50%;
+    /* Gradient goes from Red -> Orange -> Green, but sophisticated tones */
+    background: conic-gradient(from 180deg at 50% 50%, #141D33 0deg, #991B1B 45deg, #B45309 90deg, #166534 135deg, #141D33 180deg);
+    position: absolute; 
+    top: 0; 
+    left: 0;
+    opacity: 0.8;
+}
+
+.gauge-cover {
+    width: 246px; 
+    height: 246px; 
+    border-radius: 50%; 
+    background: #0A0A0A; /* Dark center to blend */
+    position: absolute; 
+    top: 2px; 
+    left: 2px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: flex-start;
+    padding-top: 45px;
+}
+
+.gauge-needle {
+    width: 2px; 
+    height: 120px; 
+    background: #C8A970; 
+    position: absolute;
+    bottom: 0; 
+    left: 124px; 
+    transform-origin: bottom center; 
+    transform: rotate(-80deg); /* Start far left */
+    transition: transform 2.5s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.gauge-needle::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: -4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #C8A970;
+}
+
+/* Botão Pulsante Elegante */
+@keyframes pulse-gold {
+    0% { box-shadow: 0 0 0 0 rgba(200, 169, 112, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(200, 169, 112, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(200, 169, 112, 0); }
+}
+
+.btn-pulse { 
+    animation: pulse-gold 2.5s infinite; 
+}

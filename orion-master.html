@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VRTICE Apresenta: Marco Zero — O fim do improviso. A nova regra do jogo.</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/img/Favicon.png">
+
+    <!-- Google Tag Manager -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-THWRY46SCN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-THWRY46SCN');
+    </script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vrtice: {
+                            navy: '#141D33',
+                            dark: '#0A0A0A',
+                            gold: '#C8A970',
+                            cream: '#F1ECE2',
+                            emerald: '#10B981',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .drop-cap::first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.8rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.15em;
+            color: #C8A970;
+            text-shadow: 0 0 20px rgba(200, 169, 112, 0.3);
+        }
+        .glass-panel {
+            background: rgba(20, 29, 51, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(200, 169, 112, 0.15);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .glowing-border {
+            position: relative;
+        }
+        .glowing-border::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #141D33, #C8A970, #141D33);
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(10px);
+            border-radius: inherit;
+        }
+        .reveal-up, .reveal-left, .reveal-right, .reveal-scale { opacity: 0; }
+        
+        .sticky-fomo {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            z-index: 9999;
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sticky-fomo.show {
+            transform: translateY(0);
+        }
+
+        .btn-pulse {
+            transition: all 0.3s ease;
+        }
+        .btn-pulse:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-vrtice-dark text-vrtice-cream antialiased selection:bg-vrtice-gold selection:text-vrtice-navy overflow-x-hidden relative">
+
+    <!-- Fundo Atmosférico -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-vrtice-navy opacity-40 rounded-full mix-blend-screen filter blur-[100px] animate-blob"></div>
+        <div class="absolute top-[40%] right-[-10%] w-96 h-96 bg-vrtice-gold opacity-10 rounded-full mix-blend-screen filter blur-[100px] animate-blob animation-delay-2000"></div>
+        <div class="absolute bottom-[-20%] left-[20%] w-[30rem] h-[30rem] bg-vrtice-navy opacity-30 rounded-full mix-blend-screen filter blur-[120px] animate-blob animation-delay-4000"></div>
+    </div>
+
+    <div class="relative z-10">
+
+        <!-- BARRA SUPERIOR DE ASSINATURA INSTITUCIONAL -->
+        <div class="w-full bg-[#141D33] py-3 px-4 border-b border-vrtice-gold/20 flex justify-center items-center gap-3">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-vrtice-gold opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-vrtice-gold"></span>
+            </span>
+            <p class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-gray-300">
+                VRTICE APRESENTA · PROGRAMA MARCO ZERO · O FIM DO IMPROVISO
+            </p>
+        </div>
+
+        <!-- HERO HEADER (HEADLINE A - RECONHECIMENTO DA ROTINA) -->
+        <header class="pt-20 pb-16 px-4 relative">
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-vrtice-gold opacity-[0.03] rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="max-w-4xl mx-auto text-center">
+                <span class="reveal-up inline-block py-1 px-4 border border-vrtice-gold text-vrtice-gold text-[10px] font-mono uppercase tracking-[0.2em] mb-8">
+                    VRTICE APRESENTA · MARCO ZERO
+                </span>
+                
+                <h1 class="reveal-up text-3xl sm:text-5xl md:text-6xl font-serif leading-tight mb-8 text-white drop-shadow-2xl">
+                    Você abriu um negócio para fazer o que sabe fazer. <br className="hidden sm:inline" />
+                    <span class="text-vrtice-gold font-light italic">Quando foi que também precisou virar especialista em marketing, design e tecnologia?</span>
+                </h1>
+                
+                <div class="reveal-up w-full h-[1px] bg-gradient-to-r from-transparent via-vrtice-gold to-transparent opacity-30 my-8"></div>
+                
+                <p class="reveal-up text-base sm:text-lg md:text-xl text-gray-300 font-light max-w-2xl mx-auto leading-relaxed">
+                    Você queria vender seu produto ou serviço, conquistar clientes e construir algo seu. Descubra a base que une estrutura autoral, estratégia real e uma trilha prática para os primeiros 30 dias.
+                </p>
+            </div>
+        </header>
+
+        <!-- CORPO PRINCIPAL DA CARTA -->
+        <main class="max-w-3xl mx-auto px-6 pb-32 text-base sm:text-lg text-gray-300 font-light leading-relaxed">
+            
+            <!-- PARTE 1: A TENSÃO DO DIA A DIA -->
+            <div class="reveal-up mb-16 relative">
+                <div class="absolute -left-10 top-0 text-9xl text-vrtice-gold opacity-10 font-serif leading-none">“</div>
+                
+                <p class="drop-cap mb-6 text-white font-medium">Você abriu seu negócio</p>
+                <p class="mb-6">
+                    com um objetivo claro: entregar um excelente serviço, atender seus clientes e prosperar pelo seu próprio mérito.
+                </p>
+                <p class="mb-6">
+                    Então descobriu que, além de entregar bem, precisava entender de posicionamento, identidade visual, conteúdo, anúncios, copy, páginas, ferramentas digitais e mais uma coleção de disciplinas que nunca estiveram no plano inicial.
+                </p>
+                <p class="mb-6">
+                    Um vídeo recomenda uma estratégia. Um especialista sugere outra. Você testa uma ferramenta, salva dezenas de ideias, começa a montar um calendário de conteúdo e, quando percebe, passou horas estudando como divulgar o negócio — sem ter certeza de qual deveria ser o próximo passo.
+                </p>
+                <p class="mb-8">
+                    Talvez sua presença digital ainda não mostre a qualidade do que você entrega. Talvez seu perfil tenha informações, mas não deixe claro o que você oferece. Talvez você tenha tentado organizar tudo em uma página genérica de links e continue precisando explicar as mesmas perguntas básicas pelo WhatsApp. Ou talvez o problema seja mais simples: você sabe que precisa melhorar, mas não tem uma sequência lógica para começar.
+                </p>
+
+                <!-- CAIXA DE TESE CENTRAL -->
+                <div class="glass-panel p-6 sm:p-8 my-8 border-l-4 border-vrtice-gold rounded-r-xl">
+                    <p class="text-xs uppercase font-mono tracking-widest text-vrtice-gold font-bold mb-2">A Verdade Sobre o Momento Atual</p>
+                    <p class="text-lg sm:text-xl text-white font-serif italic leading-relaxed">
+                        "O problema pode não ser falta de esforço. Pode ser a falta de uma base que conecte as partes do seu negócio digital — e de um caminho claro para transformar informação em execução."
+                    </p>
+                </div>
+            </div>
+
+            <!-- PARTE 2: O IMPROVISO COBRA EM PEQUENAS PARCELAS -->
+            <div class="reveal-up mb-20 border-y border-gray-900 py-12">
+                <h2 class="text-2xl sm:text-3xl font-serif text-white mb-6">O improviso cobra em pequenas parcelas</h2>
+                
+                <p class="mb-5">
+                    Ele aparece quando você precisa escolher o que publicar em cima da hora. Quando refaz uma arte porque a identidade não está organizada. Quando passa mais tempo escolhendo ferramentas do que as utilizando.
+                </p>
+                <p class="mb-5">
+                    Aparece quando compra um curso, mas termina sem saber o que aplicar primeiro. Quando cada parte da sua presença digital parece ter sido feita em um momento diferente, sem uma direção comum.
+                </p>
+                <p class="mb-5">
+                    Isoladamente, nenhuma dessas coisas parece grave. O problema é a soma: mais decisões soltas para tomar, mais tarefas para carregar e mais trabalho para manter tudo funcionando.
+                </p>
+                <p class="mb-6">
+                    E quanto menor a equipe, mais esse peso costuma cair sobre o próprio empreendedor. O cliente precisa ser atendido, o serviço precisa ser entregue, as contas precisam fechar. A estrutura digital acaba sendo construída nos intervalos — e cresce como dá.
+                </p>
+                
+                <div class="p-4 rounded-lg bg-[#141D33]/40 border border-white/5 text-sm text-gray-300">
+                    <strong class="text-white">A boa notícia:</strong> isso não significa que você precise publicar todos os dias, investir fortunas em anúncios ou dominar todas as áreas do marketing. Significa que você merece ter uma base coerente e saber com clareza por onde começar.
+                </div>
+            </div>
+
+            <!-- PARTE 3: EVIDÊNCIAS E CONTEXTO DE PESQUISAS -->
+            <div class="reveal-up mb-24">
+                <span class="tracking-[0.2em] text-[10px] uppercase text-vrtice-gold font-semibold mb-2 block font-mono">DADOS DO MERCADO REAL</span>
+                <h2 class="text-2xl sm:text-3xl font-serif text-white mb-6">A nova economia abriu ferramentas. Não entregou o manual de uso.</h2>
+                
+                <p class="mb-6">
+                    Hoje existem recursos de criação, inteligência artificial, pesquisa e automação mais acessíveis do que em qualquer outro momento. Isso abre possibilidades inéditas para negócios enxutos. Mas a ferramenta, sozinha, não decide qual público priorizar, como apresentar a oferta, o que sua marca precisa comunicar ou qual tarefa deve vir primeiro.
+                </p>
+
+                <!-- Box de Estudos Verificáveis -->
+                <div class="space-y-4 mb-8">
+                    <div class="p-5 rounded-xl bg-black/40 border border-gray-800">
+                        <div class="flex items-center gap-2 text-xs font-mono text-vrtice-gold mb-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-vrtice-gold"></span> Sondagem Sebrae / FGV / Google (Junho de 2026)
+                        </div>
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            O <strong>aumento das vendas</strong> foi apontado como o resultado mais importante esperado das ferramentas digitais por <strong>57% dos MEIs</strong> e <strong>50% das micro e pequenas empresas</strong> entrevistadas. O desejo comercial está claro; o gargalo é transformar recursos em ações úteis.
+                        </p>
+                    </div>
+
+                    <div class="p-5 rounded-xl bg-black/40 border border-gray-800">
+                        <div class="flex items-center gap-2 text-xs font-mono text-vrtice-gold mb-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-vrtice-gold"></span> Estudo Randomizado do Banco Mundial (Iniciativa Empresarial)
+                        </div>
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            Em pesquisa com pequenos empreendedores, capacitações orientadas à iniciativa pessoal e ação prática aumentaram os lucros em cerca de <strong>30% em relação ao grupo de controle</strong> (contra 11% sem significância estatística do ensino tradicional de teoria). O princípio é evidente: a capacitação precisa ajudar a agir, não apenas a acumular informação.
+                        </p>
+                    </div>
+
+                    <div class="p-5 rounded-xl bg-black/40 border border-gray-800">
+                        <div class="flex items-center gap-2 text-xs font-mono text-vrtice-gold mb-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-vrtice-gold"></span> Stanford Web Credibility Research
+                        </div>
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            Pesquisas do laboratório de credibilidade de Stanford comprovam que organização visual, utilidade direta, facilidade de verificação e ausência de ruído são determinantes para a confiança inicial do visitante.
+                        </p>
+                    </div>
+                </div>
+
+                <p class="text-gray-400 text-sm italic">
+                    Por isso, não criamos mais um curso para você assistir até perder o ritmo. Criamos um programa que conecta estrutura, estratégia e execução.
+                </p>
+            </div>
+
+            <!-- PROVA VISUAL: PORTFÓLIO INTERATIVO -->
+            <div class="reveal-scale my-28">
+                <div class="text-center mb-10">
+                    <span class="tracking-[0.2em] text-[10px] uppercase text-gray-500 font-semibold mb-3 block font-mono">A PROVA VISUAL</span>
+                    <h2 class="text-3xl sm:text-4xl font-serif text-white mb-4">O que é uma Base Autoral na Prática</h2>
+                    <p class="text-sm text-gray-400 max-w-xl mx-auto">
+                        Interaja com projetos reais construídos pela VRTICE. Veja como a arquitetura limpa e a identidade visual eliminam a dispersão de agregadores genéricos.
+                    </p>
+                </div>
+
+                <div class="flex flex-col md:flex-row items-center gap-8 bg-[#0A0A0A] p-6 sm:p-10 rounded-2xl border border-gray-800 shadow-[0_0_50px_rgba(200,169,112,0.05)]">
+                    
+                    <!-- Painel de Seleção -->
+                    <div class="w-full md:w-1/2 space-y-3">
+                        <button onclick="changePortfolio('https://h2j.vercel.app/', this)" class="portfolio-btn w-full text-left p-4 border border-vrtice-gold bg-vrtice-gold/10 text-white rounded-lg transition-colors shadow">
+                            <span class="block text-[10px] text-vrtice-gold tracking-widest uppercase font-bold mb-0.5">Projeto 01</span>
+                            <span class="text-base font-serif">H2J Arquitetura</span>
+                        </button>
+                        
+                        <button onclick="changePortfolio('https://links-umber-eight.vercel.app/', this)" class="portfolio-btn w-full text-left p-4 border border-gray-800 bg-black/40 text-gray-400 rounded-lg transition-colors hover:border-gray-600">
+                            <span class="block text-[10px] text-gray-500 tracking-widest uppercase font-bold mb-0.5">Projeto 02</span>
+                            <span class="text-base font-serif">LizDesign</span>
+                        </button>
+
+                        <button onclick="changePortfolio('https://emani.lizdesign.com.br/', this)" class="portfolio-btn w-full text-left p-4 border border-gray-800 bg-black/40 text-gray-400 rounded-lg transition-colors hover:border-gray-600">
+                            <span class="block text-[10px] text-gray-500 tracking-widest uppercase font-bold mb-0.5">Projeto 03</span>
+                            <span class="text-base font-serif">Emani Clinic</span>
+                        </button>
+
+                        <button onclick="changePortfolio('https://belosorriso.lizdesign.com.br/', this)" class="portfolio-btn w-full text-left p-4 border border-gray-800 bg-black/40 text-gray-400 rounded-lg transition-colors hover:border-gray-600">
+                            <span class="block text-[10px] text-gray-500 tracking-widest uppercase font-bold mb-0.5">Projeto 04</span>
+                            <span class="text-base font-serif">Belo Sorriso</span>
+                        </button>
+
+                        <button onclick="changePortfolio('https://igor.vrtice.com.br/', this)" class="portfolio-btn w-full text-left p-4 border border-gray-800 bg-black/40 text-gray-400 rounded-lg transition-colors hover:border-gray-600">
+                            <span class="block text-[10px] text-gray-500 tracking-widest uppercase font-bold mb-0.5">Projeto 05</span>
+                            <span class="text-base font-serif">VRTICE (Igor)</span>
+                        </button>
+                    </div>
+
+                    <!-- Celular com Iframe Real -->
+                    <div class="w-full md:w-1/2 flex justify-center">
+                        <div class="relative w-[260px] h-[520px] sm:w-[280px] sm:h-[560px] bg-black rounded-[40px] border-[8px] border-[#1f2937] shadow-2xl shadow-vrtice-gold/20 overflow-hidden">
+                            <div class="absolute top-0 inset-x-0 h-5 bg-[#1f2937] w-28 mx-auto rounded-b-xl z-30 flex justify-center items-center">
+                                <div class="w-12 h-1 bg-black rounded-full"></div>
+                            </div>
+                            <div class="absolute inset-0 bg-vrtice-navy flex justify-center items-center z-10">
+                                <svg class="animate-spin h-6 w-6 text-vrtice-gold" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            </div>
+                            <div class="absolute top-0 left-0 w-full h-full z-20 overflow-hidden rounded-[30px]">
+                                <iframe id="portfolio-iframe" src="https://h2j.vercel.app/" style="width: calc(100% + 24px); max-width: none;" class="h-full border-0 absolute top-0 left-0 transition-opacity duration-500" title="Portfólio Interativo"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PARTE 4: APRESENTAÇÃO DO PROGRAMA MARCO ZERO -->
+            <div class="my-28">
+                <div class="reveal-up text-center mb-14">
+                    <span class="tracking-[0.2em] text-[10px] uppercase text-vrtice-gold font-semibold mb-3 block font-mono">A SOLUÇÃO CONCRETA</span>
+                    <h2 class="text-3xl sm:text-5xl font-serif text-white mb-6">Conheça o Programa Marco Zero</h2>
+                    <p class="text-sm sm:text-base text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                        O Marco Zero foi desenvolvido para empreendedores que querem organizar sua presença digital e aprender a trabalhar as bases do próprio negócio, sem precisar contratar diferentes especialistas para começar.
+                    </p>
+                    <p class="text-xs text-gray-400 mt-3 font-mono">
+                        O nome representa a ideia central: antes de acelerar, você precisa saber de onde parte e construir uma base que sustente os próximos passos.
+                    </p>
+                </div>
+
+                <!-- OS 3 PILARES DO PROGRAMA (BASE, MAPA, MOVIMENTO) -->
+                <div class="space-y-8 mb-16">
+                    
+                    <!-- 1. BASE -->
+                    <div class="reveal-up glass-panel p-8 sm:p-10 rounded-2xl border border-white/10 relative overflow-hidden">
+                        <div class="text-3xl text-vrtice-gold mb-3 font-serif">1. BASE</div>
+                        <h3 class="text-xl sm:text-2xl font-serif text-white mb-4">Uma página criada para a sua marca</h3>
+                        <p class="text-sm text-gray-300 mb-6 leading-relaxed">
+                            Em vez de entregar um template vazio para você mesmo quebrar a cabeça e tentar montar, nós desenvolvemos sua página autoral a partir da sua identidade, oferta e prioridades:
+                        </p>
+                        <ul class="space-y-2.5 text-sm text-gray-300">
+                            <li class="flex items-start gap-2">
+                                <span class="text-vrtice-gold font-bold">✓</span>
+                                <span><strong>Design personalizado:</strong> coerente com a identidade visual da sua marca.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-vrtice-gold font-bold">✓</span>
+                                <span><strong>Clareza de conversão:</strong> organização limpa de informações, ofertas e caminhos de contato.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-vrtice-gold font-bold">✓</span>
+                                <span><strong>Experiência mobile fluida:</strong> ultrarrápida e pensada para quem acessa pelo celular.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-vrtice-gold font-bold">✓</span>
+                                <span><strong>Domínio e hospedagem:</strong> incluídos durante a vigência do plano contratado.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-vrtice-gold font-bold">✓</span>
+                                <span><strong>Rastreamento ativo:</strong> saiba de onde vêm os acessos e quem avançou para o contato.</span>
+                            </li>
+                        </ul>
+                        <p class="text-xs text-gray-400 mt-6 pt-4 border-t border-white/5 font-mono">
+                            Você não precisa aprender programação. Você envia o briefing; a engenharia técnica fica por nossa conta.
+                        </p>
+                    </div>
+
+                    <!-- 2. MAPA -->
+                    <div class="reveal-up glass-panel p-8 sm:p-10 rounded-2xl border border-white/10 relative overflow-hidden">
+                        <div class="text-3xl text-vrtice-gold mb-3 font-serif">2. MAPA</div>
+                        <h3 class="text-xl sm:text-2xl font-serif text-white mb-4">Um estudo direcionado ao seu negócio</h3>
+                        <p class="text-sm text-gray-300 mb-6 leading-relaxed">
+                            Uma página só é verdadeiramente eficiente quando expressa a estratégia do negócio. Por isso, você recebe o estudo estratégico estruturado em <strong>5 dimensões fundamentais</strong>:
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="p-4 rounded-xl bg-black/40 border border-gray-800">
+                                <span class="text-xs font-mono text-vrtice-gold font-bold block mb-1">Dimensão 01 · Persona</span>
+                                <p class="text-xs text-gray-300">Problemas, critérios de escolha e dúvidas do público que tem capacidade para te contratar.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-black/40 border border-gray-800">
+                                <span class="text-xs font-mono text-vrtice-gold font-bold block mb-1">Dimensão 02 · Branding</span>
+                                <p class="text-xs text-gray-300">Identidade, tom de voz e posicionamento para transmitir a reputação correta.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-black/40 border border-gray-800">
+                                <span class="text-xs font-mono text-vrtice-gold font-bold block mb-1">Dimensão 03 · Mercado</span>
+                                <p class="text-xs text-gray-300">Observação de concorrentes, alternativas existentes e oportunidades reais de diferenciação.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-black/40 border border-gray-800">
+                                <span class="text-xs font-mono text-vrtice-gold font-bold block mb-1">Dimensão 04 · Copy</span>
+                                <p class="text-xs text-gray-300">Apresentação da oferta, benefícios, diferenciais e resposta às objeções recorrentes.</p>
+                            </div>
+                            <div class="p-4 rounded-xl bg-black/40 border border-gray-800 sm:col-span-2">
+                                <span class="text-xs font-mono text-vrtice-gold font-bold block mb-1">Dimensão 05 · Linha Editorial</span>
+                                <p class="text-xs text-gray-300">Temas e pautas com função definida na jornada, conectando posts com chamadas para ação.</p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-6 pt-4 border-t border-white/5 font-mono">
+                            O Mapa combina os dados fornecidos por você com pesquisas aplicadas, distinguindo fatos de hipóteses para apoiar decisões conscientes.
+                        </p>
+                    </div>
+
+                    <!-- 3. MOVIMENTO -->
+                    <div class="reveal-up glass-panel p-8 sm:p-10 rounded-2xl border border-white/10 relative overflow-hidden">
+                        <div class="text-3xl text-vrtice-gold mb-3 font-serif">3. MOVIMENTO</div>
+                        <h3 class="text-xl sm:text-2xl font-serif text-white mb-4">Uma trilha para colocar o plano em prática</h3>
+                        <p class="text-sm text-gray-300 mb-6 leading-relaxed">
+                            Aqui o programa deixa de ser apenas uma entrega estática. Na Central de Execução, as recomendações se transformam em missões curtas de 30 dias com critérios claros de conclusão:
+                        </p>
+                        <ul class="space-y-2.5 text-sm text-gray-300 mb-6">
+                            <li class="flex items-start gap-2">
+                                <span class="text-vrtice-gold font-bold">→</span>
+                                <span>Uma missão para tornar sua proposta de valor cristalina no perfil.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-vrtice-gold font-bold">→</span>
+                                <span>Uma missão para organizar provas sociais e depoimentos no lugar certo.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <span class="text-vrtice-gold font-bold">→</span>
+                                <span>Uma missão para transformar dúvidas frequentes em publicações com chamada direta.</span>
+                            </li>
+                        </ul>
+                        <p class="text-xs text-gray-400 pt-4 border-t border-white/5 font-mono">
+                            Execução sem sobrecarga: uma tarefa por vez para implementar melhorias sólidas sem paralisar o seu negócio.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- O QUE MUDA NA PRÁTICA & PARA QUEM FAZ SENTIDO -->
+            <div class="reveal-up mb-24 grid grid-cols-1 md:grid-cols-2 gap-8 border-y border-gray-900 py-12">
+                <div>
+                    <h3 class="text-xl font-serif text-white mb-4">O que muda na prática?</h3>
+                    <p class="text-sm text-gray-300 mb-4 leading-relaxed">
+                        Você passa a ter um ponto de partida definido, uma página autoral para a sua marca, um estudo que organiza as questões essenciais do negócio e uma sequência lógica para agir.
+                    </p>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Isso não significa escolher o mercado por você, nem garantir faturamento. Oferta, qualidade e atendimento continuam importando. O programa ajuda a estruturar aquilo que está sob seu controle e a eliminar o improviso.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-serif text-white mb-4">Para quem o programa faz sentido?</h3>
+                    <p class="text-sm text-gray-300 mb-4 leading-relaxed">
+                        Para quem está começando ou estruturando um pequeno negócio e prefere orientação aplicada a ter de montar, sozinho, cada peça do processo digital.
+                    </p>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Não é uma promessa de dinheiro rápido nem um serviço de gestão de terceiros. É uma base sólida de desenvolvimento para quem está pronto para fornecer informações e executar com clareza.
+                    </p>
+                </div>
+            </div>
+
+            <!-- CONDIÇÃO DE ACESSO SUBSIDIADA & PREÇO -->
+            <div class="reveal-up my-24 text-center">
+                <span class="tracking-[0.2em] text-[10px] uppercase text-vrtice-gold font-semibold mb-3 block font-mono">VALOR TRANSPARENTE</span>
+                <h2 class="text-3xl sm:text-4xl font-serif text-white mb-6">A Condição de Acesso</h2>
+                <p class="text-sm sm:text-base text-gray-300 max-w-xl mx-auto mb-8 leading-relaxed">
+                    Contratar separadamente agência de design, consultor de negócios e hospedagem técnica pode ser inviável para quem está dando os primeiros passos. Por isso, o Marco Zero foi desenhado com uma condição subsidiada pelo próprio projeto privado para viabilizar essa infraestrutura inicial.
+                </p>
+
+                <div class="glass-panel p-8 sm:p-12 max-w-md mx-auto rounded-2xl border border-vrtice-gold/40 shadow-2xl relative overflow-hidden">
+                    <div class="text-xs font-mono uppercase tracking-widest text-vrtice-gold mb-2">Plano Anual Completo</div>
+                    <div class="flex items-baseline justify-center gap-1 mb-2">
+                        <span class="text-2xl text-white font-serif">R$</span>
+                        <span class="text-6xl sm:text-7xl font-serif font-bold text-vrtice-gold">149,90</span>
+                        <span class="text-xs text-gray-400 font-mono">/ano</span>
+                    </div>
+                    <p class="text-xs text-gray-400 mb-6">
+                        Página Autoral + Domínio e Hospedagem + Mapa Estratégico + Trilha de 30 Dias.
+                    </p>
+                    <div class="text-[11px] text-gray-500 border-t border-white/5 pt-4">
+                        Condição privada e independente. Sem cobranças ocultas de servidor.
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMO COMEÇA: 5 PASSOS -->
+            <div class="reveal-up my-24">
+                <h3 class="text-2xl font-serif text-white mb-8 text-center">Como começa o seu processo</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start gap-4 p-4 rounded-xl bg-black/40 border border-gray-800">
+                        <span class="w-7 h-7 rounded-full bg-vrtice-gold text-vrtice-navy font-bold text-xs flex items-center justify-center shrink-0">1</span>
+                        <div>
+                            <strong class="text-white text-sm block mb-0.5">Contratação Segura</strong>
+                            <p class="text-xs text-gray-400">Você efetua a contratação no ambiente seguro e recebe acesso imediato ao onboarding.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 rounded-xl bg-black/40 border border-gray-800">
+                        <span class="w-7 h-7 rounded-full bg-vrtice-gold text-vrtice-navy font-bold text-xs flex items-center justify-center shrink-0">2</span>
+                        <div>
+                            <strong class="text-white text-sm block mb-0.5">Envio do Briefing</strong>
+                            <p class="text-xs text-gray-400">Preenche o briefing mínimo e envia seus ativos visuais (fotos, logotipo, cores).</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 rounded-xl bg-black/40 border border-gray-800">
+                        <span class="w-7 h-7 rounded-full bg-vrtice-gold text-vrtice-navy font-bold text-xs flex items-center justify-center shrink-0">3</span>
+                        <div>
+                            <strong class="text-white text-sm block mb-0.5">Construção da Base e Mapa</strong>
+                            <p class="text-xs text-gray-400">A equipe técnica desenvolve a página autoral e consolida o estudo nas 5 dimensões.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 rounded-xl bg-black/40 border border-gray-800">
+                        <span class="w-7 h-7 rounded-full bg-vrtice-gold text-vrtice-navy font-bold text-xs flex items-center justify-center shrink-0">4</span>
+                        <div>
+                            <strong class="text-white text-sm block mb-0.5">Acesso à Central de Execução</strong>
+                            <p class="text-xs text-gray-400">Você acessa sua trilha guiada com as missões prioritárias para os primeiros 30 dias.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 rounded-xl bg-black/40 border border-gray-800">
+                        <span class="w-7 h-7 rounded-full bg-vrtice-gold text-vrtice-navy font-bold text-xs flex items-center justify-center shrink-0">5</span>
+                        <div>
+                            <strong class="text-white text-sm block mb-0.5">Ação e Ajustes Baseados em Dados</strong>
+                            <p class="text-xs text-gray-400">Aplica as recomendações práticas, observa as métricas reais e calibra o próximo passo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ COMPLETO E HONESTO (PARTE IV) -->
+            <div class="reveal-up my-24">
+                <h2 class="text-2xl sm:text-3xl font-serif text-white mb-8 text-center">Perguntas que você pode estar fazendo</h2>
+                
+                <div class="space-y-4">
+                    <details class="group bg-vrtice-navy/40 border border-gray-800 p-6 rounded-xl cursor-pointer">
+                        <summary class="font-serif text-lg text-white group-open:text-vrtice-gold transition-colors flex justify-between items-center">
+                            “Já tenho Linktree. Por que mudaria?”
+                            <span class="text-vrtice-gold transform group-open:rotate-45 transition-transform text-xl">+</span>
+                        </summary>
+                        <p class="mt-4 text-xs sm:text-sm text-gray-400 leading-relaxed">
+                            Se você só precisa reunir links e a estrutura atual atende ao que você precisa, talvez não seja necessário mudar. O Marco Zero é para quem quer uma página autoral conectada a um estudo estratégico do seu negócio e a uma trilha prática de execução.
+                        </p>
+                    </details>
+
+                    <details class="group bg-vrtice-navy/40 border border-gray-800 p-6 rounded-xl cursor-pointer">
+                        <summary class="font-serif text-lg text-white group-open:text-vrtice-gold transition-colors flex justify-between items-center">
+                            “Não entendo de tecnologia. Vou conseguir acompanhar?”
+                            <span class="text-vrtice-gold transform group-open:rotate-45 transition-transform text-xl">+</span>
+                        </summary>
+                        <p class="mt-4 text-xs sm:text-sm text-gray-400 leading-relaxed">
+                            Você não precisa programar nem construir a página. Seu papel é fornecer as informações essenciais sobre o seu negócio e executar as ações que fizerem sentido para a sua realidade.
+                        </p>
+                    </details>
+
+                    <details class="group bg-vrtice-navy/40 border border-gray-800 p-6 rounded-xl cursor-pointer">
+                        <summary class="font-serif text-lg text-white group-open:text-vrtice-gold transition-colors flex justify-between items-center">
+                            “O programa garante que vou vender mais?”
+                            <span class="text-vrtice-gold transform group-open:rotate-45 transition-transform text-xl">+</span>
+                        </summary>
+                        <p class="mt-4 text-xs sm:text-sm text-gray-400 leading-relaxed">
+                            Não. O Marco Zero entrega a estrutura e os recursos para ajudar você a melhorar sua presença digital e clareza de posicionamento; vendas dependem também de fatores como mercado, qualidade do atendimento e consistência de oferta, que não estão sob controle do programa.
+                        </p>
+                    </details>
+
+                    <details class="group bg-vrtice-navy/40 border border-gray-800 p-6 rounded-xl cursor-pointer">
+                        <summary class="font-serif text-lg text-white group-open:text-vrtice-gold transition-colors flex justify-between items-center">
+                            “Por que o valor é acessível?”
+                            <span class="text-vrtice-gold transform group-open:rotate-45 transition-transform text-xl">+</span>
+                        </summary>
+                        <p class="mt-4 text-xs sm:text-sm text-gray-400 leading-relaxed">
+                            O preço anual faz parte da condição de acesso subsidiada pelo próprio projeto VRTICE e do uso de processos tecnológicos estruturados para reduzir custos operacionais de produção.
+                        </p>
+                    </details>
+
+                    <details class="group bg-vrtice-navy/40 border border-gray-800 p-6 rounded-xl cursor-pointer">
+                        <summary class="font-serif text-lg text-white group-open:text-vrtice-gold transition-colors flex justify-between items-center">
+                            “O domínio será meu?”
+                            <span class="text-vrtice-gold transform group-open:rotate-45 transition-transform text-xl">+</span>
+                        </summary>
+                        <p class="mt-4 text-xs sm:text-sm text-gray-400 leading-relaxed">
+                            As condições de titularidade, administração, renovação e continuidade da página constam com transparência nos termos contratados e são explicadas no processo de onboarding.
+                        </p>
+                    </details>
+
+                    <details class="group bg-vrtice-navy/40 border border-gray-800 p-6 rounded-xl cursor-pointer">
+                        <summary class="font-serif text-lg text-white group-open:text-vrtice-gold transition-colors flex justify-between items-center">
+                            “Posso desistir da compra?”
+                            <span class="text-vrtice-gold transform group-open:rotate-45 transition-transform text-xl">+</span>
+                        </summary>
+                        <p class="mt-4 text-xs sm:text-sm text-gray-400 leading-relaxed">
+                            Sim. Em conformidade com o artigo 49 do Código de Defesa do Consumidor, você possui o direito de arrependimento em até 7 dias da contratação, com devolução integral do valor investido através do nosso canal de atendimento.
+                        </p>
+                    </details>
+                </div>
+            </div>
+
+            <!-- GARANTIA LEGAL E TRANSPARENTE -->
+            <div class="reveal-up my-20 p-8 rounded-2xl bg-black/40 border border-gray-800 text-center">
+                <svg class="w-12 h-12 mx-auto text-vrtice-gold mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                <h3 class="text-xl font-serif text-white mb-2">Garantia Incondicional de 7 Dias</h3>
+                <p class="text-xs sm:text-sm text-gray-400 max-w-lg mx-auto leading-relaxed">
+                    Você pode conhecer o programa com total tranquilidade. Se dentro dos primeiros 7 dias você entender que o Marco Zero não é para o seu momento, basta solicitar o reembolso que devolveremos 100% do valor pago.
+                </p>
+            </div>
+
+            <!-- FINAL CTA (O FECHAMENTO DA NOVA CARTA) -->
+            <div id="final-cta" class="reveal-scale my-20 text-center p-8 sm:p-14 glass-panel border border-vrtice-gold/30 rounded-2xl relative overflow-hidden shadow-[0_0_80px_rgba(200,169,112,0.1)]">
+                
+                <span class="text-[10px] font-mono uppercase tracking-[0.2em] text-vrtice-gold block mb-3">VRTICE APRESENTA MARCO ZERO</span>
+                <h2 class="text-2xl sm:text-4xl font-serif text-white mb-6">O fim do improviso. A nova regra do jogo.</h2>
+                
+                <p class="text-sm sm:text-base text-gray-300 max-w-xl mx-auto mb-6 leading-relaxed">
+                    Você não precisa dominar todas as áreas do marketing digital antes de levar seu negócio a sério. Mas precisa de uma base que faça sentido e de um próximo passo que consiga executar.
+                </p>
+                <p class="text-xs sm:text-sm text-gray-400 max-w-lg mx-auto mb-10 leading-relaxed">
+                    O Marco Zero reúne a página autoral, o estudo estratégico e a trilha prática em um programa pensado para tornar esse começo mais acessível e organizado.
+                </p>
+                
+                <a href="checkout.html" class="btn-pulse inline-block w-full max-w-md bg-vrtice-emerald hover:bg-green-500 text-white font-bold py-5 px-6 rounded-xl text-xs sm:text-sm uppercase tracking-wider transition-all shadow-[0_0_30px_rgba(16,185,129,0.3)] border border-green-400">
+                    QUERO COMEÇAR COM O MARCO ZERO — R$ 149,90/ANO
+                </a>
+
+                <p class="text-[10px] text-gray-500 mt-4 uppercase tracking-widest font-mono flex items-center justify-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    Ambiente Blindado e Pagamento Seguro
+                </p>
+            </div>
+
+        </main>
+
+        <!-- RODAPÉ INSTITUCIONAL -->
+        <footer class="bg-[#0A0A0A] py-14 border-t border-gray-900 text-center relative z-10 px-4">
+            <img src="assets/img/Favicon.png" alt="VRTICE Logo" class="w-10 h-10 mx-auto mb-6 opacity-60 hover:opacity-100 transition-opacity">
+            <p class="text-xs text-gray-500 tracking-widest uppercase mb-2 font-mono">VRTICE © 2026. Todos os direitos reservados.</p>
+            <p class="text-[10px] text-gray-600 uppercase tracking-widest mb-6">Programa Marco Zero · Estrutura, Estratégia e Presença Digital.</p>
+            <div class="flex justify-center gap-6 text-[10px] text-gray-500 uppercase tracking-widest">
+                <a href="termos.html" class="hover:text-vrtice-gold transition-colors">Termos de Serviço</a>
+                <a href="privacidade.html" class="hover:text-vrtice-gold transition-colors">Políticas de Privacidade</a>
+            </div>
+        </footer>
+
+        <!-- STICKY CTA BAR -->
+        <div id="sticky-cta" class="sticky-fomo bg-vrtice-dark/95 backdrop-blur-md border-t border-vrtice-gold/30 p-4 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="text-center md:text-left">
+                    <p class="text-white font-serif text-base sm:text-lg">Programa Marco Zero <span class="text-vrtice-gold ml-2 font-bold">R$ 149,90/ano</span></p>
+                    <p class="text-[11px] text-gray-400">
+                        Base Digital + Mapa Estratégico + Trilha de 30 Dias
+                    </p>
+                </div>
+                <a href="#final-cta" class="bg-vrtice-emerald hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg text-xs uppercase tracking-wider transition-colors shadow-[0_0_20px_rgba(16,185,129,0.2)]">
+                    Começar pelo Briefing
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- COOKIE CONSENT BANNER -->
+    <div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-vrtice-navy/95 backdrop-blur-md border-t border-gray-800 z-[99999] p-6 flex flex-col lg:flex-row items-center justify-between gap-6 transition-transform duration-500 translate-y-full shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+        <p class="text-xs text-gray-300 max-w-4xl mx-auto lg:mx-0 text-center lg:text-left leading-relaxed">
+            Utilizamos cookies primários e de terceiros para garantir que você tenha a melhor experiência em nosso site, personalizar conteúdo e analisar o tráfego de forma anônima. Ao continuar navegando, você concorda com a nossa <a href="privacidade.html" class="text-vrtice-gold underline hover:text-yellow-500">Política de Privacidade</a>.
+        </p>
+        <div class="flex flex-wrap justify-center lg:justify-end items-center gap-3">
+            <button onclick="acceptCookies()" class="bg-vrtice-gold text-vrtice-navy font-bold text-[10px] md:text-xs uppercase tracking-widest py-3 px-6 hover:bg-yellow-600 transition-colors whitespace-nowrap">
+                Aceitar Todos
+            </button>
+            <button onclick="denyCookies()" class="bg-transparent border border-gray-600 text-gray-300 font-bold text-[10px] md:text-xs uppercase tracking-widest py-3 px-6 hover:bg-gray-800 transition-colors whitespace-nowrap">
+                Negar Opcionais
+            </button>
+            <button onclick="editCookies()" class="text-gray-500 font-bold text-[10px] uppercase tracking-widest py-3 px-2 hover:text-gray-300 transition-colors underline whitespace-nowrap">
+                Preferências
+            </button>
+        </div>
+    </div>
+
+    <!-- Script de Animação GSAP e Lógica -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Portfólio Lógica
+        function changePortfolio(url, btn) {
+            const iframe = document.getElementById('portfolio-iframe');
+            iframe.style.opacity = '0';
+            setTimeout(() => {
+                iframe.src = url;
+                iframe.onload = () => iframe.style.opacity = '1';
+            }, 300);
+
+            document.querySelectorAll('.portfolio-btn').forEach(b => {
+                b.classList.remove('border-vrtice-gold', 'bg-vrtice-gold/10');
+                b.classList.add('border-gray-800', 'bg-black/40');
+                b.querySelector('span:first-child').classList.remove('text-vrtice-gold');
+                b.querySelector('span:first-child').classList.add('text-gray-500');
+            });
+
+            btn.classList.add('border-vrtice-gold', 'bg-vrtice-gold/10');
+            btn.classList.remove('border-gray-800', 'bg-black/40');
+            btn.querySelector('span:first-child').classList.add('text-vrtice-gold');
+            btn.querySelector('span:first-child').classList.remove('text-gray-500');
+        }
+
+        gsap.utils.toArray('.reveal-up').forEach(element => {
+            gsap.to(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: "power3.out"
+            });
+        });
+
+        gsap.utils.toArray('.reveal-left').forEach(element => {
+            gsap.fromTo(element, 
+                { opacity: 0, x: -50 },
+                {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    opacity: 1, x: 0, duration: 1, ease: "power2.out"
+                }
+            );
+        });
+
+        gsap.utils.toArray('.reveal-right').forEach(element => {
+            gsap.fromTo(element, 
+                { opacity: 0, x: 50 },
+                {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    },
+                    opacity: 1, x: 0, duration: 1, ease: "power2.out"
+                }
+            );
+        });
+
+        gsap.utils.toArray('.reveal-scale').forEach(element => {
+            gsap.fromTo(element, 
+                { opacity: 0, scale: 0.95 },
+                {
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        toggleActions: "play none none reverse"
+                    },
+                    opacity: 1, scale: 1, duration: 1.2, ease: "back.out(1.7)"
+                }
+            );
+        });
+
+        const stickyCTA = document.getElementById('sticky-cta');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                stickyCTA.classList.add('show');
+            } else {
+                stickyCTA.classList.remove('show');
+            }
+        });
+
+        // Cookie Consent Lógica
+        window.onload = () => {
+            if(!localStorage.getItem('vrtice_cookies_accepted') && !localStorage.getItem('vrtice_cookies_denied')) {
+                setTimeout(() => {
+                    document.getElementById('cookie-banner').classList.remove('translate-y-full');
+                }, 2000);
+            }
+        };
+
+        function acceptCookies() {
+            localStorage.setItem('vrtice_cookies_accepted', 'true');
+            localStorage.removeItem('vrtice_cookies_denied');
+            document.getElementById('cookie-banner').classList.add('translate-y-full');
+        }
+
+        function denyCookies() {
+            localStorage.setItem('vrtice_cookies_denied', 'true');
+            localStorage.removeItem('vrtice_cookies_accepted');
+            document.getElementById('cookie-banner').classList.add('translate-y-full');
+        }
+
+        function editCookies() {
+            alert("Apenas cookies estritamente necessários (sessão e segurança) estão ativos por padrão.\n\nVocê pode aceitar todos os cookies de medição anônima clicando em 'Aceitar Todos' ou continuar navegando apenas com os essenciais clicando em 'Negar Opcionais'.");
+        }
+    </script>
+</body>
+</html>

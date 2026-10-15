@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Seguro - VRTICE Marco Zero</title>
+    
+    <link rel="icon" type="image/png" href="assets/img/Favicon.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vrtice: { navy: '#141D33', dark: '#0A0A0A', gold: '#C8A970', emerald: '#10B981' }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Playfair Display', 'serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .input-checkout {
+            width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white; padding: 0.8rem 1rem; border-radius: 0.5rem; outline: none; transition: border-color 0.3s;
+        }
+        .input-checkout:focus { border-color: #C8A970; background: rgba(200, 169, 112, 0.05); }
+        .glass-checkout { background: rgba(20, 29, 51, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(200, 169, 112, 0.2); }
+    </style>
+</head>
+<body class="bg-vrtice-dark text-gray-300 antialiased min-h-screen flex flex-col relative overflow-x-hidden pb-12">
+
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-vrtice-navy opacity-30 rounded-full mix-blend-screen blur-[120px]"></div>
+        <div class="absolute bottom-[-20%] right-[-10%] w-[400px] h-[400px] bg-vrtice-gold opacity-10 rounded-full mix-blend-screen blur-[100px]"></div>
+    </div>
+
+    <header class="py-6 border-b border-gray-900 relative z-10 bg-vrtice-dark/80 backdrop-blur-md mb-8">
+        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+            <img src="assets/img/Favicon.png" alt="VRTICE" class="h-8 opacity-80">
+            <div class="flex items-center gap-2 text-[10px] md:text-xs uppercase tracking-widest font-bold text-gray-500">
+                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                Checkout Oficial 100% Seguro
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center px-4 relative z-10">
+        <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-12 gap-0 shadow-2xl rounded-2xl overflow-hidden">
+            
+            <!-- Esquerda: Resumo -->
+            <div class="md:col-span-5 bg-[#101726] p-8 md:p-10 border border-gray-800 relative hidden md:block">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-vrtice-gold opacity-10 blur-3xl"></div>
+                <h2 class="text-2xl font-serif text-white mb-2">Resumo da Aquisição</h2>
+                <p class="text-xs text-gray-500 uppercase tracking-widest mb-8">Programa Marco Zero · VRTICE</p>
+                
+                <div class="space-y-5 mb-8 border-b border-gray-800 pb-8 text-sm">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-white font-medium mb-0.5">Pilar 1: BASE</p>
+                            <p class="text-xs text-gray-400">Página Autoral + Domínio + Hospedagem + Rastreamento</p>
+                        </div>
+                        <span class="text-xs text-green-400 font-mono font-medium">Incluso</span>
+                    </div>
+
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-white font-medium mb-0.5">Pilar 2: MAPA</p>
+                            <p class="text-xs text-gray-400">Estudo Estratégico em 5 Dimensões</p>
+                        </div>
+                        <span class="text-xs text-green-400 font-mono font-medium">Incluso</span>
+                    </div>
+
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-white font-medium mb-0.5">Pilar 3: MOVIMENTO</p>
+                            <p class="text-xs text-gray-400">Trilha de Execução de 30 Dias na Central</p>
+                        </div>
+                        <span class="text-xs text-green-400 font-mono font-medium">Incluso</span>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-baseline mb-8">
+                    <div>
+                        <p class="text-xs uppercase tracking-widest text-gray-400">Condição Subsidiada</p>
+                        <p class="text-xs text-gray-500">Taxa anual única de ativação</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-3xl font-serif text-vrtice-gold">R$ 149,90</p>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest">/ano</p>
+                    </div>
+                </div>
+
+                <div class="bg-black/30 p-5 rounded-lg border border-gray-800 flex gap-3.5">
+                    <svg class="w-8 h-8 text-vrtice-gold shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    <div>
+                        <p class="text-white font-bold mb-1 text-xs uppercase tracking-wider">Garantia Legal de 7 Dias (CDC)</p>
+                        <p class="text-[11px] text-gray-400 leading-relaxed">Você pode experimentar sem risco. Se entender que o programa não atende seu momento, basta solicitar o reembolso integral em até 7 dias.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Direita: Formulário de Checkout Transparente -->
+            <div class="md:col-span-7 glass-checkout p-6 md:p-10 relative">
+                
+                <!-- STEP 1: Dados Pessoais -->
+                <div id="step-1" class="transition-all duration-300">
+                    <div class="mb-6 border-b border-gray-800 pb-4">
+                        <h2 class="text-xl font-serif text-white flex items-center gap-2">
+                            <span class="bg-vrtice-gold text-vrtice-navy rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">1</span>
+                            Dados Pessoais
+                        </h2>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Nome Completo *</label>
+                            <input type="text" id="chk-name" required class="input-checkout text-sm" placeholder="Ex: João Silva">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">E-mail *</label>
+                                <input type="email" id="chk-email" required class="input-checkout text-sm" placeholder="seu@email.com">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">CPF/CNPJ *</label>
+                                <input type="text" id="chk-cpf" required class="input-checkout text-sm" placeholder="000.000.000-00">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">WhatsApp *</label>
+                                <input type="tel" id="chk-whatsapp" required class="input-checkout text-sm" placeholder="(11) 90000-0000">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">CEP *</label>
+                                <input type="text" id="chk-cep" required class="input-checkout text-sm" placeholder="00000-000">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Número do Endereço *</label>
+                            <input type="text" id="chk-num" required class="input-checkout text-sm" placeholder="Ex: 123">
+                        </div>
+                    </div>
+
+                    <button type="button" onclick="goToStep2()" class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-4 px-6 rounded-lg text-xs uppercase tracking-widest transition-colors mt-6">
+                        Avançar para Pagamento →
+                    </button>
+                </div>
+
+                <!-- STEP 2: Pagamento (Cartão) -->
+                <div id="step-2" class="hidden transition-all duration-300">
+                    <div class="mb-6 border-b border-gray-800 pb-4 flex justify-between items-center">
+                        <h2 class="text-xl font-serif text-white flex items-center gap-2">
+                            <span class="bg-vrtice-gold text-vrtice-navy rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">2</span>
+                            Pagamento via Cartão
+                        </h2>
+                        <button type="button" onclick="goToStep1()" class="text-[10px] text-gray-400 hover:text-white uppercase tracking-widest underline">Voltar</button>
+                    </div>
+
+                    <form id="payment-form" class="space-y-4">
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Número do Cartão *</label>
+                            <div class="relative">
+                                <input type="text" id="chk-cc-num" required class="input-checkout text-sm pl-10" placeholder="0000 0000 0000 0000" maxlength="19">
+                                <svg class="w-5 h-5 absolute left-3 top-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Nome Impresso no Cartão *</label>
+                            <input type="text" id="chk-cc-name" required class="input-checkout text-sm uppercase" placeholder="JOAO S SILVA">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Validade (MM/AA) *</label>
+                                <input type="text" id="chk-cc-exp" required class="input-checkout text-sm" placeholder="MM/AA" maxlength="5">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">CVV *</label>
+                                <input type="text" id="chk-cc-cvv" required class="input-checkout text-sm" placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+
+                        <div id="checkout-error" class="hidden bg-red-900/30 border border-red-800 text-red-400 text-xs p-3 rounded mt-4">
+                            Erro no pagamento. Verifique seus dados.
+                        </div>
+
+                        <button type="submit" id="btn-pay" class="btn-pulse w-full bg-vrtice-emerald hover:bg-green-500 text-white font-bold py-5 px-6 rounded-lg text-sm uppercase tracking-widest transition-colors shadow-[0_0_20px_rgba(16,185,129,0.3)] mt-6 flex justify-center items-center gap-3">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            <span>Pagar R$ 149,90 Seguro</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- STEP 3: Sucesso -->
+                <div id="step-3" class="hidden flex flex-col items-center justify-center text-center py-10">
+                    <div class="w-16 h-16 bg-vrtice-emerald rounded-full flex items-center justify-center mb-4 text-white">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h3 class="text-2xl font-serif text-white mb-2">Pagamento Aprovado!</h3>
+                    <p class="text-sm text-gray-400 mb-6">Seu acesso foi criado e os detalhes foram enviados para o seu e-mail.</p>
+                    <a href="obrigado.html" class="bg-vrtice-gold text-vrtice-navy font-bold py-3 px-6 rounded text-xs uppercase tracking-widest hover:bg-yellow-600 transition-colors">
+                        Acessar Área do Cliente
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function goToStep2() {
+            // Validacao basica do Passo 1
+            const requiredFields = ['chk-name', 'chk-email', 'chk-cpf', 'chk-whatsapp', 'chk-cep', 'chk-num'];
+            for(let id of requiredFields) {
+                if(!document.getElementById(id).value) {
+                    alert('Preencha todos os campos antes de avançar.');
+                    return;
+                }
+            }
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('hidden');
+        }
+
+        function goToStep1() {
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-1').classList.remove('hidden');
+        }
+
+        // Simples mascaras para CPF/CC/Exp
+        document.getElementById('chk-cpf').addEventListener('input', function(e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/);
+            e.target.value = !x[2] ? x[1] : x[1] + '.' + x[2] + (x[3] ? '.' + x[3] : '') + (x[4] ? '-' + x[4] : '');
+        });
+        document.getElementById('chk-cc-num').addEventListener('input', function(e) {
+            let val = e.target.value.replace(/\D/g, '');
+            e.target.value = val.replace(/(\d{4})(?=\d)/g, '$1 ');
+        });
+        document.getElementById('chk-cc-exp').addEventListener('input', function(e) {
+            let val = e.target.value.replace(/\D/g, '');
+            if(val.length > 2) val = val.substring(0,2) + '/' + val.substring(2,4);
+            e.target.value = val;
+        });
+
+        document.getElementById('payment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('btn-pay');
+            const errorDiv = document.getElementById('checkout-error');
+            
+            // Dados Step 1
+            const payload = {
+                name: document.getElementById('chk-name').value,
+                email: document.getElementById('chk-email').value,
+                cpf: document.getElementById('chk-cpf').value.replace(/\D/g, ''),
+                whatsapp: document.getElementById('chk-whatsapp').value.replace(/\D/g, ''),
+                cep: document.getElementById('chk-cep').value.replace(/\D/g, ''),
+                addressNumber: document.getElementById('chk-num').value,
+                // Dados Step 2
+                ccNum: document.getElementById('chk-cc-num').value.replace(/\s/g, ''),
+                ccName: document.getElementById('chk-cc-name').value,
+                ccExpMonth: document.getElementById('chk-cc-exp').value.split('/')[0],
+                ccExpYear: document.getElementById('chk-cc-exp').value.split('/')[1],
+                ccCvv: document.getElementById('chk-cc-cvv').value
+            };
+            
+            btn.disabled = true;
+            btn.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processando...`;
+            errorDiv.classList.add('hidden');
+
+            try {
+                const response = await fetch('http://localhost:4000/api/asaas-charge', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Transição Sucesso
+                    document.getElementById('step-2').classList.add('hidden');
+                    document.getElementById('step-3').classList.remove('hidden');
+                } else {
+                    throw new Error(data.error || 'Erro na transação.');
+                }
+            } catch (err) {
+                console.error(err);
+                errorDiv.textContent = err.message || 'Pagamento recusado ou erro de rede. Verifique os dados.';
+                errorDiv.classList.remove('hidden');
+                btn.disabled = false;
+                btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg> <span>Pagar R$ 149,90 Seguro</span>`;
+            }
+        });
+    </script>
+</body>
+</html>
