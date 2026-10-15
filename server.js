@@ -13,6 +13,16 @@ app.use(express.json());
 app.use(express.static(__dirname)); // Servir arquivos estáticos (HTML, CSS, JS)
 
 // Rotas amigáveis (slugs)
+app.get('/diagnostico', (req, res) => {
+    res.sendFile(path.join(__dirname, 'diagnostico.html'));
+});
+app.get('/orion', (req, res) => {
+    res.redirect(301, '/diagnostico');
+});
+app.get('/orion.html', (req, res) => {
+    res.redirect(301, '/diagnostico.html');
+});
+
 app.get('/marco-zero', (req, res) => {
     res.sendFile(path.join(__dirname, 'marco-zero.html'));
 });
@@ -21,6 +31,13 @@ app.get('/orion-master', (req, res) => {
 });
 app.get('/orion-master.html', (req, res) => {
     res.redirect(301, '/marco-zero.html');
+});
+
+app.get('/checkout', (req, res) => {
+    res.sendFile(path.join(__dirname, 'checkout.html'));
+});
+app.get('/obrigado', (req, res) => {
+    res.sendFile(path.join(__dirname, 'obrigado.html'));
 });
 
 // Neon PostgreSQL Connection

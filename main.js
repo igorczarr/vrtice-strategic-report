@@ -1,5 +1,5 @@
 /**
- * VRTICE - Orion Funnel Logic - High End Edition
+ * VRTICE - Diagnóstico Marco Zero Logic - High End Edition
  */
 
 const leadData = {
@@ -19,7 +19,7 @@ window.addEventListener('load', () => {
     
     tl.to('.vrtice-logo-svg path, .vrtice-logo-svg polygon', {
         strokeDashoffset: 0,
-        duration: 2.5,
+        duration: 2.2,
         ease: "power2.inOut",
         fill: "#C8A970"
     })
@@ -50,13 +50,13 @@ window.selectAnswer = function(question, answer) {
     leadData.respostas[question] = answer;
     
     // Smooth transition to next question
-    gsap.to(`#${question}`, {opacity: 0, y: -20, duration: 0.4, onComplete: () => {
+    gsap.to(`#${question}`, {opacity: 0, y: -20, duration: 0.35, onComplete: () => {
         document.getElementById(question).classList.add('hidden');
         currentQuestion++;
         const nextQ = document.getElementById(`q${currentQuestion}`);
         if(nextQ) {
             nextQ.classList.remove('hidden');
-            gsap.fromTo(nextQ, {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.6, ease: "power2.out"});
+            gsap.fromTo(nextQ, {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.5, ease: "power2.out"});
             updateProgressBar();
         }
     }});
@@ -64,9 +64,23 @@ window.selectAnswer = function(question, answer) {
 
 function updateProgressBar() {
     const total = 7;
-    const pct = Math.round(((currentQuestion - 1) / total) * 100);
+    const pct = Math.round((currentQuestion / total) * 100);
     const bar = document.getElementById('quiz-progress-bar');
     if(bar) bar.style.width = pct + '%';
+
+    const stepCount = document.getElementById('quiz-step-count');
+    if(stepCount) stepCount.innerText = `${currentQuestion} de ${total}`;
+
+    const pillarLabel = document.getElementById('quiz-pillar-label');
+    if(pillarLabel) {
+        if(currentQuestion <= 2) {
+            pillarLabel.innerText = "Pilar 1: BASE DIGITAL";
+        } else if(currentQuestion <= 5) {
+            pillarLabel.innerText = "Pilar 2: MAPA ESTRATÉGICO";
+        } else {
+            pillarLabel.innerText = "Pilar 3: MOVIMENTO & CONVERSÃO";
+        }
+    }
 }
 
 window.finishQuiz = function(answer) {
@@ -77,14 +91,14 @@ window.finishQuiz = function(answer) {
     procScreen.style.display = 'flex';
     
     const tl = gsap.timeline();
-    tl.to(procScreen, {opacity: 1, duration: 0.5})
-      .to('#pt-1', {opacity: 1, duration: 0.8, y: -10})
-      .to('#pt-1', {opacity: 0, duration: 0.5, delay: 0.5})
-      .to('#pt-2', {opacity: 1, duration: 0.8, y: -10})
-      .to('#pt-2', {opacity: 0, duration: 0.5, delay: 0.5})
-      .to('#pt-3', {opacity: 1, duration: 0.8, y: -10})
-      .to('#pt-3', {opacity: 0, duration: 0.5, delay: 0.5})
-      .to(procScreen, {opacity: 0, duration: 0.5, onComplete: () => {
+    tl.to(procScreen, {opacity: 1, duration: 0.4})
+      .to('#pt-1', {opacity: 1, duration: 0.7, y: -10})
+      .to('#pt-1', {opacity: 0, duration: 0.4, delay: 0.4})
+      .to('#pt-2', {opacity: 1, duration: 0.7, y: -10})
+      .to('#pt-2', {opacity: 0, duration: 0.4, delay: 0.4})
+      .to('#pt-3', {opacity: 1, duration: 0.7, y: -10})
+      .to('#pt-3', {opacity: 0, duration: 0.4, delay: 0.4})
+      .to(procScreen, {opacity: 0, duration: 0.4, onComplete: () => {
           procScreen.style.display = 'none';
           goToStep(3); // Opt-in screen
       }});
@@ -95,7 +109,7 @@ window.submitLead = async function(e) {
     
     const btnSubmit = document.getElementById('btn-submit-lead');
     const originalText = btnSubmit.innerText;
-    btnSubmit.innerText = "GERANDO RELATÓRIO...";
+    btnSubmit.innerText = "GERANDO DIAGNÓSTICO...";
     btnSubmit.disabled = true;
 
     leadData.nome_negocio = document.getElementById('lead-name').value;
@@ -116,50 +130,42 @@ window.submitLead = async function(e) {
     if(realScore > 100) realScore = 100;
     
     leadData.pontuacao_real = realScore;
-    leadData.pontuacao_exibida = realScore; // Agora usamos e mostramos a nota real
+    leadData.pontuacao_exibida = realScore;
 
     let warningText = "";
-    let diagnosisWord = "";
     let warningColor = "";
     
     if (realScore < 50) {
-        warningText = "ALERTA DE ATENÇÃO DESPERDIÇADA";
-        warningColor = "text-red-600";
-        diagnosisWord = "Vazamento Crítico";
+        warningText = "ALERTA: OPERAÇÃO NO IMPROVISO CRÍTICO";
+        warningColor = "text-red-500";
     } else if (realScore < 75) {
-        warningText = "ATENÇÃO: ESTRUTURA MEDIANA";
+        warningText = "ATENÇÃO: ESTRUTURA EM TRANSIÇÃO COM GARGALOS";
         warningColor = "text-yellow-500";
-        diagnosisWord = "Gargalo Comercial";
     } else {
-        warningText = "ESTRUTURA ACIMA DA MÉDIA (MAS COM GARGALOS)";
+        warningText = "ESTRUTURA AVANÇADA (OPORTUNIDADES DE REFINO)";
         warningColor = "text-vrtice-emerald";
-        diagnosisWord = "Ponto de Fricção";
     }
 
     try {
-        const response = await fetch('http://localhost:4000/api/save-lead', {
+        await fetch('http://localhost:4000/api/save-lead', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(leadData)
         });
-        const result = await response.json();
     } catch (error) {
-        console.error('Erro de conexão:', error);
+        console.error('Erro ao registrar lead:', error);
     }
 
-    // Populate Results Page
+    // Preencher a tela de resultados
     document.getElementById('result-name').innerText = leadData.nome_negocio;
     document.getElementById('user-real-score').innerText = realScore;
     document.getElementById('text-score').innerText = realScore;
     
     const sw = document.getElementById('score-warning');
     if (sw) {
-        sw.innerText = "SAÚDE COMERCIAL: " + warningText;
-        sw.className = `text-sm uppercase tracking-widest font-bold mt-6 mb-2 ${warningColor}`;
+        sw.innerText = "MATURIDADE DIGITAL: " + warningText;
+        sw.className = `text-xs md:text-sm uppercase tracking-widest font-bold mt-6 mb-2 font-mono ${warningColor}`;
     }
-    
-    const dd = document.getElementById('dynamic-diagnosis');
-    if (dd) dd.innerText = diagnosisWord;
 
     btnSubmit.innerText = originalText;
     btnSubmit.disabled = false;
@@ -185,8 +191,8 @@ window.animateScore = function(score) {
     const angle = (score / 100) * 180 - 90;
     gsap.to(needle, {
         rotation: angle,
-        duration: 3,
+        duration: 2.8,
         ease: "power3.out",
-        delay: 0.5
+        delay: 0.3
     });
 }
