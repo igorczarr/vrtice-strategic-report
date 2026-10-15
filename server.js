@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const { Pool } = require('pg');
 
 const app = express();
@@ -10,6 +11,17 @@ const port = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 app.use(express.static(__dirname)); // Servir arquivos estáticos (HTML, CSS, JS)
+
+// Rotas amigáveis (slugs)
+app.get('/marco-zero', (req, res) => {
+    res.sendFile(path.join(__dirname, 'marco-zero.html'));
+});
+app.get('/orion-master', (req, res) => {
+    res.redirect(301, '/marco-zero');
+});
+app.get('/orion-master.html', (req, res) => {
+    res.redirect(301, '/marco-zero.html');
+});
 
 // Neon PostgreSQL Connection
 const pool = new Pool({
